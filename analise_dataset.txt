@@ -1,0 +1,510 @@
+------------------- ATCO1 -------------------
+METADATA
+	Nº de campos :  45
+	Nº de acórdãos :  5895
+OCORRÊNCIAS
+	Nº Convencional : 5892
+	Acordão : 5895
+	Processo : 5895
+	Relator : 5895
+	Descritores : 5895
+	Nº do Documento : 5895
+	Data do Acordão : 5895
+	Espécie : 5895
+	Requerente : 5895
+	Requerido : 5794
+	Votação : 5894
+	Privacidade : 5894
+	Normas Apreciadas : 3504
+	Normas Julgadas Inconst. : 1602
+	Área Temática 1 : 4217
+	Área Temática 2 : 4217
+	Decisão : 5882
+	Sumário : 5882
+	Texto Integral : 5895
+	url : 5895
+	tribunal : 5895
+	Volume dos Acordãos do T.C. : 294
+	Constituição : 2777
+	Legislação Nacional : 3573
+	Nº do Diário da República : 2672
+	Série do Diário da República : 2670
+	Data do Diário da República : 2670
+	Página do Diário da República : 2668
+	Nº do Boletim do M.J. : 203
+	Página do Boletim do M.J. : 205
+	Jurisprudência Constitucional : 198
+	Normas Suscitadas : 1180
+	Declaração de Voto : 382
+	Voto Vencido : 1133
+	Indicações Eventuais : 702
+	Normas Declaradas Inconst. : 180
+	Página do Volume : 229
+	Outras Publicações : 37
+	Legislação Comunitária : 47
+	Referência a Pareceres : 61
+	Referências Internacionais : 153
+	Outra Jurisprudência : 11
+	Jurisprudência Internacional : 1
+	Jurisprudência Estrangeira : 3
+	Legislação Estrangeira : 5
+
+------------------- JCON -------------------
+METADATA
+	Nº de campos :  61
+	Nº de acórdãos :  6908
+OCORRÊNCIAS
+	Nº Convencional : 6905
+	Acordão : 5895
+	Processo : 6908
+	Relator : 6908
+	Descritores : 6846
+	Nº do Documento : 6908
+	Data do Acordão : 6908
+	Espécie : 5895
+	Requerente : 5895
+	Requerido : 5794
+	Votação : 6894
+	Privacidade : 6119
+	Normas Apreciadas : 3504
+	Normas Julgadas Inconst. : 1602
+	Área Temática 1 : 5160
+	Área Temática 2 : 4514
+	Decisão : 6500
+	Sumário : 5882
+	Texto Integral : 6908
+	url : 6908
+	tribunal : 6908
+	Volume dos Acordãos do T.C. : 294
+	Constituição : 2777
+	Legislação Nacional : 4185
+	Nº do Diário da República : 2672
+	Série do Diário da República : 2670
+	Data do Diário da República : 2670
+	Página do Diário da República : 2668
+	Nº do Boletim do M.J. : 203
+	Página do Boletim do M.J. : 205
+	Jurisprudência Constitucional : 198
+	Normas Suscitadas : 1180
+	Declaração de Voto : 382
+	Voto Vencido : 1133
+	Indicações Eventuais : 705
+	Normas Declaradas Inconst. : 180
+	Página do Volume : 229
+	Outras Publicações : 37
+	Legislação Comunitária : 53
+	Referência a Pareceres : 82
+	Referências Internacionais : 155
+	Outra Jurisprudência : 11
+	Jurisprudência Internacional : 3
+	Jurisprudência Estrangeira : 3
+	Legislação Estrangeira : 5
+	Tribunal : 1013
+	Recorrente : 1013
+	Recorrido 1 : 1013
+	Recorrido 2 : 103
+	Data de Entrada : 900
+	Meio Processual : 618
+	Objecto : 619
+	Referência a Doutrina : 330
+	Jurisprudência Nacional : 433
+	Nº do Volume : 1
+	Recusa Aplicação : 3
+	Ano da Publicação : 225
+	Apêndice : 139
+	Data do Apêndice : 138
+	1ª Pág. de Publicação do Acordão : 139
+	Referência Publicação 1 : 30
+
+------------------- JDGPJ -------------------
+METADATA
+	Nº de campos :  71
+	Nº de acórdãos :  7280
+OCORRÊNCIAS
+	Nº Convencional : 6905
+	Acordão : 5895
+	Processo : 7280
+	Relator : 7029
+	Descritores : 7159
+	Nº do Documento : 6908
+	Data do Acordão : 6908
+	Espécie : 5895
+	Requerente : 5895
+	Requerido : 5794
+	Votação : 6894
+	Privacidade : 6119
+	Normas Apreciadas : 3504
+	Normas Julgadas Inconst. : 1602
+	Área Temática 1 : 5160
+	Área Temática 2 : 4514
+	Decisão : 6621
+	Sumário : 5882
+	Texto Integral : 7280
+	url : 7280
+	tribunal : 7280
+	Volume dos Acordãos do T.C. : 294
+	Constituição : 2777
+	Legislação Nacional : 4185
+	Nº do Diário da República : 2672
+	Série do Diário da República : 2670
+	Data do Diário da República : 2670
+	Página do Diário da República : 2668
+	Nº do Boletim do M.J. : 203
+	Página do Boletim do M.J. : 205
+	Jurisprudência Constitucional : 198
+	Normas Suscitadas : 1180
+	Declaração de Voto : 382
+	Voto Vencido : 1133
+	Indicações Eventuais : 705
+	Normas Declaradas Inconst. : 180
+	Página do Volume : 229
+	Outras Publicações : 37
+	Legislação Comunitária : 53
+	Referência a Pareceres : 82
+	Referências Internacionais : 155
+	Outra Jurisprudência : 11
+	Jurisprudência Internacional : 3
+	Jurisprudência Estrangeira : 3
+	Legislação Estrangeira : 5
+	Tribunal : 1013
+	Recorrente : 1013
+	Recorrido 1 : 1013
+	Recorrido 2 : 103
+	Data de Entrada : 900
+	Meio Processual : 618
+	Objecto : 619
+	Referência a Doutrina : 330
+	Jurisprudência Nacional : 433
+	Nº do Volume : 1
+	Recusa Aplicação : 3
+	Ano da Publicação : 225
+	Apêndice : 139
+	Data do Apêndice : 138
+	1ª Pág. de Publicação do Acordão : 139
+	Referência Publicação 1 : 30
+	Tribunal 1ª instância : 372
+	Juízo ou Secção : 313
+	Tipo de Ação : 311
+	Tipo de Contrato : 313
+	Autor : 324
+	Réu : 323
+	Data da Decisão : 372
+	Texto das Cláusulas Abusivas : 372
+	Recursos : 372
+	Data do Acórdão : 121
+
+------------------- JSTA -------------------
+METADATA
+	Nº de campos :  19
+	Nº de acórdãos :  15154
+OCORRÊNCIAS
+	Processo : 15154
+	Data do Acordão : 15154
+	Tribunal : 15154
+	Relator : 15154
+	Descritores : 14019
+	Nº Convencional : 15154
+	Nº do Documento : 15154
+	Data de Entrada : 15014
+	Recorrente : 15154
+	Recorrido 1 : 15154
+	Votação : 15054
+	Texto Integral : 15154
+	url : 15154
+	tribunal : 15154
+	Legislação Nacional : 3039
+	Legislação Comunitária : 192
+	Área Temática 1 : 2779
+	Referências Internacionais : 23
+	Jurisprudência Nacional : 1767
+
+------------------- JSTJ -------------------
+METADATA
+	Nº de campos :  2125
+	Nº de acórdãos :  64742
+OCORRÊNCIAS
+	Processo : 64742
+	Nº Convencional : 64664
+	Relator : 64742
+	Descritores : 63286
+	Data do Acordão : 64649
+	Votação : 64716
+	Texto Integral : 64742
+	Privacidade : 64742
+	Meio Processual : 63972
+	Decisão : 61611
+	Sumário : 64741
+	Decisão Texto Integral : 32652
+	url : 64742
+	tribunal : 64742
+	Nº do Documento : 51745
+	Apenso : 665
+	Referência de Publicação : 10161
+	Indicações Eventuais : 8841
+	Data da Decisão Sumária : 91
+	Nº Único do Processo : 154
+	Tribunal Recurso : 26762
+	Legislação Comunitária : 471
+	Legislação Nacional : 45975
+	Data : 26409
+	Doutrina : 6040
+	Jurisprudência Nacional : 21293
+	Área Temática : 46319
+	Referências Internacionais : 815
+	Jurisprudência Internacional : 251
+	Legislação Estrangeira : 380
+	Jurisprudência Estrangeira : 45
+	Processo no Tribunal Recurso : 26622
+
+------------------- JTCA -------------------
+METADATA
+	Nº de campos :  2414
+	Nº de acórdãos :  20295
+OCORRÊNCIAS
+	Processo : 20295
+	Secção : 20236
+	Data do Acordão : 20295
+	Relator : 20295
+	Descritores : 19893
+	Votação : 5368
+	Decisão Texto Integral : 17473
+	url : 20295
+	tribunal : 20295
+	Descrição : 20
+	Nº do Volume : 11
+	Sumário : 15175
+	Referência a Doutrina : 1
+	Área Temática 2 : 1
+	Referência Publicação 1 : 1
+
+------------------- JTCAMPCA -------------------
+METADATA
+	Nº de campos :  12
+	Nº de acórdãos :  3972
+OCORRÊNCIAS
+	Contencioso : 3971
+	Data : 3972
+	Processo : 3972
+	Nº Processo/TAF : 3959
+	Sub-Secção : 3922
+	Magistrado : 3972
+	Descritores : 3971
+	url : 3972
+	tribunal : 3972
+	Observações : 90
+	Disponível na JTCA : 2014
+	Data do Acordão : 2948
+
+------------------- JTCAMPCT -------------------
+METADATA
+	Nº de campos :  14
+	Nº de acórdãos :  331
+OCORRÊNCIAS
+	Contencioso : 331
+	Peça Processual : 6
+	Data : 331
+	Processo : 331
+	Nº Processo/TAF : 303
+	Sub-Secção : 50
+	Magistrado : 331
+	Descritores : 331
+	Tema : 4
+	url : 331
+	tribunal : 331
+	Observações : 6
+	Data do Acordão : 71
+	Disponível na JTCA : 39
+
+------------------- JTCN -------------------
+METADATA
+	Nº de campos :  2559
+	Nº de acórdãos :  11832
+OCORRÊNCIAS
+	Processo : 11832
+	Secção : 11812
+	Data do Acordão : 11832
+	Tribunal : 10587
+	Relator : 11832
+	Descritores : 11812
+	Sumário : 11589
+	Recorrente : 10040
+	Recorrido 1 : 10034
+	Votação : 8770
+	Meio Processual : 7312
+	Parecer Ministério Publico : 7828
+	Decisão Texto Integral : 11796
+	url : 11832
+	tribunal : 11832
+	Decisão : 7176
+	Recorrido 2 : 243
+	Objecto : 14
+	Nº do Volume : 5
+	Descrição : 11
+	Nº Convencional : 21
+	Data de Entrada : 1943
+
+    ------------------- JTRC -------------------
+METADATA
+	Nº de campos :  27
+	Nº de acórdãos :  13407
+OCORRÊNCIAS
+	Processo : 13407
+	Nº Convencional : 13406
+	Relator : 13407
+	Descritores : 13407
+	Data do Acordão : 13407
+	Votação : 12238
+	Tribunal Recurso : 11043
+	Texto Integral : 13407
+	Meio Processual : 13407
+	Decisão : 11891
+	Legislação Nacional : 13407
+	Sumário : 13407
+	Decisão Texto Integral : 13407
+	url : 13407
+	tribunal : 13407
+	Indicações Eventuais : 5
+	Processo no Tribunal Recurso : 21
+	Jurisprudência Nacional : 15
+	Data : 1
+	Referência de Publicação : 7
+	Jurisprudência Internacional : 2
+	Legislação Comunitária : 28
+	Legislação Estrangeira : 9
+	Nº Único do Processo : 1
+	Área Temática : 1238
+	Privacidade : 730
+	Nº do Documento : 68
+
+------------------- JTRE -------------------
+METADATA
+	Nº de campos :  24
+	Nº de acórdãos :  13259
+OCORRÊNCIAS
+	Processo : 13259
+	Relator : 13259
+	Descritores : 13259
+	Data do Acordão : 13259
+	Votação : 13259
+	Texto Integral : 13259
+	Sumário : 13259
+	Decisão Texto Integral : 13259
+	url : 13259
+	tribunal : 13259
+	Decisão : 7260
+	Legislação Nacional : 50
+	Meio Processual : 7578
+	Área Temática : 180
+	Referências Internacionais : 3
+	Jurisprudência Nacional : 11
+	Legislação Comunitária : 3
+	Jurisprudência Internacional : 2
+	Tribunal Recorrido : 695
+	Legislação Estrangeira : 1
+	Processo no Tribunal Recorrido : 36
+	Referência Processo : 3
+	Nº do Documento : 1
+	Indicações Eventuais : 1
+
+------------------- JTRG -------------------
+METADATA
+	Nº de campos :  20
+	Nº de acórdãos :  11346
+OCORRÊNCIAS
+	Processo : 11346
+	Relator : 11346
+	Descritores : 11338
+	Nº do Documento : 11343
+	Data do Acordão : 11346
+	Votação : 11346
+	Texto Integral : 11346
+	Meio Processual : 11181
+	Decisão : 11144
+	Indicações Eventuais : 7799
+	Sumário : 11346
+	Decisão Texto Integral : 11346
+	url : 11346
+	tribunal : 11346
+	Legislação Nacional : 53
+	Privacidade : 5463
+	Nº Convencional : 161
+	Área Temática : 6
+	Jurisprudência Nacional : 1
+	Legislação Estrangeira : 1
+
+------------------- JTRL -------------------
+METADATA
+	Nº de campos : 31 
+	Nº de acórdãos :  52161
+OCORRÊNCIAS
+	Processo : 52161
+	Relator : 52161
+	Descritores : 52153
+	Nº do Documento : 52141
+	Data do Acordão : 52161
+	Votação : 52161
+	Texto Integral : 51344
+	Texto Parcial : 11163
+	Meio Processual : 52161
+	Decisão : 52161
+	Sumário : 52155
+	Decisão Texto Integral : 30815
+	url : 52161
+	tribunal : 52161
+	Processo no Tribunal Recurso : 4587
+	Área Temática : 28371
+	Privacidade : 30547
+	Indicações Eventuais : 3011
+	Legislação Comunitária : 82
+	Nº Convencional : 28375
+	Legislação Nacional : 28118
+	Referência de Publicação : 2368
+	Jurisprudência Nacional : 9090
+	Jurisprudência Internacional : 15
+	Legislação Estrangeira : 52
+	Referências Internacionais : 119
+	Tribunal Recurso : 4642
+	Apenso : 199
+	Data : 4583
+	Recurso : 96
+	Nº Único do Processo : 2
+	Referência Processo : 2
+
+    ------------------- JTRP -------------------
+METADATA
+	Nº de campos :  33
+	Nº de acórdãos :  56261
+OCORRÊNCIAS
+	Processo : 56261
+	Nº Convencional : 56261
+	Relator : 56261
+	Descritores : 56259
+	Nº do Documento : 56261
+	Data do Acordão : 56261
+	Votação : 56261
+	Texto Integral : 56261
+	Privacidade : 56257
+	Meio Processual : 56261
+	Decisão : 56261
+	Indicações Eventuais : 22719
+	Área Temática : 56261
+	Sumário : 56260
+	Reclamações : 56261
+	Decisão Texto Integral : 31355
+	url : 56261
+	tribunal : 56261
+	Legislação Nacional : 35089
+	Apenso : 17
+	Legislação Comunitária : 82
+	Jurisprudência Nacional : 13132
+	Referências Internacionais : 104
+	Jurisprudência Estrangeira : 1
+	Tribunal Recorrido : 31041
+	Processo no Tribunal Recorrido : 23445
+	Data Dec. Recorrida : 17903
+	Jurisprudência Internacional : 14
+	Referência Processo : 22
+	Recurso : 15
+	Referência de Publicação : 1957
+	Legislação Estrangeira : 21
+	Nº Único do Processo : 1
