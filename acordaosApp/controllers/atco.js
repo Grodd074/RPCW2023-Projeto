@@ -12,31 +12,38 @@ module.exports.list = () => {
     })
 }
 
-/* GET /contracts/:id: devolve o contrato com identificador id; */
-module.exports.consultar = id => {
-    return Acordaos.findOne({id: id}).exec()
+module.exports.consultarNConvencional = nconv => {
+    return Acordaos.findOne({"Nº Convencional": nconv}).exec()
 }
 
-/* GET /contracts?year=YYYY: devolve a lista dos contratos realizados durante o ano YYYY; */
-module.exports.listYear = year => {
-    return cModel.find({"DataInicioContrato":{$regex:String(year)}})
-    .then(dados=>{
-        return dados;
-    })
-    .catch(erro=>{
-        return erro;
-    });
+module.exports.consultarAcordao = a => {
+    return Acordaos.findOne({"Acordão": a}).exec()
 }
 
-/* GET /contracts?inst=AAA: devolve a lista dos contratos realizados pela instituição contratante AAA;*/
-module.exports.consultarInst = inst => {
-    return Acordaos.find({NomeInstituicao: inst}).exec()
+module.exports.consultarProcesso = proc => {
+    return Acordaos.findOne({Processo: proc}).exec()
 }
 
+/*get by relator*/
 
-/* GET /contracts/courses: devolve a lista dos cursos dos contranoatados (sem repetições);*/
-module.exports.consultarCursos = () => {
-    return Acordaos.distinct("Curso").exec()
+module.exports.consultarRelator = rel => {
+    return Acordaos.find({Relator: rel}).exec()
+}
+
+/*get all the relatores*/
+
+module.exports.listRelatores = () => {
+    return Acordaos.distinct("Relator").exec()
+}
+
+module.exports.consultarRelator = rel => {
+    return Acordaos.findOne({Relator: rel}).exec()
+}
+
+/* Get by date*/
+
+module.exports.listDate = date => {
+    return Acordaos.find({"Data do Acordão":date}).exec()
 }
 
 /* GET /contracts/institutions: devolve a lista das instituições contratantes (sem repetições);*/
@@ -45,13 +52,13 @@ module.exports.consultarInstituicoes = () => {
 }
 
 /* POST /contracts: acrescenta um contrato novo à BD;*/
-module.exports.inserir = emprego => {
-    emprego.id = mongoose.Types.ObjectId()
-    var novo = new Acordaos(emprego)
+module.exports.inserir = acordao => {
+    acordao.Processo = mongoose.Types.ObjectId()
+    var novo = new Acordaos(acordao)
     return novo.save()
 }
 
 /* DELETE /contracts/:id: elimina da BD o contrato com o identificador id.*/
-module.exports.eliminar = id => {
-    return Acordaos.deleteOne({id: id})
+module.exports.eliminar = proc => {
+    return Acordaos.deleteOne({"Processo": proc})
 }
