@@ -13,7 +13,7 @@ var acordaosSchema = new mongoose.Schema({
     "Decisão": String,
     "Sumário": String,
     url: String,
-    tribunal: jtrl
+    tribunal: String
 }, { versionKey: false })
 
 module.exports = mongoose.model('jtrl', acordaosSchema)

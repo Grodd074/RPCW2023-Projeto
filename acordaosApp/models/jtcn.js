@@ -10,7 +10,7 @@ var acordaosSchema = new mongoose.Schema({
     Sumário: String,
     Recorrente: String,
     "Recorrido 1": String,
-    Votação: Unanimidade,
+    Votação: String,
     "Meio Processual": String,
     "Parecer Ministério Publico": String,
     "Decisão Texto Integral": String,
