@@ -32,12 +32,11 @@ router.get('/acordaos/:Processo', function(req, res, next) {
     .then(acordao => {
       tribunal = acordao.Tribunal
       cat = getCategoria(tribunal)
-      view = 'acordao' + tribunal
       console.log(cat)
       console.log(view)
       cat.findProcesso(req.params.Processo)
         .then(acordao => {
-          res.render(view, { a: acordao});
+          res.render(tribunal, { a: acordao});
         })
         .catch(erro => {
           res.render('error', {error: erro, message: "Erro na obtenção do registo de pessoa"})
