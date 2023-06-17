@@ -9,7 +9,8 @@ block content
         .w3-container
           .w3-card-4
             .w3-container.w3-teal
-              h2 Processo Nº#{a.Processo}
+            h2
+              a(href="/acordaos/" + a.Processo)= "Processo Nº" + a.Processo
             .w3-container
               p #{a.Data}
               p #{a.Tribunal}

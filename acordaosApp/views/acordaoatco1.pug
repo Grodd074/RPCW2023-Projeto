@@ -1,0 +1,32 @@
+extends layout
+
+block content
+  .w3-card-4
+    header.w3-container.w3-teal
+      h1 Processo:  #[a.w3-btn.w3-round.w3-grey(href="/") #{a.Processo} ]
+        
+    .w3-container
+        ul.w3-ul.w3-card-4
+            li #[b Nº Convencional:] #{a['Nº Convencional']}
+            li #[b Acordão:] #{a.Acordão}
+            li #[b Processo:] #{a.Processo}
+            li #[b Relator:] #{a.Relator}
+            li #[b Descritores:] #{a.Descritores.join(', ')}
+            li #[b Nº do Documento:] #{a['Nº do Documento']}  
+            li #[b Data do Acordão:] #{a['Data do Acordão']}
+            li #[b Espécie:] #{a.Espécie}
+            li #[b Requerente:] #{a.Requerente}
+            li #[b Requerido:] #{a.Requerido}
+            li #[b Votação:] #{a.Votação}
+            li #[b Privacidade:] #{a.Privacidade}
+            li #[b Normas Apreciadas:] #{a['Normas Apreciadas']}
+            li #[b Normas Julgadas Inconst.:] #{a['Normas Julgadas Inconst.']}
+            li #[b Área Temática 1:] #{a['Área Temática 1']}
+            li #[b Área Temática 2:] #{a['Área Temática 2']}
+            li #[b Decisão:] #{a.Decisão}
+            li #[b Sumário:] #{a.Sumário}
+            li #[b Texto Integral:] #{a['Texto Integral']}
+            li #[b url:] #{a.url}
+            li #[b Tribunal:] #{a.Tribunal}
+
+

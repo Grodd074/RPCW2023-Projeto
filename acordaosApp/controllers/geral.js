@@ -23,6 +23,7 @@ module.exports.page = (pageNumber) => {
 }
 
 module.exports.consultarProcesso = proc => {
+    console.log(proc)
     return Acordaos.findOne({Processo: proc}).exec()
 }
 
