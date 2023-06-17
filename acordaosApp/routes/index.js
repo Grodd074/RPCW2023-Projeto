@@ -19,7 +19,7 @@ var Jtrp = require('../controllers/jtrp');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  Acordaos.list()
+  Acordaos.page(1)
     .then(dados => {
       console.log(dados)
       res.render('index', { alista: dados }

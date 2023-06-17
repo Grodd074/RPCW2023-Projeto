@@ -5,17 +5,14 @@ block content
     header.w3-container.w3-teal
       h1 Lista de Acordãos
     .w3-container
-      table.w3-table-all
-        tr
-          th Processo
-          th Descritores
-          th Data
-          th Tribunal
-        
-        each a in alist
-          tr
-            td=a.Processo
-            td=a.Descritores.join(', ')
-            td=a.Data
-            td=a.Tribunal
-    
+      each a in alista
+        .w3-container
+          .w3-card-4
+            .w3-container.w3-teal
+              h2 Processo Nº#{a.Processo}
+            .w3-container
+              p #{a.Data}
+              p #{a.Tribunal}
+            if a.Descritores
+              .w3-container
+                p=a.Descritores.join(', ')   

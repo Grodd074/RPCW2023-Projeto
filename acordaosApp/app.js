@@ -10,7 +10,7 @@ var usersRouter = require('./routes/users');
 var mongoose = require('mongoose')
 
 // uri for mongoDB
-var mongoDB = 'mongodb://127.0.0.1/proojetoRPCW';
+var mongoDB = 'mongodb://127.0.0.1/projetoRPCW';
 
 mongoose.connect(mongoDB, {useNewUrlParser: true , useUnifiedTopology: true})
 var db = mongoose.connection;

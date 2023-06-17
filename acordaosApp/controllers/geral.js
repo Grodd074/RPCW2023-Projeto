@@ -12,6 +12,16 @@ module.exports.list = () => {
     })
 }
 
+module.exports.page = (pageNumber) => {
+    return Acordaos.find().skip((pageNumber-1)*30).limit(30)
+    .then(dados => {
+        return dados
+    })
+    .catch(erro => {
+        return erro
+    })
+}
+
 module.exports.consultarProcesso = proc => {
     return Acordaos.findOne({Processo: proc}).exec()
 }
