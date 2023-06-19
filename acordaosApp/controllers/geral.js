@@ -22,25 +22,48 @@ module.exports.page = (pageNumber) => {
     })
 }
 
-module.exports.consultarProcesso = proc => {
-    console.log(proc)
-    return Acordaos.findOne({Processo: proc}).exec()
+module.exports.consultarProcesso = id => {
+    return Acordaos.findOne({Id: id})
+    .then(dados => {
+        return dados
+    })
+    .catch(erro => {
+        return erro
+    })
 }
 
 module.exports.consultarDescritores = proc => {
-    return Acordaos.findOne({Processo: proc}).get("Descritores").exec()
+    return Acordaos.findOne({Processo: proc}).get("Descritores")
+    .then(dados => {
+        return dados
+    })
+    .catch(erro => {
+        return erro
+    })
 }
 
 /* get by tribunal */
 
 module.exports.consultarTribunal = trib => {
-    return Acordaos.find({Tribunal: trib}).exec()
+    return Acordaos.find({Tribunal: trib})
+    .then(dados => {
+        return dados
+    })
+    .catch(erro => {
+        return erro
+    })
 }
 
 /* Get by date*/
 
 module.exports.listDate = date => {
-    return Acordaos.find({"Data do Acordão":date}).exec()
+    return Acordaos.find({"Data do Acordão":date})
+    .then(dados => {
+        return dados
+    })
+    .catch(erro => {
+        return erro
+    })
 }
 
 /* 

@@ -19,7 +19,12 @@ var Jtrp = require('../controllers/jtrp');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  Acordaos.page(1)
+  //Check if page value was passed
+  page = req.query.page
+  if (page == undefined) {
+    page = 1
+  }
+  Acordaos.page(page)
     .then(dados => {
       console.log(dados)
       res.render('index', { alista: dados }
@@ -27,73 +32,67 @@ router.get('/', function(req, res, next) {
     .catch(e => res.render('error', {error: e}))
 });
 
-router.get('/acordaos/:Processo', function(req, res, next) {
-  Acordaos.consultarProcesso(req.params.Processo)
-    .then(acordao => {
-      tribunal = acordao.Tribunal
-      cat = getCategoria(tribunal)
-      console.log(cat)
-      console.log(view)
-      cat.findProcesso(req.params.Processo)
+router.get('/acordaos/:IdProcesso', function(req, res, next) {
+  processoId = parseInt(req.params.IdProcesso)
+  Acordaos.consultarProcesso(processoId)
+    .then(processo => {
+      tribunal = processo.Tribunal
+      controller = getTribunal(tribunal)
+      controller.findProcesso(processo.Processo)
         .then(acordao => {
           res.render(tribunal, { a: acordao});
         })
         .catch(erro => {
-          res.render('error', {error: erro, message: "Erro na obtenção do registo de pessoa"})
+          res.render('error', {error: erro, message: "Erro 1"})
         })
     })
     .catch(erro => {
-      res.render('error', {error: erro, message: "Erro na obtenção do registo de pessoa"})
+      res.render('error', {error: erro, message: "Erro 2"})
     })
 });
 
-
-
-
-
-
-/* auxiliar para a categoria */
-function getCategoria(categoria) {
-  if (categoria == "atco1") {
+/* auxiliar para a tribunal */
+function getTribunal(tribunal) {
+  if (tribunal == "atco1") {
     return Atco
   }
-  else if (categoria == "jcons") {
+  else if (tribunal == "jcons") {
     return Jcons
   }
-  else if (categoria == "jdgpj") {
+  else if (tribunal == "jdgpj") {
     return Jdgpj
   }
-  else if (categoria == "jsta") {
+  else if (tribunal == "jsta") {
     return Jsta
   }
-  else if (categoria == "jstj") {
+  else if (tribunal == "jstj") {
     return Jstj
   }
-  else if (categoria == "jtca") {
+  else if (tribunal == "jtca") {
     return Jtca
   }
-  else if (categoria == "jtcampca") {
+  else if (tribunal == "jtcampca") {
     return Jtcampca
   }
-  else if (categoria == "jtcampct") {
+  else if (tribunal == "jtcampct") {
     return Jtcampct
   }
-  else if (categoria == "jtcn") {
+  else if (tribunal == "jtcn") {
     return Jtcn
   }
-  else if (categoria == "jtrc") {
+  else if (tribunal == "jtrc") {
     return Jtrc
   }
-  else if (categoria == "jtre") {
+  else if (tribunal == "jtre") {
     return Jtre
   }
-  else if (categoria == "jtrg") {
+  else if (tribunal == "jtrg") {
     return Jtrg
   }
-  else if (categoria == "jtrl") {
+  else if (tribunal == "jtrl") {
     return Jtrl
   }
-  else if (categoria == "jtrp") {
+  else if (tribunal == "jtrp") {
     return Jtrp
   } 
 }

@@ -13,59 +13,137 @@ module.exports.list = () => {
 }
 
 module.exports.findAcordao = a => {
-    return Acordaos.findOne({"Acordão": a}).exec()
+    return Acordaos.findOne({"Acordão": a})
+    .then(dados => {
+        return dados
+    })
+    .catch(erro => {
+        return erro
+    })
 }
 
 module.exports.findProcesso = proc => {
-    return Acordaos.findOne({Processo: proc}).exec()
+    return Acordaos.findOne({Processo: proc})
+    .then(dados => {
+        return dados
+    })
+    .catch(erro => {
+        return erro
+    })
 }
 
 module.exports.listByRelator = rel => {
-    return Acordaos.find({Relator: rel}).exec()
+    return Acordaos.find({Relator: rel})
+    .then(dados => {
+        return dados
+    })
+    .catch(erro => {
+        return erro
+    })
 }
 
 module.exports.listRelatores = () => {
-    return Acordaos.distinct("Relator").exec()
+    return Acordaos.distinct("Relator")
+    .then(dados => {
+        return dados
+    })
+    .catch(erro => {
+        return erro
+    })
 }
 
 /* dá os descritores de um processo */
 module.exports.consultarDescritores = proc => {
-    return Acordaos.findOne({Processo: proc}).get("Descritores").exec()
+    return Acordaos.findOne({Processo: proc}).get("Descritores")
+    .then(dados => {
+        return dados
+    })
+    .catch(erro => {
+        return erro
+    })
 }
 
 /* get by descritor */
 module.exports.listByDescritor = desc => {
-    return Acordaos.find({Descritores: {$in: [desc]}}).exec()
+    return Acordaos.find({Descritores: {$in: [desc]}})
+    .then(dados => {
+        return dados
+    })
+    .catch(erro => {
+        return erro
+    })
 }
 
 module.exports.listDescritores = () => {
-    return Acordaos.distinct(Descritores).exec()
+    return Acordaos.distinct(Descritores)
+    .then(dados => {
+        return dados
+    })
+    .catch(erro => {
+        return erro
+    })
 }
 
 /* Get by date*/
 
 module.exports.listByDate = date => {
-    return Acordaos.find({"Data do Acordão":date}).exec()
+    return Acordaos.find({"Data do Acordão":date})
+    .then(dados => {
+        return dados
+    })
+    .catch(erro => {
+        return erro
+    })
 }
 
 module.exports.listByEspecie = esp => {
-    return Acordaos.find({"Espécie": esp}).exec()
+    return Acordaos.find({"Espécie": esp})
+    .then(dados => {
+        return dados
+    })
+    .catch(erro => {
+        return erro
+    })
 }
 
 module.exports.listByPrivacidade = priv => {
-    return Acordaos.find({Privacidade: priv}).exec()
+    return Acordaos.find({Privacidade: priv})
+    .then(dados => {
+        return dados
+    })
+    .catch(erro => {
+        return erro
+    })
 }
 
 module.exports.listByAreaOne = area => {
-    return Acordaos.find({"Área Temática 1": area}).exec()
+    return Acordaos.find({"Área Temática 1": area})
+    .then(dados => {
+        return dados
+    })
+    .catch(erro => {
+        return erro
+    })
 }
 
 module.exports.listByAreaTwo = area => {
-    return Acordaos.find({"Área Temática 2": area}).exec()
+    return Acordaos.find({"Área Temática 2": area})
+    .then(dados => {
+        return dados
+    })
+    .catch(erro => {
+        return erro
+    })
 }
 
 module.exports.listInstituicoes = () => {
-    return Acordaos.distinct("NomeInstituicao").exec()
+    return Acordaos.distinct("NomeInstituicao")
+    .then(dados => {
+        return dados
+    })
+    .catch(erro => {
+        return erro
+    })
 }
 
 /* Não sei se está certo*/

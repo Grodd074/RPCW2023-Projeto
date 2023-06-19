@@ -4,8 +4,10 @@ import ijson
 import json
 
 camposFinais=['Processo','Data','Tribunal','Descritores']
+counter=0
 
 def extractCampos(listaCampos, ficheiro):
+    global counter
     resultado=[]
     with open(ficheiro, "r") as json_file:
         for entry in ijson.items(json_file,"item"):
@@ -15,6 +17,8 @@ def extractCampos(listaCampos, ficheiro):
                     newEntry[camposFinais[i]]=entry[campo]
                 else:
                     newEntry[camposFinais[i]]=None
+            newEntry['Id']=counter
+            counter+=1
             resultado.append(newEntry)
 
     return resultado
@@ -64,6 +68,7 @@ def extractJTRP():
 
 if __name__ == "__main__":
     #Store the data efficiently, otherwise the proccess gets killed
+    counter=0
     resultado=[]
     resultado+=extractATCO1()
     resultado+=extractJCON()

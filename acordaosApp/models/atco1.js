@@ -24,4 +24,4 @@ var acordaosSchema = new mongoose.Schema({
     tribunal: String
 },{versionKey: false})
 
-module.exports = mongoose.model('atco',acordaosSchema)
+module.exports = mongoose.model('atco1s',acordaosSchema)
