@@ -1,0 +1,23 @@
+extends layout
+
+block content
+  .w3-card-4
+    header.w3-container.w3-teal
+      h1 Processo:  #[a.w3-btn.w3-round.w3-grey(href="/") #{a.Processo} ]
+        
+    .w3-container
+        ul.w3-ul.w3-card-4
+            li #[b Processo:] #{a.Processo}
+            li #[b Tribunal 1ª instância:] #{a['Tribunal 1ª instância']}
+            li #[b Juízo ou Secção:] #{a['Juízo ou Secção']}
+            li #[b Tipo de Ação:] #{a['Tipo de Ação']}
+            li #[b Tipo de Contrato:] #{a['Tipo de Contrato']}
+            li #[b Autor:] #{a.Autor}
+            li #[b Réu:] #{a.Réu}
+            li #[b Data da Decisão:] #{a['Data da Decisão']}
+            li #[b Descritores:] #{a.Descritores.join(', ')}
+            li #[b Texto das Cláusulas Abusiva:] #{a['Texto das Cláusulas Abusiva']}
+            li #[b Recursos:] #{a.Recursos}
+            li #[b Texto Integral:] #{a['Texto Integral']}
+            li #[b url:] #{a.url}
+            li #[b Tribunal:] #{a.tribunal}
