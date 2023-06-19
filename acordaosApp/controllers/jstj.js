@@ -12,6 +12,16 @@ module.exports.list = () => {
     })
 }
 
+module.exports.findProcesso = proc => {
+    return Acordaos.findOne({Processo: proc})
+    .then(dados => {
+        return dados
+    })
+    .catch(erro => {
+        return erro
+    })
+}
+
 /* GET /contracts/:id: devolve o contrato com identificador id; */
 module.exports.consultar = id => {
     return Acordaos.findOne({id: id}).exec()

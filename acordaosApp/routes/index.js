@@ -19,22 +19,39 @@ var Jtrp = require('../controllers/jtrp');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  //Check if page value was passed
-  page = req.query.page
-  if (page == undefined) {
-    page = 1
-  }
-  Acordaos.page(page)
-    .then(dados => {
-      console.log(dados)
-      res.render('index', { alista: dados }
-    )})
+    //Check if page value was passed
+    Acordaos.taxonomiaDescritores()
+    .then(taxonomia => {
+        taxonomia = taxonomia.map(d => d.Descritor)
+        console.dir(taxonomia)
+        page = req.query.page
+        descritores = req.query.descritores
+        if (page == undefined) {
+            page = 1
+        }
+        if (descritores == undefined){
+            Acordaos.page(page)
+            .then(dados => {
+                res.render('index', { alista: dados, page: page, descritores: [], taxonomia: taxonomia })
+            })
+            .catch(e => res.render('error', {error: e}))
+        }
+        else {
+            descritores = descritores.split(",").map(s=>decodeURI(s))
+            console.dir(descritores)
+            Acordaos.consultarDescritores(descritores, page)
+            .then(dados => {
+                res.render('index', { alista: dados, page: page, descritores: descritores, taxonomia: taxonomia})
+            })
+            .catch(e => res.render('error', {error: e}))
+        }
+    })
     .catch(e => res.render('error', {error: e}))
 });
 
 router.get('/acordaos/:IdProcesso', function(req, res, next) {
-  processoId = parseInt(req.params.IdProcesso)
-  Acordaos.consultarProcesso(processoId)
+    processoId = parseInt(req.params.IdProcesso)
+    Acordaos.consultarId(processoId)
     .then(processo => {
       tribunal = processo.Tribunal
       controller = getTribunal(tribunal)
@@ -53,48 +70,48 @@ router.get('/acordaos/:IdProcesso', function(req, res, next) {
 
 /* auxiliar para a tribunal */
 function getTribunal(tribunal) {
-  if (tribunal == "atco1") {
-    return Atco
-  }
-  else if (tribunal == "jcons") {
-    return Jcons
-  }
-  else if (tribunal == "jdgpj") {
-    return Jdgpj
-  }
-  else if (tribunal == "jsta") {
-    return Jsta
-  }
-  else if (tribunal == "jstj") {
-    return Jstj
-  }
-  else if (tribunal == "jtca") {
-    return Jtca
-  }
-  else if (tribunal == "jtcampca") {
-    return Jtcampca
-  }
-  else if (tribunal == "jtcampct") {
-    return Jtcampct
-  }
-  else if (tribunal == "jtcn") {
-    return Jtcn
-  }
-  else if (tribunal == "jtrc") {
-    return Jtrc
-  }
-  else if (tribunal == "jtre") {
-    return Jtre
-  }
-  else if (tribunal == "jtrg") {
-    return Jtrg
-  }
-  else if (tribunal == "jtrl") {
-    return Jtrl
-  }
-  else if (tribunal == "jtrp") {
-    return Jtrp
-  } 
+    if (tribunal == "atco1") {
+        return Atco
+    }
+    else if (tribunal == "jcons") {
+        return Jcons
+    }
+    else if (tribunal == "jdgpj") {
+        return Jdgpj
+    }
+    else if (tribunal == "jsta") {
+        return Jsta
+    }
+    else if (tribunal == "jstj") {
+        return Jstj
+    }
+    else if (tribunal == "jtca") {
+        return Jtca
+    }
+    else if (tribunal == "jtcampca") {
+        return Jtcampca
+    }
+    else if (tribunal == "jtcampct") {
+        return Jtcampct
+    }
+    else if (tribunal == "jtcn") {
+        return Jtcn
+    }
+    else if (tribunal == "jtrc") {
+        return Jtrc
+    }
+    else if (tribunal == "jtre") {
+        return Jtre
+    }
+    else if (tribunal == "jtrg") {
+        return Jtrg
+    }
+    else if (tribunal == "jtrl") {
+        return Jtrl
+    }
+    else if (tribunal == "jtrp") {
+        return Jtrp
+    } 
 }
 
 

@@ -1,5 +1,6 @@
 var Acordaos = require("../models/geral")
 var mongoose = require('mongoose')
+const { listDescritores } = require("./atco1")
 
 // get todos os contratos
 module.exports.list = () => {
@@ -13,7 +14,7 @@ module.exports.list = () => {
 }
 
 module.exports.page = (pageNumber) => {
-    return Acordaos.find().skip((pageNumber-1)*30).limit(30)
+    return Acordaos.find().sort({Processo:1}).skip((pageNumber-1)*30).limit(30)
     .then(dados => {
         return dados
     })
@@ -22,7 +23,7 @@ module.exports.page = (pageNumber) => {
     })
 }
 
-module.exports.consultarProcesso = id => {
+module.exports.consultarId = id => {
     return Acordaos.findOne({Id: id})
     .then(dados => {
         return dados
@@ -32,8 +33,24 @@ module.exports.consultarProcesso = id => {
     })
 }
 
-module.exports.consultarDescritores = proc => {
-    return Acordaos.findOne({Processo: proc}).get("Descritores")
+module.exports.consultarDescritores = (listDescritores, page) => {
+    return Acordaos.find({Descritores: {$in: listDescritores}}).sort({Processo:1}).skip((page-1)*30).limit(30)
+    .then(dados => {
+        return dados
+    })
+    .catch(erro => {
+        return erro
+    })
+}
+
+module.exports.taxonomiaDescritores = () => {
+    return Acordaos.aggregate([
+        {$unwind: "$Descritores"},
+        {$group: {_id: "$Descritores", count: {$sum: 1}}},
+        {$sort: {count: -1}},
+        {$limit: 20},
+        {$project: {_id: 0, Descritor: "$_id"}}
+    ])
     .then(dados => {
         return dados
     })
@@ -45,7 +62,7 @@ module.exports.consultarDescritores = proc => {
 /* get by tribunal */
 
 module.exports.consultarTribunal = trib => {
-    return Acordaos.find({Tribunal: trib})
+    return Acordaos.find({Tribunal: trib}).sort({Processo:1})
     .then(dados => {
         return dados
     })
@@ -57,7 +74,7 @@ module.exports.consultarTribunal = trib => {
 /* Get by date*/
 
 module.exports.listDate = date => {
-    return Acordaos.find({"Data do Acordão":date})
+    return Acordaos.find({"Data do Acordão":date}).sort({Processo:1})
     .then(dados => {
         return dados
     })
