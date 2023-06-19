@@ -6,12 +6,12 @@ var acordaosSchema = new mongoose.Schema({
     Descritores: [String],
     "Nº do Documento": String,
     "Data do Acordão": String,
-    "Votação": String,
+    Votação: String,
     "Texto Integral": String,
     "Meio Processual": String,
-    "Decisão": String,
+    Decisão: String,
     "Indicações Eventuais": String,
-    "Sumário": String,
+    Sumário: String,
     url: String,
     tribunal: String
 }, { versionKey: false })
