@@ -5,15 +5,19 @@ block content
         header.w3-container.w3-teal
             h1 Lista de Acordãos
         //Descritores para selecionar
-        .w3-container 
-            each d in taxonomia
-                span #{d}
-                if descritores.includes(d)
-                    input(type="checkbox" name="descritores" value=d checked)
-                else
-                    input(type="checkbox" name="descritores" value=d)
+        .w3-container
+            .dropdown-check-list(id="list1" tabindex="100")
+                span.anchor Descritores
+                ul.items
+                    each d in taxonomia
+                        li
+                            span #{d}
+                            if descritores != [] && descritores.includes(d)
+                                input(type="checkbox" name="descritores" checked value=d)
+                            else
+                                input(type="checkbox" name="descritores" value=d)
 
-        
+                
         //Apply button sets query descritores to selected values separated by comma and reloads page
         .w3-container
             button(type="button" onclick="applyFilters()") Apply
@@ -26,9 +30,11 @@ block content
                             query += descritores[i].value + ",";
                         }
                     }
-                    window.location.href = "/?descritores=" + query;
+                    window.location.href = "/?descritores=" + query.slice(0, -1);
                 }
             button(type="button" onclick="window.location.href='/'") Clear
+
+
 
 
         //Lista de acordãos
@@ -45,3 +51,13 @@ block content
                                 each d in a.Descritores
                                     span #{d}
                                     <br>
+
+        //Script para reter os descritores selecionados e passar para a query string
+        script.
+            var checkList = document.getElementById('list1');
+            checkList.getElementsByClassName('anchor')[0].onclick = function(evt) {
+                if (checkList.classList.contains('visible'))
+                    checkList.classList.remove('visible');
+                else
+                    checkList.classList.add('visible');
+            }

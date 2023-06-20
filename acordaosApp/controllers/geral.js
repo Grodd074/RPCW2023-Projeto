@@ -23,6 +23,16 @@ module.exports.page = (pageNumber) => {
     })
 }
 
+module.exports.pageFilters = (page, filters) => {
+    return Acordaos.find(filters).sort({Processo:1}).skip((page-1)*30).limit(30)
+    .then(dados => {
+        return dados
+    })
+    .catch(erro => {
+        return erro
+    })
+}
+
 module.exports.consultarId = id => {
     return Acordaos.findOne({Id: id})
     .then(dados => {
@@ -48,7 +58,7 @@ module.exports.taxonomiaDescritores = () => {
         {$unwind: "$Descritores"},
         {$group: {_id: "$Descritores", count: {$sum: 1}}},
         {$sort: {count: -1}},
-        {$limit: 20},
+        {$limit: 30},
         {$project: {_id: 0, Descritor: "$_id"}}
     ])
     .then(dados => {

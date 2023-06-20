@@ -29,22 +29,22 @@ router.get('/', function(req, res, next) {
         if (page == undefined) {
             page = 1
         }
-        if (descritores == undefined){
-            Acordaos.page(page)
-            .then(dados => {
-                res.render('index', { alista: dados, page: page, descritores: [], taxonomia: taxonomia })
-            })
-            .catch(e => res.render('error', {error: e}))
-        }
-        else {
+        filtros={}
+        if (descritores != undefined){
+            console.log(descritores)
+            filtros.Descritores = {$in: descritores.split(",").map(s=>decodeURI(s))}
             descritores = descritores.split(",").map(s=>decodeURI(s))
-            console.dir(descritores)
-            Acordaos.consultarDescritores(descritores, page)
-            .then(dados => {
-                res.render('index', { alista: dados, page: page, descritores: descritores, taxonomia: taxonomia})
-            })
-            .catch(e => res.render('error', {error: e}))
         }
+        else{
+            descritores = []
+        }
+        console.dir(filtros)
+        Acordaos.pageFilters(page, filtros)
+        .then(dados => {
+            pageDict={ alista: dados, page: page, descritores: descritores, taxonomia: taxonomia }
+            res.render('index', { alista: dados, page: page, descritores: pageDict.descritores, taxonomia: taxonomia })
+        })
+        .catch(e => res.render('error', {error: e}))
     })
     .catch(e => res.render('error', {error: e}))
 });
