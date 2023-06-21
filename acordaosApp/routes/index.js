@@ -51,6 +51,7 @@ router.get('/', function(req, res, next) {
             .then(maxPage => {
                 Acordaos.getTribunais()
                 .then(tribunaisList => {
+                    console.dir(dados)
                     tribunaisList = tribunaisList.map(t => t.Tribunal)
                     res.render('index', { alista: dados, page: page, maxPage:maxPage, descritores: descritores, taxonomia: taxonomia, tribunais: tribunais, tribunaisList: tribunaisList});
                 })
@@ -76,6 +77,25 @@ router.get('/acordaos/:IdProcesso', function(req, res, next) {
         .catch(erro => {
           res.render('error', {error: erro, message: "Erro 1"})
         })
+    })
+    .catch(erro => {
+      res.render('error', {error: erro, message: "Erro 2"})
+    })
+});
+
+router.get('/acordaos/registo', function(req, res, next) {
+    processoId = parseInt(req.params.IdProcesso)
+    Acordaos.consultarId(processoId)
+    .then(processo => {
+      tribunal = processo.Tribunal
+      controller = getTribunal(tribunal)
+      controller.inserir(req.body)
+        .then(acordao => {
+            res.render(tribunal, { a: acordao});
+            })
+        .catch(erro => {
+            res.render('error', {error: erro, message: "Erro 1"})
+            })
     })
     .catch(erro => {
       res.render('error', {error: erro, message: "Erro 2"})

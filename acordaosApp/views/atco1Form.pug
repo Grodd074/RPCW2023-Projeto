@@ -1,0 +1,57 @@
+extends layout
+
+block content
+  .w3-card-4
+    header.w3-container.w3-purple
+      h1 Novo Acórdão
+
+    form.w3-container(method="POST")
+        fieldset
+            legend Metadata
+            label Nº Convencional
+            input.w3-input.w3-round(type="text" name="nconvencional")
+            label Acordão
+            input.w3-input.w3-round(type="text" name="acordao")
+            label Processo
+            input.w3-input.w3-round(type="text" name="processo")
+            label Relator
+            input.w3-input.w3-round(type="text" name="relator")
+            label Descritores
+            input.w3-input.w3-round(type="text" name="descritores")
+            label Nº do Documento
+            input.w3-input.w3-round(type="text" name="ndocumento")
+            label Data do Acordão
+            input.w3-input.w3-round(type="date" name="dataacordao")
+            label Espécie
+            input.w3-input.w3-round(type="text" name="especie")
+            label Requerente
+            input.w3-input.w3-round(type="text" name="requerente")
+            label Requerido
+            input.w3-input.w3-round(type="text" name="requerido")
+            label Votação
+            input.w3-input.w3-round(type="text" name="votacao")
+            label Privacidade
+            input.w3-input.w3-round(type="text" name="privacidade")
+            label Normas Apreciadas
+            input.w3-input.w3-round(type="text" name="normasapreciadas")
+            label Normas Julgadas Inconst.
+            input.w3-input.w3-round(type="text" name="normasjulgadasinconst")
+            label Área Temática 1
+            input.w3-input.w3-round(type="text" name="areatematica1")
+            label Área Temática 2
+            input.w3-input.w3-round(type="text" name="areatematica2")
+            label Decisão
+            input.w3-input.w3-round(type="text" name="decisao")
+            label Sumário
+            input.w3-input.w3-round(type="text" name="sumario")
+            label Texto Integral
+            input.w3-input.w3-round(type="text" name="textointegral")
+            label url
+            input.w3-input.w3-round(type="text" name="url")
+            label Tribunal
+            input.w3-input.w3-round(type="text" name="tribunal")
+            
+        button.w3-btn.w3-purple.w3-mb-2(type="submit") Register
+
+    footer.w3-container.w3-indigo
+        p #[a(href="/") Voltar]
