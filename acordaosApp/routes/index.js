@@ -54,7 +54,6 @@ router.get('/', function(req, res, next) {
             .then(maxPage => {
                 Acordaos.getTribunais()
                 .then(tribunaisList => {
-                    console.dir(dados)
                     tribunaisList = tribunaisList.map(t => t.Tribunal)
                     res.render('index', { alista: dados, page: page, maxPage:maxPage, descritores: descritores, taxonomia: taxonomia, tribunais: tribunais, tribunaisList: tribunaisList});
                 })
@@ -66,6 +65,25 @@ router.get('/', function(req, res, next) {
     })
     .catch(e => res.render('error', {error: e}))
 });
+
+
+
+router.get('/acordaos/registo', function(req, res, next) {
+    res.render('geralForm');
+});
+
+router.get('/acordaos/registo/atco1', function(req, res, next) {
+    res.render('atco1Form');
+});
+
+router.post('/acordaos/registo/atco1', function(req, res, next) {
+    Atco.inserir(req.body)
+    .then(dados => {
+        res.redirect('/' + dados.Processo)
+    })
+    .catch(e => res.render('error', {error: e}))
+});
+
 
 router.get('/acordaos/:IdProcesso', function(req, res, next) {
     processoId = parseInt(req.params.IdProcesso)
@@ -80,25 +98,6 @@ router.get('/acordaos/:IdProcesso', function(req, res, next) {
         .catch(erro => {
           res.render('error', {error: erro, message: "Erro 1"})
         })
-    })
-    .catch(erro => {
-      res.render('error', {error: erro, message: "Erro 2"})
-    })
-});
-
-router.get('/acordaos/registo', function(req, res, next) {
-    processoId = parseInt(req.params.IdProcesso)
-    Acordaos.consultarId(processoId)
-    .then(processo => {
-      tribunal = processo.Tribunal
-      controller = getTribunal(tribunal)
-      controller.inserir(req.body)
-        .then(acordao => {
-            res.render(tribunal, { a: acordao});
-            })
-        .catch(erro => {
-            res.render('error', {error: erro, message: "Erro 1"})
-            })
     })
     .catch(erro => {
       res.render('error', {error: erro, message: "Erro 2"})
