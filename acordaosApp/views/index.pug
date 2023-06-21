@@ -20,6 +20,17 @@ block content
                                         input(type="checkbox" name="descritores" checked value=d)
                                     else
                                         input(type="checkbox" name="descritores" value=d)
+                    
+                    .dropdown-check-list(id="list2" tabindex="100")
+                        span.anchor Tribunais
+                        ul.items 
+                            each t in tribunaisList
+                                li
+                                    span #{t}
+                                    if tribunais != [] && tribunais.includes(t)
+                                        input(type="checkbox" name="tribunais" checked value=t)
+                                    else
+                                        input(type="checkbox" name="tribunais" value=t)
 
                     //Apply button sets query descritores to selected values separated by comma and reloads page
                     .w3-container.botoes
@@ -46,6 +57,13 @@ block content
                                             span #{d}
                                             br
 
+        // Paginação
+        .w3-container.paginacao.w3-brown
+            if page > 1
+                a(href="/?page=" + (page - 1)) Anterior
+            if page < maxPage
+                a(href="/?page=" + (page + 1)) Seguinte
+
         //Script para reter os descritores selecionados e passar para a query string
         script.
             var checkList = document.getElementById('list1');
@@ -55,15 +73,34 @@ block content
                 else
                     checkList.classList.add('visible');
             }
+            var checkList2 = document.getElementById('list2');
+            checkList2.getElementsByClassName('anchor')[0].onclick = function(evt) {
+                if (checkList2.classList.contains('visible'))
+                    checkList2.classList.remove('visible');
+                else
+                    checkList2.classList.add('visible');
+            }
 
         script.
             function applyFilters() {
                 var descritores = document.getElementsByName("descritores");
-                var query = "";
+                var query = "/?";
+                var queryDescritores=""
                 for (var i = 0; i < descritores.length; i++) {
                     if (descritores[i].checked) {
-                        query += descritores[i].value + ",";
+                        queryDescritores += descritores[i].value + ",";
                     }
                 }
-                window.location.href = "/?descritores=" + query.slice(0, -1);
+                if(queryDescritores != "")
+                    query += "descritores=" + queryDescritores.slice(0, -1);
+                var queryTribunais=""
+                var tribunais = document.getElementsByName("tribunais");
+                for (var i = 0; i < tribunais.length; i++) {
+                    if (tribunais[i].checked) {
+                        queryTribunais += tribunais[i].value + ",";
+                    }
+                }
+                if(queryTribunais != "")
+                    query += "&tribunais=" + queryTribunais.slice(0, -1);
+                window.location.href = query;
             }

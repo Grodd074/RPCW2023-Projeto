@@ -23,6 +23,30 @@ module.exports.page = (pageNumber) => {
     })
 }
 
+module.exports.getTribunais = () => {
+    return Acordaos.aggregate([
+        {$group: {_id: "$Tribunal", count: {$sum: 1}}},
+        {$sort: {count: -1}},
+        {$project: {_id: 0, Tribunal: "$_id"}}
+    ]).then(dados => {
+        console.log(dados)
+        return dados
+    })
+    .catch(erro => {
+        return erro
+    })
+}
+
+module.exports.MaxPage = (filters) => {
+    return Acordaos.countDocuments(filters)
+    .then(dados => {
+        return Math.ceil(dados/30)
+    })
+    .catch(erro => {
+        return erro
+    })
+}
+
 module.exports.pageFilters = (page, filters) => {
     return Acordaos.find(filters).sort({Processo:1}).skip((page-1)*30).limit(30)
     .then(dados => {

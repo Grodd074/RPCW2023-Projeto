@@ -24,25 +24,39 @@ router.get('/', function(req, res, next) {
     .then(taxonomia => {
         taxonomia = taxonomia.map(d => d.Descritor)
         console.dir(taxonomia)
-        page = req.query.page
+        page = Number(req.query.page)
         descritores = req.query.descritores
+        tribunais = req.query.tribunais
         if (page == undefined) {
             page = 1
         }
         filtros={}
         if (descritores != undefined){
-            console.log(descritores)
             filtros.Descritores = {$in: descritores.split(",").map(s=>decodeURI(s))}
             descritores = descritores.split(",").map(s=>decodeURI(s))
         }
         else{
             descritores = []
         }
-        console.dir(filtros)
+        if (tribunais != undefined){
+            filtros.Tribunal = {$in: tribunais.split(",").map(s=>decodeURI(s))}
+            tribunais = tribunais.split(",").map(s=>decodeURI(s))
+        }
+        else{
+            tribunais = []
+        }
         Acordaos.pageFilters(page, filtros)
         .then(dados => {
-            pageDict={ alista: dados, page: page, descritores: descritores, taxonomia: taxonomia }
-            res.render('index', { alista: dados, page: page, descritores: pageDict.descritores, taxonomia: taxonomia })
+            Acordaos.MaxPage(filtros)
+            .then(maxPage => {
+                Acordaos.getTribunais()
+                .then(tribunaisList => {
+                    tribunaisList = tribunaisList.map(t => t.Tribunal)
+                    res.render('index', { alista: dados, page: page, maxPage:maxPage, descritores: descritores, taxonomia: taxonomia, tribunais: tribunais, tribunaisList: tribunaisList});
+                })
+                .catch(e => res.render('error', {error: e}))
+            })
+            .catch(e => res.render('error', {error: e}))
         })
         .catch(e => res.render('error', {error: e}))
     })
