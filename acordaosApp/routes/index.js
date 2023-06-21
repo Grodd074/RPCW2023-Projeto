@@ -24,11 +24,14 @@ router.get('/', function(req, res, next) {
     .then(taxonomia => {
         taxonomia = taxonomia.map(d => d.Descritor)
         console.dir(taxonomia)
-        page = Number(req.query.page)
+        page = req.query.page
         descritores = req.query.descritores
         tribunais = req.query.tribunais
         if (page == undefined) {
             page = 1
+        }
+        else {
+            page = parseInt(page)
         }
         filtros={}
         if (descritores != undefined){
