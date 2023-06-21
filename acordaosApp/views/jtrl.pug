@@ -3,7 +3,7 @@ extends layout
 block content
   .w3-card-4
     header.w3-container.w3-teal
-      h1 Processo:  #[a.w3-btn.w3-round.w3-grey(href="/") #{a.Processo} ]
+      h1 Processo: #{a.Processo}
         
     .w3-container
         ul.w3-ul.w3-card-4
@@ -18,5 +18,8 @@ block content
             li #[b Meio Processual:] #{a['Meio Processual']}
             li #[b Decisão:] #{a.Decisão}
             li #[b Sumário:] #{a.Sumário}
-            li #[b url:] #{a.url}
+            li #[b url:] #[a(href="http://www.dgsi.pt/"+a.url) Link]
             li #[b Tribunal:] #{a.tribunal}
+    
+    footer 
+        p #[a(href="/") Voltar]

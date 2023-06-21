@@ -2,55 +2,49 @@ extends layout
 
 block content
     .w3-card-4
-        header.w3-container.w3-teal
+        header.w3-container.w3-brown
             h1 Lista de Acordãos
         //Descritores para selecionar
-        .w3-container
-            .dropdown-check-list(id="list1" tabindex="100")
-                span.anchor Descritores
-                ul.items
-                    each d in taxonomia
-                        li
-                            span #{d}
-                            if descritores != [] && descritores.includes(d)
-                                input(type="checkbox" name="descritores" checked value=d)
-                            else
-                                input(type="checkbox" name="descritores" value=d)
-
-                
-        //Apply button sets query descritores to selected values separated by comma and reloads page
-        .w3-container
-            button(type="button" onclick="applyFilters()") Apply
-            script.
-                function applyFilters() {
-                    var descritores = document.getElementsByName("descritores");
-                    var query = "";
-                    for (var i = 0; i < descritores.length; i++) {
-                        if (descritores[i].checked) {
-                            query += descritores[i].value + ",";
-                        }
-                    }
-                    window.location.href = "/?descritores=" + query.slice(0, -1);
-                }
-            button(type="button" onclick="window.location.href='/'") Clear
-
-
-
-
-        //Lista de acordãos
-
-        .w3-container
-            each a in alista
-                .w3-container
-                    .w3-card-4
-                        h2 #[a(href="/acordaos/" + a.Id)= "Processo Nº" + a.Processo]
-                        h2 #{a.Data}
-                        p #{a.Tribunal}
-                        if a.Descritores
-                            .w3-container
-                                each d in a.Descritores
+        .corpo
+            .filtros
+                .w3-container.filtros-header
+                    h2 Filtros
+                .w3-container.filtros-corpo
+                    .dropdown-check-list(id="list1" tabindex="100")
+                        span.anchor Descritores
+                        ul.items
+                            each d in taxonomia
+                                li
                                     span #{d}
-                                    <br>
+                                    if descritores != [] && descritores.includes(d)
+                                        input(type="checkbox" name="descritores" checked value=d)
+                                    else
+                                        input(type="checkbox" name="descritores" value=d)
+
+                    //Apply button sets query descritores to selected values separated by comma and reloads page
+                    .w3-container.botoes
+                        button(type="button" onclick="applyFilters()") Apply
+                        button(type="button" onclick="window.location.href='/'") Clear
+
+            //Lista de acordãos
+
+            .w3-container.processos
+                each a in alista
+                    .w3-container
+                        .w3-card-4.processo
+                            .header-container.w3-brown
+                                h2.header-left #[a(href="/acordaos/" + a.Id)= "Processo Nº" + a.Processo]
+                                h2.header-right #{a.Data}
+                            .conteudo-processo
+                                p Tribunal: #{a.Tribunal}
+                                if a.Descritores
+                                    .w3-container
+                                        b Descritores:
+                                        br
+                                        each d in a.Descritores
+                                            b &#x2022; 
+                                            span #{d}
+                                            br
 
         //Script para reter os descritores selecionados e passar para a query string
         script.
@@ -60,4 +54,16 @@ block content
                     checkList.classList.remove('visible');
                 else
                     checkList.classList.add('visible');
+            }
+
+        script.
+            function applyFilters() {
+                var descritores = document.getElementsByName("descritores");
+                var query = "";
+                for (var i = 0; i < descritores.length; i++) {
+                    if (descritores[i].checked) {
+                        query += descritores[i].value + ",";
+                    }
+                }
+                window.location.href = "/?descritores=" + query.slice(0, -1);
             }

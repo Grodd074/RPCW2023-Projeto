@@ -1,5 +1,6 @@
 .dropdown-check-list {
   display: inline-block;
+  width: 100%;
 }
 
 .dropdown-check-list .anchor {
@@ -8,6 +9,7 @@
   display: inline-block;
   padding: 5px 50px 5px 10px;
   border: 1px solid #ccc;
+  width: 100%;
 }
 
 .dropdown-check-list .anchor:after {
@@ -28,6 +30,7 @@
 .dropdown-check-list .anchor:active:after {
   right: 8px;
   top: 21%;
+  padding: 5px;
 }
 
 .dropdown-check-list ul.items {
@@ -36,10 +39,12 @@
   margin: 0;
   border: 1px solid #ccc;
   border-top: none;
+  padding: 5px;
 }
 
 .dropdown-check-list ul.items li {
   list-style: none;
+  padding: 5px;
 }
 
 .dropdown-check-list.visible .anchor {
@@ -48,4 +53,62 @@
 
 .dropdown-check-list.visible .items {
   display: block;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  padding-right: 1%;
+  padding-left: 1%;
+}
+
+.header-left {
+  justify-content: flex-start;
+}
+
+.header-right {
+  justify-content: flex-end;
+}
+
+.filtros {
+  height: fit-content;
+  border-style: solid;
+  border-width: medium;
+  border-color: #47281b;
+  border-radius: 5px;
+  flex-basis: 15%;
+}
+
+.filtros-header{
+  text-align: center;
+}
+
+.filtros-corpo {
+  justify-content: center;
+}
+
+.processos {
+  flex-grow: 1;
+}
+
+.corpo {
+  display: flex;
+}
+
+.processo {
+  border-style: solid;
+  border-width: medium;
+  border-color: #47281b;
+  margin-bottom: 0.5%;
+  border-radius: 5px;
+}
+
+.conteudo-processo{
+  padding: 1%;
+}
+
+.botoes{
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }

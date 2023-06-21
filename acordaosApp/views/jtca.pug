@@ -2,8 +2,8 @@ extends layout
 
 block content
   .w3-card-4
-    header.w3-container.w3-teal
-      h1 Processo:  #[a.w3-btn.w3-round.w3-grey(href="/") #{a.Processo} ]
+    header.w3-container.w3-blue
+      h1 Processo: #{a.Processo}
         
     .w3-container
         ul.w3-ul.w3-card-4
@@ -14,5 +14,8 @@ block content
             li #[b Descritores:] #{a.Descritores.join(', ')}
             li #[b Votação:] #{a.Votação}
             li #[b Decisão Texto Integral:] #{a['Decisão Texto Integral']}
-            li #[b url:] #{a.url}
+            li #[b url:] #[a(href="http://www.dgsi.pt/"+a.url) Link]
             li #[b Tribunal:] #{a.tribunal}
+    
+    footer.w3-container.w3-blue
+        p #[a(href="/") Voltar]
