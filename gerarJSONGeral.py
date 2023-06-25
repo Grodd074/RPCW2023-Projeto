@@ -2,88 +2,84 @@
 
 import ijson
 import json
+from pymongo import MongoClient
 
 camposFinais=['Processo','Data','Tribunal','Descritores']
-counter=0
 
-def extractCampos(listaCampos, ficheiro):
-    global counter
-    resultado=[]
-    with open(ficheiro, "r") as json_file:
-        for entry in ijson.items(json_file,"item"):
-            newEntry={}
-            for i,campo in enumerate(listaCampos):
-                if campo in entry:
-                    newEntry[camposFinais[i]]=entry[campo]
-                else:
-                    newEntry[camposFinais[i]]=None
-            newEntry['Id']=counter
-            counter+=1
-            resultado.append(newEntry)
-
-    return resultado
+def extractCampos(db, new_collection, lista_campos, collection_name):
+    collection= db[collection_name]
+    for processo in collection.find():
+        dic={}
+        for i in range(len(lista_campos)):
+            if lista_campos[i] not in processo:
+                dic[camposFinais[i]]=""
+            else:
+                dic[camposFinais[i]]=processo[lista_campos[i]]
+        dic['Id']=processo['_id']
+        new_collection.insert_one(dic)
 
 # ATCO1
-def extractATCO1():
-    return extractCampos(['Processo','Data do Acordão','tribunal','Descritores'],'Acordaos/atco1_acordaos.json')
+def extractATCO1(db, new_collection):
+    return extractCampos(db, new_collection,['Processo','Data do Acordão','tribunal','Descritores'],'atco1s')
 
-def extractJCON():
-    return extractCampos(['Processo','Data do Acordão','tribunal','Descritores'],'Acordaos/jcon_acordaos.json')
+def extractJCON(db, new_collection):
+    return extractCampos(db, new_collection,['Processo','Data do Acordão','tribunal','Descritores'],'jcons')
 
-def extractJDGPJ():
-    return extractCampos(['Processo','Data da Decisão','tribunal','Descritores'],'Acordaos/jdgpj_acordaos.json')
+def extractJDGPJ(db, new_collection):
+    return extractCampos(db, new_collection,['Processo','Data da Decisão','tribunal','Descritores'],'jdgpjs')
 
-def extractJSTA():
-    return extractCampos(['Processo','Data do Acordão','tribunal','Descritores'],'Acordaos/jsta_acordaos.json')
+def extractJSTA(db, new_collection):
+    return extractCampos(db, new_collection,['Processo','Data do Acordão','tribunal','Descritores'],'jstas')
 
-def extractJSTJ():
-    return extractCampos(['Processo','Data do Acordão','tribunal','Descritores'],'Acordaos/jstj_acordaos.json')
+def extractJSTJ(db, new_collection):
+    return extractCampos(db, new_collection,['Processo','Data do Acordão','tribunal','Descritores'],'jstjs')
 
-def extractJTCA():
-    return extractCampos(['Processo','Data do Acordão','tribunal','Descritores'],'Acordaos/jtca_acordaos.json')
+def extractJTCA(db, new_collection):
+    return extractCampos(db, new_collection,['Processo','Data do Acordão','tribunal','Descritores'],'jtcas')
 
-def extractJTCAMPCA():
-    return extractCampos(['Processo','Data','tribunal','Descritores'],'Acordaos/jtcampca_acordaos.json')
+def extractJTCAMPCA(db, new_collection):
+    return extractCampos(db, new_collection,['Processo','Data','tribunal','Descritores'],'jtcampcas')
 
-def extractJTCAMPCT():
-    return extractCampos(['Processo','Data','tribunal','Descritores'],'Acordaos/jtcampct_acordaos.json')
+def extractJTCAMPCT(db, new_collection):
+    return extractCampos(db, new_collection,['Processo','Data','tribunal','Descritores'],'jtcampcts')
 
-def extractJTCN():
-    return extractCampos(['Processo','Data do Acordão', 'tribunal','Descritores'],'Acordaos/jtcn_acordaos.json')
+def extractJTCN(db, new_collection):
+    return extractCampos(db, new_collection,['Processo','Data do Acordão', 'tribunal','Descritores'],'jtcns')
 
-def extractJTRC():
-    return extractCampos(['Processo','Data do Acordão','tribunal','Descritores'],'Acordaos/jtrc_acordaos.json')
+def extractJTRC(db, new_collection):
+    return extractCampos(db, new_collection,['Processo','Data do Acordão','tribunal','Descritores'],'jtrcs')
 
-def extractJTRE():
-    return extractCampos(['Processo','Data do Acordão','tribunal','Descritores'],'Acordaos/jtre_acordaos.json')
+def extractJTRE(db, new_collection):
+    return extractCampos(db, new_collection,['Processo','Data do Acordão','tribunal','Descritores'],'jtres')
 
-def extractJTRG():
-    return extractCampos(['Processo','Data do Acordão','tribunal','Descritores'],'Acordaos/jtrg_acordaos.json')
+def extractJTRG(db, new_collection):
+    return extractCampos(db, new_collection,['Processo','Data do Acordão','tribunal','Descritores'],'jtrgs')
 
-def extractJTRL():
-    return extractCampos(['Processo','Data do Acordão','tribunal','Descritores'],'Acordaos/jtrl_acordaos.json')
+def extractJTRL(db, new_collection):
+    return extractCampos(db, new_collection,['Processo','Data do Acordão','tribunal','Descritores'],'jtrls')
 
-def extractJTRP():
-    return extractCampos(['Processo','Data do Acordão','tribunal','Descritores'],'Acordaos/jtrp_acordaos.json')
+def extractJTRP(db, new_collection):
+    return extractCampos(db, new_collection,['Processo','Data do Acordão','tribunal','Descritores'],'jtrps')
 
 if __name__ == "__main__":
     #Store the data efficiently, otherwise the proccess gets killed
-    counter=0
-    resultado=[]
-    resultado+=extractATCO1()
-    resultado+=extractJCON()
-    resultado+=extractJDGPJ()
-    resultado+=extractJSTA()
-    resultado+=extractJSTJ()
-    resultado+=extractJTCA()
-    resultado+=extractJTCAMPCA()
-    resultado+=extractJTCAMPCT()
-    resultado+=extractJTCN()
-    resultado+=extractJTRC()
-    resultado+=extractJTRE()
-    resultado+=extractJTRG()
-    resultado+=extractJTRL()
-    resultado+=extractJTRP()
+    client = MongoClient('mongodb://localhost:27017/')
+    db = client['projetoRPCW']
+    new_collection_name="gerals"
+    new_collection=db[new_collection_name]
 
-    with open('Acordaos/geral.json', 'w') as ficheiro:
-        json.dump(resultado, ficheiro, ensure_ascii=False)
+
+    extractATCO1(db, new_collection)
+    extractJCON(db, new_collection)
+    extractJDGPJ(db, new_collection)
+    extractJSTA(db, new_collection)
+    extractJSTJ(db, new_collection)
+    extractJTCA(db, new_collection)
+    extractJTCAMPCA(db, new_collection)
+    extractJTCAMPCT(db, new_collection)
+    extractJTCN(db, new_collection)
+    extractJTRC(db, new_collection)
+    extractJTRE(db, new_collection)
+    extractJTRG(db, new_collection)
+    extractJTRL(db, new_collection)
+    extractJTRP(db, new_collection)

@@ -15,6 +15,7 @@ var Jtre = require('../controllers/jtre');
 var Jtrg = require('../controllers/jtrg');
 var Jtrl = require('../controllers/jtrl');
 var Jtrp = require('../controllers/jtrp');
+const { mongo, default: mongoose } = require('mongoose');
 
 
 /* GET home page. */
@@ -23,7 +24,6 @@ router.get('/', function(req, res, next) {
     Acordaos.taxonomiaDescritores()
     .then(taxonomia => {
         taxonomia = taxonomia.map(d => d.Descritor)
-        console.dir(taxonomia)
         page = req.query.page
         descritores = req.query.descritores
         tribunais = req.query.tribunais
@@ -86,12 +86,12 @@ router.post('/acordaos/registo/atco1', function(req, res, next) {
 
 
 router.get('/acordaos/:IdProcesso', function(req, res, next) {
-    processoId = parseInt(req.params.IdProcesso)
+    const processoId = new mongoose.Types.ObjectId(req.params.IdProcesso)
     Acordaos.consultarId(processoId)
     .then(processo => {
-      tribunal = processo.Tribunal
-      controller = getTribunal(tribunal)
-      controller.findProcesso(processo.Processo)
+        tribunal = processo.tribunal
+        controller = getTribunal(tribunal)
+        controller.findById(processo.Id)
         .then(acordao => {
           res.render(tribunal, { a: acordao});
         })

@@ -1,7 +1,7 @@
 var mongoose = require('mongoose')
 
 var acordaosSchema = new mongoose.Schema({
-    Id: Number,
+    Id: mongoose.Schema.Types.ObjectId,
     Processo: String,
     Descritores: [String],
     Data: String,

@@ -12,6 +12,16 @@ module.exports.list = () => {
     })
 }
 
+module.exports.findById = id => {
+    return Acordaos.findOne({_id:id})
+    .then(dados => {
+        return dados
+    })
+    .catch(erro => {
+        return erro
+    })
+}
+
 module.exports.findAcordao = a => {
     return Acordaos.findOne({"Acordão": a})
     .then(dados => {
