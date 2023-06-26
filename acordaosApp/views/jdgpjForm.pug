@@ -2,22 +2,44 @@ extends layout
 
 block content
   .w3-card-4
-    header.w3-container.w3-teal
-      h1 Processo:  #[a.w3-btn.w3-round.w3-grey(href="/") #{a.Processo} ]
-        
-    .w3-container
-        ul.w3-ul.w3-card-4
-            li #[b Processo:] #{a.Processo}
-            li #[b Tribunal 1ª instância:] #{a['Tribunal 1ª instância']}
-            li #[b Juízo ou Secção:] #{a['Juízo ou Secção']}
-            li #[b Tipo de Ação:] #{a['Tipo de Ação']}
-            li #[b Tipo de Contrato:] #{a['Tipo de Contrato']}
-            li #[b Autor:] #{a.Autor}
-            li #[b Réu:] #{a.Réu}
-            li #[b Data da Decisão:] #{a['Data da Decisão']}
-            li #[b Descritores:] #{a.Descritores.join(', ')}
-            li #[b Texto das Cláusulas Abusiva:] #{a['Texto das Cláusulas Abusiva']}
-            li #[b Recursos:] #{a.Recursos}
-            li #[b Texto Integral:] #{a['Texto Integral']}
-            li #[b url:] #{a.url}
-            li #[b Tribunal:] #{a.tribunal}
+    header.w3-container.w3-purple
+      h1 Novo Acórdão
+
+    form.w3-container(method="POST")
+        fieldset
+            legend Metadata
+            label Processo
+            input.w3-input.w3-round(type="text" name="processo")
+            label Tribunal 1ª instância
+            input.w3-input.w3-round(type="date" name="tribunal1instancia")
+            label Juízo ou Secção
+            input.w3-input.w3-round(type="text" name="juizoouseccao")
+            label Tipo de Ação
+            input.w3-input.w3-round(type="text" name="tipodeacao")
+            label Tipo de Contrato
+            input.w3-input.w3-round(type="text" name="tipodecontrato")
+            label Autor
+            input.w3-input.w3-round(type="text" name="autor")
+            label Réu
+            input.w3-input.w3-round(type="date" name="reu")
+            label Data da Decisão
+            input.w3-input.w3-round(type="text" name="datadecisao")
+            label Recorrido 1
+            input.w3-input.w3-round(type="text" name="recorrido1")
+            label Descritores
+            input.w3-input.w3-round(type="text" name="descritores")
+            label Texto das Cláusulas Abusiva
+            input.w3-input.w3-round(type="text" name="textoabusiva")
+            label Recursos
+            input.w3-input.w3-round(type="text" name="recursos")
+            label Texto Integral
+            input.w3-input.w3-round(type="text" name="textointegral")
+            label url
+            input.w3-input.w3-round(type="text" name="url")
+            label Tribunal
+            input.w3-input.w3-round(type="text" name="tribunal" value="jdgpj" readonly)
+            
+        button.w3-btn.w3-purple.w3-mb-2(type="submit") Register
+
+    footer.w3-container.w3-indigo
+        p #[a(href="/") Voltar]
