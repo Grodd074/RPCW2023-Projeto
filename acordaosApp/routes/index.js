@@ -132,7 +132,8 @@ router.get('/acordaos/registo/jtrp', function(req, res, next) {
 router.post('/acordaos/registo/atco1', function(req, res, next) {
     Atco.inserir(req.body)
     .then(dados => {
-        res.redirect('/' + dados.Processo)
+        console.log(dados)
+        res.redirect('/acordaos/' + dados.Processo)
     })
     .catch(e => res.render('error', {error: e}))
 });

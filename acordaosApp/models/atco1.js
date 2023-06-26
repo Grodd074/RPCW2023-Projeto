@@ -14,7 +14,7 @@ var acordaosSchema = new mongoose.Schema({
     Votação: String,
     Privacidade: String,
     "Normas Apreciadas": String,
-   " Normas Julgadas Inconst.": String,
+    "Normas Julgadas Inconst.": String,
     "Área Temática 1": String,
     "Área Temática 2": String,
     Decisão: String,

@@ -156,11 +156,16 @@ module.exports.listInstituicoes = () => {
     })
 }
 
-/* Não sei se está certo*/
 module.exports.inserir = acordao => {
-    acordao.Processo = mongoose.Types.ObjectId()
-    var novo = new Acordaos(acordao)
-    return novo.save()
+    console.log(acordao)
+    acordao.Processo = new mongoose.Types.ObjectId()
+    return Acordaos.create(acordao)
+    .then(dados => {
+        return dados
+    })
+    .catch(erro => {
+        return erro
+    })
 }
 
 module.exports.eliminar = proc => {
