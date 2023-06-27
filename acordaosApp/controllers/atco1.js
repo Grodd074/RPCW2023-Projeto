@@ -157,7 +157,7 @@ module.exports.listInstituicoes = () => {
 }
 
 module.exports.inserir = acordao => {
-    console.log(acordao)
+    //console.log(acordao)
     return Acordaos.create(acordao)
     .then(dados => {
         return dados

@@ -132,19 +132,13 @@ router.get('/acordaos/registo/jtrp', function(req, res, next) {
 router.post('/acordaos/registo/atco1', function(req, res, next) {
     
     Atco.inserir(req.body)
-    .then(dadosAtco => {
+    .then(dados1 => {
 
-        // Dados para a "gerals"
-        var subReqBody = {Id: dadosAtco._id, 
-                        Processo : req.body.Processo, 
-                        Data : req.body["Data do Acordão"], 
-                        Tribunal : req.body.tribunal, 
-                        Descritores : req.body.Descritores}
-                        
         // Inserir na "gerals"
-        Acordaos.inserir(subReqBody)
-        .then(dadosGeral => {
-            res.redirect('/acordaos/' + dadosGeral.Id)
+        Acordaos.inserirEntrada(req.body, dados1._id)
+        .then(dados2 => {
+            console.log(dados2)
+            res.redirect('/acordaos/' + dados2.Id)
         })
         .catch(e => res.render('error', {error: e}))
     
@@ -154,106 +148,208 @@ router.post('/acordaos/registo/atco1', function(req, res, next) {
 
 router.post('/acordaos/registo/jcons', function(req, res, next) {
     Jcons.inserir(req.body)
-    .then(dados => {
-        res.redirect('/' + dados.Processo)
+    .then(dados1 => {
+
+        // Inserir na "gerals"
+        Acordaos.inserirEntrada(req.body, dados1._id)
+        .then(dados2 => {
+            console.log(dados2)
+            res.redirect('/acordaos/' + dados2.Id)
+        })
+        .catch(e => res.render('error', {error: e}))
+    
     })
     .catch(e => res.render('error', {error: e}))
 });
 
 router.post('/acordaos/registo/jdgpj', function(req, res, next) {
     Jdgpj.inserir(req.body)
-    .then(dados => {
-        res.redirect('/' + dados.Processo)
+    .then(dados1 => {
+
+        // Inserir na "gerals"
+        Acordaos.inserirEntrada(req.body, dados1._id)
+        .then(dados2 => {
+            console.log(dados2)
+            res.redirect('/acordaos/' + dados2.Id)
+        })
+        .catch(e => res.render('error', {error: e}))
+    
     })
     .catch(e => res.render('error', {error: e}))
 });
 
 router.post('/acordaos/registo/jsta', function(req, res, next) {
     Jsta.inserir(req.body)
-    .then(dados => {
-        res.redirect('/' + dados.Processo)
+    .then(dados1 => {
+
+        // Inserir na "gerals"
+        Acordaos.inserirEntrada(req.body, dados1._id)
+        .then(dados2 => {
+            console.log(dados2)
+            res.redirect('/acordaos/' + dados2.Id)
+        })
+        .catch(e => res.render('error', {error: e}))
+    
     })
     .catch(e => res.render('error', {error: e}))
 });
 
 router.post('/acordaos/registo/jstj', function(req, res, next) {
     Jstj.inserir(req.body)
-    .then(dados => {
-        res.redirect('/' + dados.Processo)
+    .then(dados1 => {
+
+        // Inserir na "gerals"
+        Acordaos.inserirEntrada(req.body, dados1._id)
+        .then(dados2 => {
+            console.log(dados2)
+            res.redirect('/acordaos/' + dados2.Id)
+        })
+        .catch(e => res.render('error', {error: e}))
+    
     })
     .catch(e => res.render('error', {error: e}))
 });
 
 router.post('/acordaos/registo/jtca', function(req, res, next) {
     Jtca.inserir(req.body)
-    .then(dados => {
-        res.redirect('/' + dados.Processo)
+    .then(dados1 => {
+
+        // Inserir na "gerals"
+        Acordaos.inserirEntrada(req.body, dados1._id)
+        .then(dados2 => {
+            console.log(dados2)
+            res.redirect('/acordaos/' + dados2.Id)
+        })
+        .catch(e => res.render('error', {error: e}))
+    
     })
     .catch(e => res.render('error', {error: e}))
 });
 
 router.post('/acordaos/registo/jtcampca', function(req, res, next) {
     Jtcampca.inserir(req.body)
-    .then(dados => {
-        res.redirect('/' + dados.Processo)
+    .then(dados1 => {
+
+        // Inserir na "gerals"
+        Acordaos.inserirEntrada(req.body, dados1._id)
+        .then(dados2 => {
+            console.log(dados2)
+            res.redirect('/acordaos/' + dados2.Id)
+        })
+        .catch(e => res.render('error', {error: e}))
+    
     })
     .catch(e => res.render('error', {error: e}))
 });
 
 router.post('/acordaos/registo/jtcampct', function(req, res, next) {
     Jtcampct.inserir(req.body)
-    .then(dados => {
-        res.redirect('/' + dados.Processo)
+    .then(dados1 => {
+
+        // Inserir na "gerals"
+        Acordaos.inserirEntrada(req.body, dados1._id)
+        .then(dados2 => {
+            console.log(dados2)
+            res.redirect('/acordaos/' + dados2.Id)
+        })
+        .catch(e => res.render('error', {error: e}))
+    
     })
     .catch(e => res.render('error', {error: e}))
 });
-
 router.post('/acordaos/registo/jtcn', function(req, res, next) {
     Jtcn.inserir(req.body)
-    .then(dados => {
-        res.redirect('/' + dados.Processo)
+    .then(dados1 => {
+
+        // Inserir na "gerals"
+        Acordaos.inserirEntrada(req.body, dados1._id)
+        .then(dados2 => {
+            console.log(dados2)
+            res.redirect('/acordaos/' + dados2.Id)
+        })
+        .catch(e => res.render('error', {error: e}))
+    
     })
     .catch(e => res.render('error', {error: e}))
 });
 
 router.post('/acordaos/registo/jtrc', function(req, res, next) {
     Jtrc.inserir(req.body)
-    .then(dados => {
-        res.redirect('/' + dados.Processo)
+    .then(dados1 => {
+
+        // Inserir na "gerals"
+        Acordaos.inserirEntrada(req.body, dados1._id)
+        .then(dados2 => {
+            console.log(dados2)
+            res.redirect('/acordaos/' + dados2.Id)
+        })
+        .catch(e => res.render('error', {error: e}))
+    
     })
-    .catch(e => res.render('error', {error: e}));
+    .catch(e => res.render('error', {error: e}))
 });
 
 router.post('/acordaos/registo/jtre', function(req, res, next) {
     Jtre.inserir(req.body)
-    .then(dados => {
-        res.redirect('/' + dados.Processo)
+    .then(dados1 => {
+
+        // Inserir na "gerals"
+        Acordaos.inserirEntrada(req.body, dados1._id)
+        .then(dados2 => {
+            console.log(dados2)
+            res.redirect('/acordaos/' + dados2.Id)
+        })
+        .catch(e => res.render('error', {error: e}))
+    
     })
-    .catch(e => res.render('error', {error: e}));
+    .catch(e => res.render('error', {error: e}))
 });
 
 router.post('/acordaos/registo/jtrg', function(req, res, next) {
     Jtrg.inserir(req.body)
-    .then(dados => {
-        res.redirect('/' + dados.Processo)
-    })
-    .catch(e => res.render('error', {error: e}));
-});
+    .then(dados1 => {
 
+        // Inserir na "gerals"
+        Acordaos.inserirEntrada(req.body, dados1._id)
+        .then(dados2 => {
+            console.log(dados2)
+            res.redirect('/acordaos/' + dados2.Id)
+        })
+        .catch(e => res.render('error', {error: e}))
+    
+    })
+    .catch(e => res.render('error', {error: e}))
+});
 router.post('/acordaos/registo/jtrl', function(req, res, next) {
     Jtrl.inserir(req.body)
-    .then(dados => {
-        res.redirect('/' + dados.Processo)
+    .then(dados1 => {
+
+        // Inserir na "gerals"
+        Acordaos.inserirEntrada(req.body, dados1._id)
+        .then(dados2 => {
+            console.log(dados2)
+            res.redirect('/acordaos/' + dados2.Id)
+        })
+        .catch(e => res.render('error', {error: e}))
+    
     })
-    .catch(e => res.render('error', {error: e}));
+    .catch(e => res.render('error', {error: e}))
 });
 
 router.post('/acordaos/registo/jtrp', function(req, res, next) {
     Jtrp.inserir(req.body)
-    .then(dados => {
-        res.redirect('/' + dados.Processo)
+    .then(dados1 => {
+
+        // Inserir na "gerals"
+        Acordaos.inserirEntrada(req.body, dados1._id)
+        .then(dados2 => {
+            console.log(dados2)
+            res.redirect('/acordaos/' + dados2.Id)
+        })
+        .catch(e => res.render('error', {error: e}))
+    
     })
-    .catch(e => res.render('error', {error: e}));
+    .catch(e => res.render('error', {error: e}))
 });
 
 router.get('/acordaos/:IdAcordao', function(req, res, next) {
@@ -262,7 +358,7 @@ router.get('/acordaos/:IdAcordao', function(req, res, next) {
     .then(acordao => {
         tribunal = acordao.Tribunal
         controller = getTribunal(tribunal)
-        controller.findById(acordao.Id)
+        controller.findById(acordaoId)
         .then(acordao => {
           res.render(tribunal, { a: acordao});
         })
