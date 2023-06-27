@@ -8,7 +8,7 @@ var passport = require('passport')
 var LocalStrategy = require('passport-local').Strategy
 
 var mongoose = require('mongoose')
-var mongoDB = 'mongodb://127.0.0.1/authServer2023'
+var mongoDB = 'mongodb://127.0.0.1/authAcordaos'
 mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true})
 var db = mongoose.connection
 db.on('error', function(){

@@ -1,0 +1,23 @@
+extends layout
+
+block content
+    .w3-card-4
+        header.w3-container.w3-brown
+            h1 Lista de Acordãos - Login
+
+        .corpo
+            form(action="/login", method="post")
+                .w3-container
+                    label.w3-text-brown
+                        b Usuário
+                    input.w3-input.w3-border.w3-sand(type="text", placeholder="Digite seu usuário", name="username")
+                    label.w3-text-brown
+                        b Senha
+                    input.w3-input.w3-border.w3-sand(type="password", placeholder="Digite sua senha", name="password")
+                    button.w3-btn.w3-green(type="submit") Entrar
+
+                p Não tem uma conta? #[a(href="/register") Registe-se!]
+
+        footer.w3-container.w3-brown
+            p Voltar para a #[a(href="/") Página inicial]
+                

@@ -33,14 +33,14 @@ router.get('/', verificaAcesso, function(req, res) {
     })
 });
 
-// GET user from id
-router.get('/:id', verificaAcesso, function(req, res) {
-  User.getUser(req.params.id)
+// GET user from username
+router.get('/:user', verificaAcesso, function(req, res) {
+  User.getUser(req.params.user)
     .then(u => {
       res.jsonp(u)
     })
     .catch(erro => {
-      res.jsonp({error: erro, message: "Erro na obtenção do utilizador " + req.params.id})
+      res.jsonp({error: erro, message: "Erro na obtenção do utilizador " + req.params.user})
     })
 });
 
@@ -48,11 +48,15 @@ router.post('/register', function(req, res) {
   var data = new Date().toISOString().substring(0,16)
   userModel.register(
     new userModel({ 
-      username: req.body.username, 
-      name: req.body.name,
-      level: req.body.level,
-      active: true,
-      dateCreated: data }), 
+      username: req.body.username,
+      nome: req.body.name,
+      email: req.body.email,
+      filiacao: req.body.filiacao,
+      nivel: req.body.nivel,
+      dataRegistro: data,
+      dataUltimoAcesso: data,
+      favoritos: []
+    }), 
     req.body.password, 
     function(err, user) {
       if (err) 
@@ -65,53 +69,41 @@ router.post('/register', function(req, res) {
 router.post('/login', passport.authenticate('local'), function(req, res){
   jwt.sign({ 
     username: req.user.username,
-    level: req.user.level,
+    level: req.user.nivel,
     sub: 'RPCW2023'}, 
     "rpcw2023",
     {expiresIn: 3600},
     function(e, token) {
       if(e) res.status(500).jsonp({error: "Erro na geração do token: " + e}) 
-      else res.status(201).jsonp({token: token})
+      else {
+        User.atualizaUltimoAcesso(req.user.username)
+        .then(u => {
+          res.status(200).jsonp({token: token})
+        })
+        .catch(erro => {
+          res.status(500).jsonp({error: erro, message: "Erro na atualização do último acesso"})
+        })
+      }
     });
 })
 
-router.put('/:id', verificaAcesso, function(req, res){
-  User.updateUser(req.params.id, req.body)
+router.put('/:user', verificaAcesso, function(req, res){
+  User.updateUser(req.params.user, req.body)
   .then(u => {
     res.jsonp(u)
   })
   .catch(erro => {
-    res.jsonp({error: erro, message: "Erro na alteração do utilizador " + req.params.id})
+    res.jsonp({error: erro, message: "Erro na alteração do utilizador " + req.params.user})
   })
 })
 
-router.put('/:id/ativar', verificaAcesso, function(req, res){
-  User.updateUserStatus(req.params.id, true)
+router.delete('/:user', verificaAcesso, function(req, res){
+  User.deleteUser(req.params.user)
   .then(u => {
     res.jsonp(u)
   })
   .catch(erro => {
-    res.jsonp({error: erro, message: "Erro na alteração do utilizador " + req.params.id})
-  })
-})
-
-router.put('/:id/desativar', verificaAcesso, function(req, res){
-  User.updateUserStatus(req.params.id, false)
-  .then(u => {
-    res.jsonp(u)
-  })
-  .catch(erro => {
-    res.jsonp({error: erro, message: "Erro na alteração do utilizador " + req.params.id})
-  })
-})
-
-router.delete('/:id', verificaAcesso, function(req, res){
-  User.deleteUser(req.params.id)
-  .then(u => {
-    res.jsonp(u)
-  })
-  .catch(erro => {
-    res.jsonp({error: erro, message: "Erro na remoção do utilizador " + req.params.id})
+    res.jsonp({error: erro, message: "Erro na remoção do utilizador " + req.params.user})
   })
 })
 

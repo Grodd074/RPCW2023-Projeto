@@ -3,7 +3,14 @@ extends layout
 block content
     .w3-card-4
         header.w3-container.w3-brown
-            h1 Lista de Acordãos #[a.w3-button.w3-round-large(href="/acordaos/registo") + ]
+            .header-container
+                h1.header-left Lista de Acordãos #[a.w3-button.w3-round-large(href="/acordaos/registo") + ]
+                h1.header-right 
+                    if user
+                        a.w3-button.w3-round-large(href="/logout") Logout
+                    else
+                        a.w3-button.w3-round-large(href="/login") Login
+                        a.w3-button.w3-round-large(href="/register") Registo
         //Descritores para selecionar
         .corpo
             .filtros

@@ -15,11 +15,48 @@ var Jtre = require('../controllers/jtre');
 var Jtrg = require('../controllers/jtrg');
 var Jtrl = require('../controllers/jtrl');
 var Jtrp = require('../controllers/jtrp');
+var axios = require('axios');
+var jwt = require('jsonwebtoken');
 const { mongo, default: mongoose } = require('mongoose');
 
+function verificaAcesso(req, res, next){
+    var myToken = req.query.token || req.body.token || req.cookies.token
+    if(myToken){
+        jwt.verify(myToken, "rpcw2023", function(e, payload){
+            if(e){
+                res.status(401).jsonp({error: e})
+            }
+            else{
+                next()
+            }
+        })
+    }
+    else{
+        res.status(401).jsonp({error: "Token inexistente!"})
+    }
+}
+
+function verificaLoggedIn(req, res, next){
+    var myToken = req.query.token || req.body.token || req.cookies.token
+    if(myToken){
+        jwt.verify(myToken, "rpcw2023", function(e, payload){
+            if(e){
+                next()
+            }
+            else{
+                req.user = payload.username
+                req.nivel = payload.level
+                next()
+            }
+        })
+    }
+    else{
+        next()
+    }
+}
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', verificaLoggedIn, function(req, res, next) {
     //Check if page value was passed
     Acordaos.taxonomiaDescritores()
     .then(taxonomia => {
@@ -55,7 +92,7 @@ router.get('/', function(req, res, next) {
                 Acordaos.getTribunais()
                 .then(tribunaisList => {
                     tribunaisList = tribunaisList.map(t => t.Tribunal)
-                    res.render('index', { alista: dados, page: page, maxPage:maxPage, descritores: descritores, taxonomia: taxonomia, tribunais: tribunais, tribunaisList: tribunaisList});
+                    res.render('index', { alista: dados, page: page, maxPage:maxPage, descritores: descritores, taxonomia: taxonomia, tribunais: tribunais, tribunaisList: tribunaisList, user: req.user, nivel: req.nivel});
                 })
                 .catch(e => res.render('error', {error: e}))
             })
@@ -66,6 +103,40 @@ router.get('/', function(req, res, next) {
     .catch(e => res.render('error', {error: e}))
 });
 
+router.get('/login', function(req, res, next) {
+    res.render('login');
+});
+
+router.post('/login', function(req, res, next) {
+    axios.post('http://localhost:7013/users/login', req.body)
+    .then(dados => {
+        res.cookie('token', dados.data.token, {
+            expires: new Date(Date.now() + '1d'),
+            secure: false, // set to true if your using https
+            httpOnly: true,
+        });
+        res.status(200).redirect('/')
+    })
+    .catch(e => res.render('error', {error: e}))
+});
+
+router.get('/logout', verificaAcesso, function(req, res, next) {
+    res.clearCookie('token')
+    res.redirect('/')
+});
+
+router.get('/register', function(req, res, next) {
+    res.render('register');
+});
+
+router.post('/register', function(req, res, next) {
+    req.body.nivel = "user"
+    axios.post('http://localhost:7013/users/register', req.body)
+    .then(dados => {
+        res.redirect('/')
+    })
+    .catch(e => res.render('error', {error: e}))
+});
 
 
 router.get('/acordaos/registo', function(req, res, next) {
