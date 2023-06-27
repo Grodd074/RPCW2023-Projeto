@@ -9,7 +9,17 @@ block content
       fieldset
         legend Metadata
         each value, key in dados
-          if key != "_id"
+          if key == "_id"
+            pass 
+          else if key == "Descritores"
+            label #{key}
+            each d in value
+              input.w3-input(type="text" name=key value=d)
+          else if key == "tribunal"
+            label #{key}
+            br
+            input(type="text" name=key value=value readonly)
+          else
             label #{key}
             input.w3-input(type="text" name=key value=value)
                 
