@@ -65,13 +65,27 @@ module.exports.consultarInstituicoes = () => {
 }
 
 /* POST /contracts: acrescenta um contrato novo à BD;*/
-module.exports.inserir = emprego => {
-    emprego.id = mongoose.Types.ObjectId()
-    var novo = new Acordaos(emprego)
-    return novo.save()
+module.exports.inserir = acordao => {
+    return Acordaos.create(acordao)
+    .then(dados => {
+        return dados
+    })
+    .catch(erro => {
+        return erro
+    })
 }
 
 /* DELETE /contracts/:id: elimina da BD o contrato com o identificador id.*/
 module.exports.eliminar = id => {
     return Acordaos.deleteOne({id: id})
+}
+
+module.exports.editar = (id, acordao) => {
+    return Acordaos.updateOne({_id:id}, acordao)
+    .then(dados => {
+        return dados
+    })
+    .catch(erro => {
+        return erro
+    })
 }

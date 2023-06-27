@@ -118,9 +118,18 @@ module.exports.listDate = date => {
 }
 
 
-module.exports.inserir = acordao => {
+module.exports.inserirEntrada = (acordao, idAcordao) => {
     
-    return Acordaos.create(acordao)
+    // Recebe 'acordao' completo
+
+    // Dados para a "gerals"
+    var subsetAcordao = {Id : idAcordao, 
+        Processo : acordao.Processo, 
+        Data : acordao["Data do Acordão"], 
+        Tribunal : acordao.tribunal, 
+        Descritores : acordao.Descritores}
+
+    return Acordaos.create(subsetAcordao)
     .then(dados => {
         return dados
     })
@@ -130,6 +139,17 @@ module.exports.inserir = acordao => {
 
 }
 
+/*module.exports.inserir = acordao => {
+    
+    return Acordaos.create(acordao)
+    .then(dados => {
+        return dados
+    })
+    .catch(erro => {
+        return erro
+    })
+
+}*/
 
 
 /* 
@@ -137,3 +157,13 @@ module.exports.eliminar = proc => {
     return Acordaos.deleteOne({"Processo": proc})
 }
 */
+
+module.exports.editar = (id, acordao) => {
+    return Acordaos.updateOne({_id:id}, acordao)
+    .then(dados => {
+        return dados
+    })
+    .catch(erro => {
+        return erro
+    })
+}

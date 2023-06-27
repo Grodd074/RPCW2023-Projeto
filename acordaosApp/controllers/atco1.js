@@ -157,7 +157,7 @@ module.exports.listInstituicoes = () => {
 }
 
 module.exports.inserir = acordao => {
-    console.log(acordao)
+    //console.log(acordao)
     return Acordaos.create(acordao)
     .then(dados => {
         return dados
@@ -169,4 +169,14 @@ module.exports.inserir = acordao => {
 
 module.exports.eliminar = proc => {
     return Acordaos.deleteOne({"Processo": proc})
+}
+
+module.exports.editar = (id, acordao) => {
+    return Acordaos.updateOne({_id:id}, acordao)
+    .then(dados => {
+        return dados
+    })
+    .catch(erro => {
+        return erro
+    })
 }
