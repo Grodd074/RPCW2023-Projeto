@@ -79,3 +79,13 @@ module.exports.inserir = acordao => {
 module.exports.eliminar = id => {
     return Acordaos.deleteOne({id: id})
 }
+
+module.exports.editar = (id, acordao) => {
+    return Acordaos.updateOne({_id:id}, acordao)
+    .then(dados => {
+        return dados
+    })
+    .catch(erro => {
+        return erro
+    })
+}

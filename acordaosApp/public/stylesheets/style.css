@@ -70,6 +70,10 @@
   justify-content: flex-end;
 }
 
+.header-mid {
+  justify-content: center;
+}
+
 .filtros {
   height: fit-content;
   border-style: solid;

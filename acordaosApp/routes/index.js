@@ -352,6 +352,34 @@ router.post('/acordaos/registo/jtrp', function(req, res, next) {
     .catch(e => res.render('error', {error: e}))
 });
 
+router.get('/acordaos/editar/:IdAcordao', function(req, res) {
+    const acordaoId = new mongoose.Types.ObjectId(req.params.IdAcordao)
+    Acordaos.consultarId(acordaoId)
+    .then(acordao => {
+        controller = getTribunal(acordao.Tribunal)
+        controller.findById(acordaoId)
+        .then(dados => {
+            console.dir(dados._doc)
+            res.render('editar', {dados: dados._doc})
+        })
+        .catch(e => res.render('error', {error: e}))
+    })
+    .catch(e => res.render('error', {error: e}))
+});
+
+router.post('/acordaos/editar/:IdAcordao', function(req, res, next) {
+    Acordaos.getTribunal(req.params.IdAcordao)
+    .then(tribunal => {
+        controller = getTribunal(tribunal)
+        controller.editar(req.params.IdAcordao, req.body)
+        .then(dados => {
+            res.redirect('/acordaos/' + req.params.IdAcordao)
+        })
+        .catch(e => res.render('error', {error: e}))
+    })
+    .catch(e => res.render('error', {error: e}))
+});
+
 router.get('/acordaos/:IdAcordao', function(req, res, next) {
     const acordaoId = new mongoose.Types.ObjectId(req.params.IdAcordao)
     Acordaos.consultarId(acordaoId)

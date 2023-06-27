@@ -157,3 +157,13 @@ module.exports.eliminar = proc => {
     return Acordaos.deleteOne({"Processo": proc})
 }
 */
+
+module.exports.editar = (id, acordao) => {
+    return Acordaos.updateOne({_id:id}, acordao)
+    .then(dados => {
+        return dados
+    })
+    .catch(erro => {
+        return erro
+    })
+}

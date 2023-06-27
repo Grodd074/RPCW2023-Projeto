@@ -45,7 +45,8 @@ block content
                         .w3-card-4.processo
                             .header-container.w3-brown
                                 h2.header-left #[a(href="/acordaos/" + a.Id)= "Processo Nº" + a.Processo]
-                                h2.header-right #{a.Data}
+                                h2.header-mid #{a.Data}
+                                h2.header-right #[a.w3-button(href="/acordaos/editar/" + a.Id) Editar ]
                             .conteudo-processo
                                 p Tribunal: #{a.Tribunal}
                                 if a.Descritores
