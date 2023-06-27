@@ -130,10 +130,24 @@ router.get('/acordaos/registo/jtrp', function(req, res, next) {
 
 
 router.post('/acordaos/registo/atco1', function(req, res, next) {
+    
     Atco.inserir(req.body)
-    .then(dados => {
-        console.log(dados)
-        res.redirect('/acordaos/' + dados.Processo)
+    .then(dadosAtco => {
+
+        // Dados para a "gerals"
+        var subReqBody = {Id: dadosAtco._id, 
+                        Processo : req.body.Processo, 
+                        Data : req.body["Data do Acordão"], 
+                        Tribunal : req.body.tribunal, 
+                        Descritores : req.body.Descritores}
+                        
+        // Inserir na "gerals"
+        Acordaos.inserir(subReqBody)
+        .then(dadosGeral => {
+            res.redirect('/acordaos/' + dadosGeral.Id)
+        })
+        .catch(e => res.render('error', {error: e}))
+    
     })
     .catch(e => res.render('error', {error: e}))
 });
@@ -242,13 +256,13 @@ router.post('/acordaos/registo/jtrp', function(req, res, next) {
     .catch(e => res.render('error', {error: e}));
 });
 
-router.get('/acordaos/:IdProcesso', function(req, res, next) {
-    const processoId = new mongoose.Types.ObjectId(req.params.IdProcesso)
-    Acordaos.consultarId(processoId)
-    .then(processo => {
-        tribunal = processo.tribunal
+router.get('/acordaos/:IdAcordao', function(req, res, next) {
+    const acordaoId = new mongoose.Types.ObjectId(req.params.IdAcordao)
+    Acordaos.consultarId(acordaoId)
+    .then(acordao => {
+        tribunal = acordao.Tribunal
         controller = getTribunal(tribunal)
-        controller.findById(processo.Id)
+        controller.findById(acordao.Id)
         .then(acordao => {
           res.render(tribunal, { a: acordao});
         })

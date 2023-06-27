@@ -117,13 +117,19 @@ module.exports.listDate = date => {
     })
 }
 
-/* 
+
 module.exports.inserir = acordao => {
-    acordao.Processo = mongoose.Types.ObjectId()
-    var novo = new Acordaos(acordao)
-    return novo.save()
+    
+    return Acordaos.create(acordao)
+    .then(dados => {
+        return dados
+    })
+    .catch(erro => {
+        return erro
+    })
+
 }
-*/
+
 
 
 /* 

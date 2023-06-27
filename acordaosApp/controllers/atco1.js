@@ -158,7 +158,6 @@ module.exports.listInstituicoes = () => {
 
 module.exports.inserir = acordao => {
     console.log(acordao)
-    acordao.Processo = new mongoose.Types.ObjectId()
     return Acordaos.create(acordao)
     .then(dados => {
         return dados
