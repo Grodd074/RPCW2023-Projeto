@@ -17,7 +17,10 @@ block content
             label Relator
             input.w3-input.w3-round(type="text" name="Relator")
             label Descritores
-            input.w3-input.w3-round(type="text" name="Descritores")
+              - let index = 1
+              #dataContainer
+                input.w3-input.w3-round(type="text" name=`Descritores-${index}` placeholder=`Item ${index}`)
+              button(type="button" id="addButton") +
             label Nº do Documento
             input.w3-input.w3-round(type="text" name="Nº do Documento")
             label Data do Acordão
@@ -55,3 +58,16 @@ block content
 
     footer.w3-container.w3-brown
         p #[a(href="/") Voltar]
+
+
+
+    script(type="text/javascript").
+      $(document).ready(function() {
+        var index = 1;
+
+        $('#addButton').click(function() {
+          var input = $('<input>').attr('type', 'text').attr('name', `Descritores-${index}`).attr('placeholder', `Item ${index}`);
+          $('#dataContainer').append(input);
+          index++;
+        });
+      });

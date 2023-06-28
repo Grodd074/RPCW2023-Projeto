@@ -15,6 +15,8 @@ var Jtre = require('../controllers/jtre');
 var Jtrg = require('../controllers/jtrg');
 var Jtrl = require('../controllers/jtrl');
 var Jtrp = require('../controllers/jtrp');
+var axios = require('axios')
+var jwt = require('jsonwebtoken');
 const { mongo, default: mongoose } = require('mongoose');
 
 function verificaAcesso(req, res, next){
@@ -58,7 +60,7 @@ function verificaLoggedIn(req, res, next){
 }
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', verificaLoggedIn, function(req, res, next) {
     //Check if page value was passed
     Geral.taxonomiaDescritores()
     .then(taxonomia => {
@@ -94,15 +96,20 @@ router.get('/', function(req, res, next) {
                 Geral.getTribunais()
                 .then(tribunaisList => {
                     tribunaisList = tribunaisList.map(t => t.Tribunal)
-                    axios.get('http://localhost:7013/users/'+req.user+'/favoritos', {params: {token: req.token}})
-                    .then(favoritos => {
-                        var mapping={}
-                        for (i=0; i<favoritos.data.length; i++){
-                            mapping[favoritos.data[i].idRegisto] = favoritos.data[i].descricao
-                        }
-                        res.render('index', { alista: dados, page: page, maxPage:maxPage, descritores: descritores, taxonomia: taxonomia, tribunais: tribunais, tribunaisList: tribunaisList, user: req.user, nivel: req.nivel, favoritos:mapping});
-                    })
-                    .catch(e => res.render('error', {error: e}))
+                    if (req.user){
+                        axios.get('http://localhost:7013/users/'+req.user+'/favoritos', {params: {token: req.token}})
+                        .then(favoritos => {
+                            var mapping={}
+                            for (i=0; i<favoritos.data.length; i++){
+                                mapping[favoritos.data[i].idRegisto] = favoritos.data[i].descricao
+                            }
+                            res.render('index', { alista: dados, page: page, maxPage:maxPage, descritores: descritores, taxonomia: taxonomia, tribunais: tribunais, tribunaisList: tribunaisList, user: req.user, nivel: req.nivel, favoritos:mapping});
+                        })
+                        .catch(e => res.render('error', {error: e}))
+                    }
+                    else{
+                        res.render('index', { alista: dados, page: page, maxPage:maxPage, descritores: descritores, taxonomia: taxonomia, tribunais: tribunais, tribunaisList: tribunaisList, user: req.user, nivel: req.nivel, favoritos:[]});
+                    }
                 })
                 .catch(e => res.render('error', {error: e}))
             })
@@ -113,6 +120,40 @@ router.get('/', function(req, res, next) {
     .catch(e => res.render('error', {error: e}))
 });
 
+router.get('/login', function(req, res, next) {
+    res.render('login');
+});
+
+router.post('/login', function(req, res, next) {
+    axios.post('http://localhost:7013/users/login', req.body)
+    .then(dados => {
+        res.cookie('token', dados.data.token, {
+            expires: new Date(Date.now() + '1d'),
+            secure: false, // set to true if your using https
+            httpOnly: true,
+        });
+        res.status(200).redirect('/')
+    })
+    .catch(e => res.render('error', {error: e}))
+});
+
+router.get('/logout', verificaAcesso, function(req, res, next) {
+    res.clearCookie('token')
+    res.redirect('/')
+});
+
+router.get('/register', function(req, res, next) {
+    res.render('register');
+});
+
+router.post('/register', function(req, res, next) {
+    req.body.nivel = "user"
+    axios.post('http://localhost:7013/users/register', req.body)
+    .then(dados => {
+        res.redirect('/')
+    })
+    .catch(e => res.render('error', {error: e}))
+});
 
 router.post('/acordaos/favorito', verificaAcesso, function(req, res, next) {
     axios.post('http://localhost:7013/users/'+req.user+'/favoritos', {params: {token: req.token}, data: req.body})
