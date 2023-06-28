@@ -97,6 +97,7 @@ router.delete('/:user', verificaAcesso, function(req, res){
 })
 
 router.get('/:user/favoritos', verificaAcesso, function(req, res){
+  console.log(req.params.user)
   User.getFavoritos(req.params.user)
   .then(u => {
     res.jsonp(u.favoritos)
@@ -107,6 +108,7 @@ router.get('/:user/favoritos', verificaAcesso, function(req, res){
 })
 
 router.post('/:user/favoritos', verificaAcesso, function(req, res){
+  console.log(req.body)
   User.addFavorito(req.params.user, {idRegisto: req.body.id, descricao: req.body.descricao})
   .then(u => {
     res.jsonp(u)
@@ -117,6 +119,7 @@ router.post('/:user/favoritos', verificaAcesso, function(req, res){
 })
 
 router.delete('/:user/favoritos/:id', verificaAcesso, function(req, res){
+  console.log(req.body)
   User.removeFavorito(req.params.user, req.params.id)
   .then(u => {
     res.jsonp(u)

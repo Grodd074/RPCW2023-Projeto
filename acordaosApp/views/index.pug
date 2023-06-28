@@ -79,17 +79,17 @@ block content
                                     form
                                         input(type="textarea" name="descricao" value=favoritos[a.Id])
                                         input(type="hidden" name="id" value=a.Id)
-                                    .w3-container
-                                        button.w3-button.w3-green(name="edit") Edit
-                                        button.w3-button.w3-red(name="remove") Remover
-                                        button.w3-button.w3-grey(name="hide") Cancelar
+                                    .w3-container.botoes
+                                        button.w3-button.w3-green.botao-modal(name="edit") Edit
+                                        button.w3-button.w3-red.botao-modal(name="remove") Del
+                                        button.w3-button.w3-grey.botao-modal(name="hide") Back
                                 else
                                     form
                                         input(type="textarea" name="descricao" placeholder="Insira uma descrição(opcional)")
                                         input(type="hidden" name="id" value=a.Id)
-                                    .w3-container
-                                        button.w3-button.w3-green(name="add") Adicionar
-                                        button.w3-button.w3-grey(name="hide") Cancelar
+                                    .w3-container.botoes
+                                        button.w3-button.w3-green.botao-modal(name="add") Add
+                                        button.w3-button.w3-grey.botao-modal(name="hide") Back
 
         // Paginação
         .w3-container.paginacao.w3-brown
@@ -179,4 +179,3 @@ block content
                 });
 
             });
-

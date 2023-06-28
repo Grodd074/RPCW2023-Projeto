@@ -103,6 +103,8 @@ router.get('/', verificaLoggedIn, function(req, res, next) {
                             for (i=0; i<favoritos.data.length; i++){
                                 mapping[favoritos.data[i].idRegisto] = favoritos.data[i].descricao
                             }
+                            console.log(favoritos.data)
+                            console.log(mapping)
                             res.render('index', { alista: dados, page: page, maxPage:maxPage, descritores: descritores, taxonomia: taxonomia, tribunais: tribunais, tribunaisList: tribunaisList, user: req.user, nivel: req.nivel, favoritos:mapping});
                         })
                         .catch(e => res.render('error', {error: e}))
@@ -156,7 +158,7 @@ router.post('/register', function(req, res, next) {
 });
 
 router.post('/acordaos/favorito', verificaAcesso, function(req, res, next) {
-    axios.post('http://localhost:7013/users/'+req.user+'/favoritos', {params: {token: req.token}, data: req.body})
+    axios.post('http://localhost:7013/users/'+req.user+'/favoritos', req.body, {params: {token: req.token}})
     .then(dados => {
         res.status(200).jsonp(dados.data)
     })
@@ -164,29 +166,12 @@ router.post('/acordaos/favorito', verificaAcesso, function(req, res, next) {
 });
 
 router.delete('/acordaos/favorito', verificaAcesso, function(req, res, next) {
-    axios.delete('http://localhost:7013/users/'+req.user+'/favoritos/'+req.body.id, {params: {token: req.token}, data: req.body})
+    axios.delete('http://localhost:7013/users/'+req.user+'/favoritos/'+req.body.id, req.body, {params: {token: req.token}})
     .then(dados => {
         res.status(200).jsonp(dados.data)
     })
     .catch(e => res.render('error', {error: e}))
 });
-
-router.post('/acordaos/favorito', verificaAcesso, function(req, res, next) {
-    axios.post('http://localhost:7013/users/'+req.user+'/favoritos', {params: {token: req.token}, data: req.body})
-    .then(dados => {
-        res.status(200).jsonp(dados.data)
-    })
-    .catch(e => res.render('error', {error: e}))
-});
-
-router.delete('/acordaos/favorito', verificaAcesso, function(req, res, next) {
-    axios.delete('http://localhost:7013/users/'+req.user+'/favoritos/'+req.body.id, {params: {token: req.token}, data: req.body})
-    .then(dados => {
-        res.status(200).jsonp(dados.data)
-    })
-    .catch(e => res.render('error', {error: e}))
-});
-
 
 router.get('/acordaos/registo', verificaAcesso, function(req, res, next) {
     res.render('geralForm');

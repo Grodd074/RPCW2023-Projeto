@@ -123,11 +123,20 @@
   justify-content: space-between;
 }
 
-.botao {
+.botao-tribunal {
   border-radius: 5px;
   border-style: solid;
   border-width: thin;
   width: 6%;
+  text-justify: center;
+  margin: 0.1%;
+}
+
+.botao-modal {
+  border-radius: 5px;
+  border-style: solid;
+  border-width: thin;
+  width: 10%;
   text-justify: center;
   margin: 0.1%;
 }
