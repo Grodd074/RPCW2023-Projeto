@@ -158,6 +158,29 @@ module.exports.eliminar = proc => {
 }
 */
 
+
+module.exports.editarEntrada = (acordao, idAcordao) => {
+    
+    // Dados para a "gerals"
+    var subsetAcordao = {Id : idAcordao, 
+        Processo : acordao.Processo, 
+        Data : acordao["Data do Acordão"], 
+        Tribunal : acordao.tribunal,
+        Descritores : acordao.Descritores.split(', ')
+    }
+
+
+    return Acordaos.updateOne({Id:idAcordao}, subsetAcordao)
+    .then(dados => {
+        console.log(dados)
+        return dados
+    })
+    .catch(erro => {
+        return erro
+    })
+
+}
+
 module.exports.editar = (id, acordao) => {
     return Acordaos.updateOne({_id:id}, acordao)
     .then(dados => {
