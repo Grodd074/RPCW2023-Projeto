@@ -75,8 +75,8 @@ module.exports.addFavorito = (username, favorito) => {
             })
 }
 
-module.exports.removeFavorito = (username, favorito) => {
-    return User.updateOne({username:username}, {$pull: {favoritos: favorito}})
+module.exports.removeFavorito = (username, id) => {
+    return User.updateOne({username:username}, {$pull: {favoritos: {idRegisto: id}}})
             .then(resposta => {
                 return resposta
             })

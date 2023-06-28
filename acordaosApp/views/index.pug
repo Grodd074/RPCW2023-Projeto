@@ -41,8 +41,8 @@ block content
 
                     //Apply button sets query descritores to selected values separated by comma and reloads page
                     .w3-container.botoes
-                        button(type="button" onclick="applyFilters()") Apply
-                        button(type="button" onclick="window.location.href='/'") Clear
+                        button.w3-button.w3-green(type="button" onclick="applyFilters()") Apply
+                        button.w3-button.w3-grey(type="button" onclick="window.location.href='/'") Clear
 
             //Lista de acordãos
 
@@ -64,6 +64,32 @@ block content
                                             b &#x2022; 
                                             span #{d}
                                             br
+                                .favorito
+                                    if user
+                                        if a.Id in favoritos
+                                            button(type="button" data=a.Id id="btn-"+a.Id).star.star-checked &#9733;
+                                        else
+                                            button(type="button" data=a.Id id="btn-"+a.Id).star &#9734;
+                    
+                    .w3-modal(id='fav-'+a.Id)
+                        .w3-modal-content
+                            .modal
+                                h2 Adicionar aos favoritos?
+                                if a.Id in favoritos
+                                    form
+                                        input(type="textarea" name="descricao" value=favoritos[a.Id])
+                                        input(type="hidden" name="id" value=a.Id)
+                                    .w3-container
+                                        button.w3-button.w3-green(name="edit") Edit
+                                        button.w3-button.w3-red(name="remove") Remover
+                                        button.w3-button.w3-grey(name="hide") Cancelar
+                                else
+                                    form
+                                        input(type="textarea" name="descricao" placeholder="Insira uma descrição(opcional)")
+                                        input(type="hidden" name="id" value=a.Id)
+                                    .w3-container
+                                        button.w3-button.w3-green(name="add") Adicionar
+                                        button.w3-button.w3-grey(name="hide") Cancelar
 
         // Paginação
         .w3-container.paginacao.w3-brown
@@ -112,3 +138,45 @@ block content
                     query += "&tribunais=" + queryTribunais.slice(0, -1);
                 window.location.href = query;
             }
+
+        script.
+            $(document).ready(function(){
+                $(".star").click(function(){
+                    var id = $(this).attr("data");
+                    $("#fav-"+id).css("display", "block");
+                });
+                $("button[name='hide']").click(function(){
+                    $(this).parent().parent().parent().parent().css("display", "none");
+
+                });
+                $("button[name='add']").click(function(){
+                    var id = $(this).parent().parent().find("input[name='id']").val();
+                    var descricao = $(this).parent().parent().find("input[name='descricao']").val();
+                    console.log(id);
+                    console.log(descricao);
+                    $.ajax({
+                        url: "/acordaos/favorito",
+                        type: "POST",
+                        data: {id: id, descricao: descricao},
+                        success: function(result){
+                            //Reload page
+                            location.reload();
+                        }
+                    });
+                });
+                $("button[name='remove']").click(function(){
+                    var id = $(this).parent().parent().find("input[name='id']").val();
+                    console.log(id);
+                    $.ajax({
+                        url: "/acordaos/favorito",
+                        type: "DELETE",
+                        data: {id: id},
+                        success: function(result){
+                            //Reload page
+                            location.reload();
+                        }
+                    });
+                });
+
+            });
+

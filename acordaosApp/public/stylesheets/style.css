@@ -122,3 +122,40 @@
   display: flex;
   justify-content: space-between;
 }
+
+.botao {
+  border-radius: 5px;
+  border-style: solid;
+  border-width: thin;
+  width: 6%;
+  text-justify: center;
+  margin: 0.1%;
+}
+
+.favorito {
+  display: flex;
+  justify-content: right;
+}
+
+.star {
+  border: 0;
+  color: #000000;
+  background: none;
+  cursor: pointer;
+  font-size: 1.5em;
+}
+
+.star:hover {
+  color: #FFDF00;
+}
+
+.star-checked {
+  color: #FFDF00;
+}
+
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}

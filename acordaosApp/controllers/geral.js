@@ -29,7 +29,6 @@ module.exports.getTribunais = () => {
         {$sort: {count: -1}},
         {$project: {_id: 0, Tribunal: "$_id"}}
     ]).then(dados => {
-        console.log(dados)
         return dados
     })
     .catch(erro => {

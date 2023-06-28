@@ -27,6 +27,9 @@ function verificaAcesso(req, res, next){
                 res.status(401).jsonp({error: e})
             }
             else{
+                req.user = payload.username
+                req.nivel = payload.level
+                req.token = myToken
                 next()
             }
         })
@@ -44,6 +47,7 @@ function verificaLoggedIn(req, res, next){
                 next()
             }
             else{
+                req.token = myToken
                 req.user = payload.username
                 req.nivel = payload.level
                 next()
@@ -92,7 +96,15 @@ router.get('/', verificaLoggedIn, function(req, res, next) {
                 Acordaos.getTribunais()
                 .then(tribunaisList => {
                     tribunaisList = tribunaisList.map(t => t.Tribunal)
-                    res.render('index', { alista: dados, page: page, maxPage:maxPage, descritores: descritores, taxonomia: taxonomia, tribunais: tribunais, tribunaisList: tribunaisList, user: req.user, nivel: req.nivel});
+                    axios.get('http://localhost:7013/users/'+req.user+'/favoritos', {params: {token: req.token}})
+                    .then(favoritos => {
+                        var mapping={}
+                        for (i=0; i<favoritos.data.length; i++){
+                            mapping[favoritos.data[i].idRegisto] = favoritos.data[i].descricao
+                        }
+                        res.render('index', { alista: dados, page: page, maxPage:maxPage, descritores: descritores, taxonomia: taxonomia, tribunais: tribunais, tribunaisList: tribunaisList, user: req.user, nivel: req.nivel, favoritos:mapping});
+                    })
+                    .catch(e => res.render('error', {error: e}))
                 })
                 .catch(e => res.render('error', {error: e}))
             })
@@ -138,69 +150,85 @@ router.post('/register', function(req, res, next) {
     .catch(e => res.render('error', {error: e}))
 });
 
+router.post('/acordaos/favorito', verificaAcesso, function(req, res, next) {
+    axios.post('http://localhost:7013/users/'+req.user+'/favoritos', {params: {token: req.token}, data: req.body})
+    .then(dados => {
+        res.status(200).jsonp(dados.data)
+    })
+    .catch(e => res.render('error', {error: e}))
+});
 
-router.get('/acordaos/registo', function(req, res, next) {
+router.delete('/acordaos/favorito', verificaAcesso, function(req, res, next) {
+    axios.delete('http://localhost:7013/users/'+req.user+'/favoritos/'+req.body.id, {params: {token: req.token}, data: req.body})
+    .then(dados => {
+        res.status(200).jsonp(dados.data)
+    })
+    .catch(e => res.render('error', {error: e}))
+});
+
+
+router.get('/acordaos/registo', verificaAcesso, function(req, res, next) {
     res.render('geralForm');
 });
 
-router.get('/acordaos/registo/atco1', function(req, res, next) {
+router.get('/acordaos/registo/atco1', verificaAcesso, function(req, res, next) {
     res.render('atco1Form');
 });
 
-router.get('/acordaos/registo/jcons', function(req, res, next) {
+router.get('/acordaos/registo/jcons', verificaAcesso, function(req, res, next) {
     res.render('jconsForm');
 });
 
-router.get('/acordaos/registo/jdgpj', function(req, res, next) {
+router.get('/acordaos/registo/jdgpj', verificaAcesso, function(req, res, next) {
     res.render('jdgpjForm');
 });
 
-router.get('/acordaos/registo/jsta', function(req, res, next) {
+router.get('/acordaos/registo/jsta', verificaAcesso, function(req, res, next) {
     res.render('jstaForm');
 });
 
-router.get('/acordaos/registo/jstj', function(req, res, next) {
+router.get('/acordaos/registo/jstj', verificaAcesso, function(req, res, next) {
     res.render('jstjForm');
 });
 
-router.get('/acordaos/registo/jtca', function(req, res, next) {
+router.get('/acordaos/registo/jtca', verificaAcesso, function(req, res, next) {
     res.render('jtcaForm');
 });
 
-router.get('/acordaos/registo/jtcampca', function(req, res, next) {
+router.get('/acordaos/registo/jtcampca', verificaAcesso, function(req, res, next) {
     res.render('jtcampcaForm');
 });
 
-router.get('/acordaos/registo/jtcampct', function(req, res, next) {
+router.get('/acordaos/registo/jtcampct', verificaAcesso, function(req, res, next) {
     res.render('jtcampctForm');
 });
 
-router.get('/acordaos/registo/jtcn', function(req, res, next) {
+router.get('/acordaos/registo/jtcn', verificaAcesso, function(req, res, next) {
     res.render('jtcnForm');
 });
 
-router.get('/acordaos/registo/jtrc', function(req, res, next) {
+router.get('/acordaos/registo/jtrc', verificaAcesso, function(req, res, next) {
     res.render('jtrcForm');
 });
 
-router.get('/acordaos/registo/jtre', function(req, res, next) {
+router.get('/acordaos/registo/jtre', verificaAcesso, function(req, res, next) {
     res.render('jtreForm');
 });
 
-router.get('/acordaos/registo/jtrg', function(req, res, next) {
+router.get('/acordaos/registo/jtrg', verificaAcesso, function(req, res, next) {
     res.render('jtrgForm');
 });
 
-router.get('/acordaos/registo/jtrl', function(req, res, next) {
+router.get('/acordaos/registo/jtrl', verificaAcesso, function(req, res, next) {
     res.render('jtrlForm');
 });
 
-router.get('/acordaos/registo/jtrp', function(req, res, next) {
+router.get('/acordaos/registo/jtrp', verificaAcesso, function(req, res, next) {
     res.render('jtrpForm');
 });
 
 
-router.post('/acordaos/registo/atco1', function(req, res, next) {
+router.post('/acordaos/registo/atco1', verificaAcesso, function(req, res, next) {
     
     Atco.inserir(req.body)
     .then(dados1 => {
@@ -217,7 +245,7 @@ router.post('/acordaos/registo/atco1', function(req, res, next) {
     .catch(e => res.render('error', {error: e}))
 });
 
-router.post('/acordaos/registo/jcons', function(req, res, next) {
+router.post('/acordaos/registo/jcons', verificaAcesso, function(req, res, next) {
     Jcons.inserir(req.body)
     .then(dados1 => {
 
@@ -233,7 +261,7 @@ router.post('/acordaos/registo/jcons', function(req, res, next) {
     .catch(e => res.render('error', {error: e}))
 });
 
-router.post('/acordaos/registo/jdgpj', function(req, res, next) {
+router.post('/acordaos/registo/jdgpj', verificaAcesso, function(req, res, next) {
     Jdgpj.inserir(req.body)
     .then(dados1 => {
 
@@ -249,7 +277,7 @@ router.post('/acordaos/registo/jdgpj', function(req, res, next) {
     .catch(e => res.render('error', {error: e}))
 });
 
-router.post('/acordaos/registo/jsta', function(req, res, next) {
+router.post('/acordaos/registo/jsta', verificaAcesso, function(req, res, next) {
     Jsta.inserir(req.body)
     .then(dados1 => {
 
@@ -265,7 +293,7 @@ router.post('/acordaos/registo/jsta', function(req, res, next) {
     .catch(e => res.render('error', {error: e}))
 });
 
-router.post('/acordaos/registo/jstj', function(req, res, next) {
+router.post('/acordaos/registo/jstj', verificaAcesso, function(req, res, next) {
     Jstj.inserir(req.body)
     .then(dados1 => {
 
@@ -281,7 +309,7 @@ router.post('/acordaos/registo/jstj', function(req, res, next) {
     .catch(e => res.render('error', {error: e}))
 });
 
-router.post('/acordaos/registo/jtca', function(req, res, next) {
+router.post('/acordaos/registo/jtca', verificaAcesso, function(req, res, next) {
     Jtca.inserir(req.body)
     .then(dados1 => {
 
@@ -297,7 +325,7 @@ router.post('/acordaos/registo/jtca', function(req, res, next) {
     .catch(e => res.render('error', {error: e}))
 });
 
-router.post('/acordaos/registo/jtcampca', function(req, res, next) {
+router.post('/acordaos/registo/jtcampca', verificaAcesso, function(req, res, next) {
     Jtcampca.inserir(req.body)
     .then(dados1 => {
 
@@ -313,7 +341,7 @@ router.post('/acordaos/registo/jtcampca', function(req, res, next) {
     .catch(e => res.render('error', {error: e}))
 });
 
-router.post('/acordaos/registo/jtcampct', function(req, res, next) {
+router.post('/acordaos/registo/jtcampct', verificaAcesso, function(req, res, next) {
     Jtcampct.inserir(req.body)
     .then(dados1 => {
 
@@ -328,7 +356,7 @@ router.post('/acordaos/registo/jtcampct', function(req, res, next) {
     })
     .catch(e => res.render('error', {error: e}))
 });
-router.post('/acordaos/registo/jtcn', function(req, res, next) {
+router.post('/acordaos/registo/jtcn', verificaAcesso, function(req, res, next) {
     Jtcn.inserir(req.body)
     .then(dados1 => {
 
@@ -344,7 +372,7 @@ router.post('/acordaos/registo/jtcn', function(req, res, next) {
     .catch(e => res.render('error', {error: e}))
 });
 
-router.post('/acordaos/registo/jtrc', function(req, res, next) {
+router.post('/acordaos/registo/jtrc', verificaAcesso, function(req, res, next) {
     Jtrc.inserir(req.body)
     .then(dados1 => {
 
@@ -360,7 +388,7 @@ router.post('/acordaos/registo/jtrc', function(req, res, next) {
     .catch(e => res.render('error', {error: e}))
 });
 
-router.post('/acordaos/registo/jtre', function(req, res, next) {
+router.post('/acordaos/registo/jtre', verificaAcesso, function(req, res, next) {
     Jtre.inserir(req.body)
     .then(dados1 => {
 
@@ -376,7 +404,7 @@ router.post('/acordaos/registo/jtre', function(req, res, next) {
     .catch(e => res.render('error', {error: e}))
 });
 
-router.post('/acordaos/registo/jtrg', function(req, res, next) {
+router.post('/acordaos/registo/jtrg', verificaAcesso, function(req, res, next) {
     Jtrg.inserir(req.body)
     .then(dados1 => {
 
@@ -391,7 +419,7 @@ router.post('/acordaos/registo/jtrg', function(req, res, next) {
     })
     .catch(e => res.render('error', {error: e}))
 });
-router.post('/acordaos/registo/jtrl', function(req, res, next) {
+router.post('/acordaos/registo/jtrl', verificaAcesso, function(req, res, next) {
     Jtrl.inserir(req.body)
     .then(dados1 => {
 
@@ -407,7 +435,7 @@ router.post('/acordaos/registo/jtrl', function(req, res, next) {
     .catch(e => res.render('error', {error: e}))
 });
 
-router.post('/acordaos/registo/jtrp', function(req, res, next) {
+router.post('/acordaos/registo/jtrp', verificaAcesso, function(req, res, next) {
     Jtrp.inserir(req.body)
     .then(dados1 => {
 
@@ -423,7 +451,7 @@ router.post('/acordaos/registo/jtrp', function(req, res, next) {
     .catch(e => res.render('error', {error: e}))
 });
 
-router.get('/acordaos/editar/:IdAcordao', function(req, res) {
+router.get('/acordaos/editar/:IdAcordao', verificaAcesso, function(req, res) {
     const acordaoId = new mongoose.Types.ObjectId(req.params.IdAcordao)
     Acordaos.consultarId(acordaoId)
     .then(acordao => {
@@ -438,7 +466,7 @@ router.get('/acordaos/editar/:IdAcordao', function(req, res) {
     .catch(e => res.render('error', {error: e}))
 });
 
-router.post('/acordaos/editar/:IdAcordao', function(req, res, next) {
+router.post('/acordaos/editar/:IdAcordao', verificaAcesso, function(req, res, next) {
     Acordaos.getTribunal(req.params.IdAcordao)
     .then(tribunal => {
         controller = getTribunal(tribunal)
