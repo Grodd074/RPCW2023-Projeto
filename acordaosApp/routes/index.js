@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var Acordaos = require('../controllers/geral');
+var Geral = require('../controllers/geral');
 var Atco = require('../controllers/atco1');
 var Jcons = require('../controllers/jcons');
 var Jdgpj = require('../controllers/jdgpj');
@@ -15,8 +15,6 @@ var Jtre = require('../controllers/jtre');
 var Jtrg = require('../controllers/jtrg');
 var Jtrl = require('../controllers/jtrl');
 var Jtrp = require('../controllers/jtrp');
-var axios = require('axios');
-var jwt = require('jsonwebtoken');
 const { mongo, default: mongoose } = require('mongoose');
 
 function verificaAcesso(req, res, next){
@@ -60,9 +58,9 @@ function verificaLoggedIn(req, res, next){
 }
 
 /* GET home page. */
-router.get('/', verificaLoggedIn, function(req, res, next) {
+router.get('/', function(req, res, next) {
     //Check if page value was passed
-    Acordaos.taxonomiaDescritores()
+    Geral.taxonomiaDescritores()
     .then(taxonomia => {
         taxonomia = taxonomia.map(d => d.Descritor)
         page = req.query.page
@@ -89,11 +87,11 @@ router.get('/', verificaLoggedIn, function(req, res, next) {
         else{
             tribunais = []
         }
-        Acordaos.pageFilters(page, filtros)
+        Geral.pageFilters(page, filtros)
         .then(dados => {
-            Acordaos.MaxPage(filtros)
+            Geral.MaxPage(filtros)
             .then(maxPage => {
-                Acordaos.getTribunais()
+                Geral.getTribunais()
                 .then(tribunaisList => {
                     tribunaisList = tribunaisList.map(t => t.Tribunal)
                     axios.get('http://localhost:7013/users/'+req.user+'/favoritos', {params: {token: req.token}})
@@ -115,37 +113,19 @@ router.get('/', verificaLoggedIn, function(req, res, next) {
     .catch(e => res.render('error', {error: e}))
 });
 
-router.get('/login', function(req, res, next) {
-    res.render('login');
-});
 
-router.post('/login', function(req, res, next) {
-    axios.post('http://localhost:7013/users/login', req.body)
+router.post('/acordaos/favorito', verificaAcesso, function(req, res, next) {
+    axios.post('http://localhost:7013/users/'+req.user+'/favoritos', {params: {token: req.token}, data: req.body})
     .then(dados => {
-        res.cookie('token', dados.data.token, {
-            expires: new Date(Date.now() + '1d'),
-            secure: false, // set to true if your using https
-            httpOnly: true,
-        });
-        res.status(200).redirect('/')
+        res.status(200).jsonp(dados.data)
     })
     .catch(e => res.render('error', {error: e}))
 });
 
-router.get('/logout', verificaAcesso, function(req, res, next) {
-    res.clearCookie('token')
-    res.redirect('/')
-});
-
-router.get('/register', function(req, res, next) {
-    res.render('register');
-});
-
-router.post('/register', function(req, res, next) {
-    req.body.nivel = "user"
-    axios.post('http://localhost:7013/users/register', req.body)
+router.delete('/acordaos/favorito', verificaAcesso, function(req, res, next) {
+    axios.delete('http://localhost:7013/users/'+req.user+'/favoritos/'+req.body.id, {params: {token: req.token}, data: req.body})
     .then(dados => {
-        res.redirect('/')
+        res.status(200).jsonp(dados.data)
     })
     .catch(e => res.render('error', {error: e}))
 });
@@ -234,7 +214,7 @@ router.post('/acordaos/registo/atco1', verificaAcesso, function(req, res, next) 
     .then(dados1 => {
 
         // Inserir na "gerals"
-        Acordaos.inserirEntrada(req.body, dados1._id)
+        Geral.inserirEntrada(req.body, dados1._id)
         .then(dados2 => {
             console.log(dados2)
             res.redirect('/acordaos/' + dados2.Id)
@@ -250,7 +230,7 @@ router.post('/acordaos/registo/jcons', verificaAcesso, function(req, res, next) 
     .then(dados1 => {
 
         // Inserir na "gerals"
-        Acordaos.inserirEntrada(req.body, dados1._id)
+        Geral.inserirEntrada(req.body, dados1._id)
         .then(dados2 => {
             console.log(dados2)
             res.redirect('/acordaos/' + dados2.Id)
@@ -266,7 +246,7 @@ router.post('/acordaos/registo/jdgpj', verificaAcesso, function(req, res, next) 
     .then(dados1 => {
 
         // Inserir na "gerals"
-        Acordaos.inserirEntrada(req.body, dados1._id)
+        Geral.inserirEntrada(req.body, dados1._id)
         .then(dados2 => {
             console.log(dados2)
             res.redirect('/acordaos/' + dados2.Id)
@@ -282,7 +262,7 @@ router.post('/acordaos/registo/jsta', verificaAcesso, function(req, res, next) {
     .then(dados1 => {
 
         // Inserir na "gerals"
-        Acordaos.inserirEntrada(req.body, dados1._id)
+        Geral.inserirEntrada(req.body, dados1._id)
         .then(dados2 => {
             console.log(dados2)
             res.redirect('/acordaos/' + dados2.Id)
@@ -298,7 +278,7 @@ router.post('/acordaos/registo/jstj', verificaAcesso, function(req, res, next) {
     .then(dados1 => {
 
         // Inserir na "gerals"
-        Acordaos.inserirEntrada(req.body, dados1._id)
+        Geral.inserirEntrada(req.body, dados1._id)
         .then(dados2 => {
             console.log(dados2)
             res.redirect('/acordaos/' + dados2.Id)
@@ -314,7 +294,7 @@ router.post('/acordaos/registo/jtca', verificaAcesso, function(req, res, next) {
     .then(dados1 => {
 
         // Inserir na "gerals"
-        Acordaos.inserirEntrada(req.body, dados1._id)
+        Geral.inserirEntrada(req.body, dados1._id)
         .then(dados2 => {
             console.log(dados2)
             res.redirect('/acordaos/' + dados2.Id)
@@ -330,7 +310,7 @@ router.post('/acordaos/registo/jtcampca', verificaAcesso, function(req, res, nex
     .then(dados1 => {
 
         // Inserir na "gerals"
-        Acordaos.inserirEntrada(req.body, dados1._id)
+        Geral.inserirEntrada(req.body, dados1._id)
         .then(dados2 => {
             console.log(dados2)
             res.redirect('/acordaos/' + dados2.Id)
@@ -346,7 +326,7 @@ router.post('/acordaos/registo/jtcampct', verificaAcesso, function(req, res, nex
     .then(dados1 => {
 
         // Inserir na "gerals"
-        Acordaos.inserirEntrada(req.body, dados1._id)
+        Geral.inserirEntrada(req.body, dados1._id)
         .then(dados2 => {
             console.log(dados2)
             res.redirect('/acordaos/' + dados2.Id)
@@ -361,7 +341,7 @@ router.post('/acordaos/registo/jtcn', verificaAcesso, function(req, res, next) {
     .then(dados1 => {
 
         // Inserir na "gerals"
-        Acordaos.inserirEntrada(req.body, dados1._id)
+        Geral.inserirEntrada(req.body, dados1._id)
         .then(dados2 => {
             console.log(dados2)
             res.redirect('/acordaos/' + dados2.Id)
@@ -377,7 +357,7 @@ router.post('/acordaos/registo/jtrc', verificaAcesso, function(req, res, next) {
     .then(dados1 => {
 
         // Inserir na "gerals"
-        Acordaos.inserirEntrada(req.body, dados1._id)
+        Geral.inserirEntrada(req.body, dados1._id)
         .then(dados2 => {
             console.log(dados2)
             res.redirect('/acordaos/' + dados2.Id)
@@ -393,7 +373,7 @@ router.post('/acordaos/registo/jtre', verificaAcesso, function(req, res, next) {
     .then(dados1 => {
 
         // Inserir na "gerals"
-        Acordaos.inserirEntrada(req.body, dados1._id)
+        Geral.inserirEntrada(req.body, dados1._id)
         .then(dados2 => {
             console.log(dados2)
             res.redirect('/acordaos/' + dados2.Id)
@@ -409,7 +389,7 @@ router.post('/acordaos/registo/jtrg', verificaAcesso, function(req, res, next) {
     .then(dados1 => {
 
         // Inserir na "gerals"
-        Acordaos.inserirEntrada(req.body, dados1._id)
+        Geral.inserirEntrada(req.body, dados1._id)
         .then(dados2 => {
             console.log(dados2)
             res.redirect('/acordaos/' + dados2.Id)
@@ -424,7 +404,7 @@ router.post('/acordaos/registo/jtrl', verificaAcesso, function(req, res, next) {
     .then(dados1 => {
 
         // Inserir na "gerals"
-        Acordaos.inserirEntrada(req.body, dados1._id)
+        Geral.inserirEntrada(req.body, dados1._id)
         .then(dados2 => {
             console.log(dados2)
             res.redirect('/acordaos/' + dados2.Id)
@@ -440,7 +420,7 @@ router.post('/acordaos/registo/jtrp', verificaAcesso, function(req, res, next) {
     .then(dados1 => {
 
         // Inserir na "gerals"
-        Acordaos.inserirEntrada(req.body, dados1._id)
+        Geral.inserirEntrada(req.body, dados1._id)
         .then(dados2 => {
             console.log(dados2)
             res.redirect('/acordaos/' + dados2.Id)
@@ -453,7 +433,7 @@ router.post('/acordaos/registo/jtrp', verificaAcesso, function(req, res, next) {
 
 router.get('/acordaos/editar/:IdAcordao', verificaAcesso, function(req, res) {
     const acordaoId = new mongoose.Types.ObjectId(req.params.IdAcordao)
-    Acordaos.consultarId(acordaoId)
+    Geral.consultarId(acordaoId)
     .then(acordao => {
         controller = getTribunal(acordao.Tribunal)
         controller.findById(acordaoId)
@@ -466,13 +446,21 @@ router.get('/acordaos/editar/:IdAcordao', verificaAcesso, function(req, res) {
     .catch(e => res.render('error', {error: e}))
 });
 
-router.post('/acordaos/editar/:IdAcordao', verificaAcesso, function(req, res, next) {
-    Acordaos.getTribunal(req.params.IdAcordao)
-    .then(tribunal => {
-        controller = getTribunal(tribunal)
-        controller.editar(req.params.IdAcordao, req.body)
+router.post('/acordaos/editar/:IdAcordao', function(req, res) {
+    const acordaoId = new mongoose.Types.ObjectId(req.params.IdAcordao)
+    Geral.consultarId(acordaoId)
+    .then(acordao => {
+        controller = getTribunal(acordao.Tribunal)
+        controller.editar(acordaoId, req.body)
         .then(dados => {
-            res.redirect('/acordaos/' + req.params.IdAcordao)
+
+            // Inserir na "gerals"
+            Geral.editarEntrada(req.body, acordaoId)
+            .then(dados2 => {
+                res.redirect('/acordaos/' + acordaoId)
+            })
+            .catch(e => res.render('error', {error: e}))
+
         })
         .catch(e => res.render('error', {error: e}))
     })
@@ -481,7 +469,7 @@ router.post('/acordaos/editar/:IdAcordao', verificaAcesso, function(req, res, ne
 
 router.get('/acordaos/:IdAcordao', function(req, res, next) {
     const acordaoId = new mongoose.Types.ObjectId(req.params.IdAcordao)
-    Acordaos.consultarId(acordaoId)
+    Geral.consultarId(acordaoId)
     .then(acordao => {
         tribunal = acordao.Tribunal
         controller = getTribunal(tribunal)
