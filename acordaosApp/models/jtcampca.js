@@ -1,19 +1,18 @@
 var mongoose = require('mongoose')
 
 var acordaosSchema = new mongoose.Schema({
-    "Contencioso": String,
-    "Data": String,
+    Contencioso: String,
+    Data: String,
     "Data do Acordão": String,
-    "Descritores": [String],
+    Descritores: [String],
     "Disponível na JTCA": String,
-    "Magistrado": String,
+    Magistrado: String,
     "Nº Processo/TAF": String,
-    "Observações": String,
-    "Processo": String,
+    Observações: String,
+    Processo: String,
     "Sub-Secção": String,
-    "_id": String,
-    "tribunal": String,
-    "url": String
+    tribunal: String,
+    url: String
 }, { versionKey: false })
 
 module.exports = mongoose.model('jtcampca', acordaosSchema)

@@ -2,9 +2,9 @@ var mongoose = require('mongoose')
 
 var acordaosSchema = new mongoose.Schema({
     "Data do Acordão": String,
-    "Decisão": String,
+    Decisão: String,
     "Decisão Texto Integral": String,
-    "Descritores": [String],
+    Descritores: [String],
     "Indicações Eventuais": String,
     "Jurisprudência Internacional": String,
     "Jurisprudência Nacional": String,
@@ -13,18 +13,17 @@ var acordaosSchema = new mongoose.Schema({
     "Legislação Nacional": String,
     "Meio Processual": String,
     "Nº do Documento": String,
-    "Processo": String,
+    Processo: String,
     "Processo no Tribunal Recorrido": String,
     "Referência Processo": String,
     "Referências Internacionais": String,
-    "Relator": String,
-    "Sumário": String,
+    Relator: String,
+    Sumário: String,
     "Texto Integral": String,
     "Tribunal Recorrido": String,
-    "Votação": String,
-    "_id": String,
-    "tribunal": String,
-    "url": String,
+    Votação: String,
+    tribunal: String,
+    url: String,
     "Área Temática": String
 }, { versionKey: false })
 
