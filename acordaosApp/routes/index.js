@@ -24,7 +24,7 @@ function verificaAcesso(req, res, next){
     if(myToken){
         jwt.verify(myToken, "rpcw2023", function(e, payload){
             if(e){
-                res.status(401).jsonp({error: e})
+                res.status(401).render('error', {error: "Acesso negado!"})
             }
             else{
                 req.user = payload.username
@@ -35,7 +35,30 @@ function verificaAcesso(req, res, next){
         })
     }
     else{
-        res.status(401).jsonp({error: "Token inexistente!"})
+        res.status(401).render('error', {error: "Token inexistente!"})
+    }
+}
+
+function verificaAdmin(req, res, next){
+    var myToken = req.query.token || req.body.token || req.cookies.token
+    if(myToken){
+        jwt.verify(myToken, "rpcw2023", function(e, payload){
+            if(e){
+                res.status(401).render('error', {error: "Acesso negado!"})
+            }
+            else if(payload.level == "admin"){
+                req.user = payload.username
+                req.nivel = payload.level
+                req.token = myToken
+                next()
+            }
+            else{
+                res.status(401).render('error', {error: "Acesso negado!"})
+            }
+        })
+    }
+    else{
+        res.status(401).render('error', {error: "Token Inexistente!"})
     }
 }
 
@@ -131,7 +154,7 @@ router.post('/login', function(req, res, next) {
     .then(dados => {
         res.cookie('token', dados.data.token, {
             expires: new Date(Date.now() + '1d'),
-            secure: false, // set to true if your using https
+            secure: false,
             httpOnly: true,
         });
         res.status(200).redirect('/')
@@ -206,69 +229,18 @@ router.put("/password", verificaAcesso, function(req, res, next) {
     .catch(e => res.render('error', {error: e}))
 });
 
-router.get('/acordaos/registo', verificaAcesso, function(req, res, next) {
-    res.render('geralForm');
+router.get('/acordaos/registo', verificaAdmin, function(req, res, next) {
+    res.render('geralForm')
 });
 
-router.get('/acordaos/registo/atco1', verificaAcesso, function(req, res, next) {
-    res.render('atco1Form');
+router.get('/acordaos/registo/:tribunal', function(req, res, next) {
+    res.render(tribunal+'Form')
 });
 
-router.get('/acordaos/registo/jcons', verificaAcesso, function(req, res, next) {
-    res.render('jconsForm');
-});
-
-router.get('/acordaos/registo/jdgpj', verificaAcesso, function(req, res, next) {
-    res.render('jdgpjForm');
-});
-
-router.get('/acordaos/registo/jsta', verificaAcesso, function(req, res, next) {
-    res.render('jstaForm');
-});
-
-router.get('/acordaos/registo/jstj', verificaAcesso, function(req, res, next) {
-    res.render('jstjForm');
-});
-
-router.get('/acordaos/registo/jtca', verificaAcesso, function(req, res, next) {
-    res.render('jtcaForm');
-});
-
-router.get('/acordaos/registo/jtcampca', verificaAcesso, function(req, res, next) {
-    res.render('jtcampcaForm');
-});
-
-router.get('/acordaos/registo/jtcampct', verificaAcesso, function(req, res, next) {
-    res.render('jtcampctForm');
-});
-
-router.get('/acordaos/registo/jtcn', verificaAcesso, function(req, res, next) {
-    res.render('jtcnForm');
-});
-
-router.get('/acordaos/registo/jtrc', verificaAcesso, function(req, res, next) {
-    res.render('jtrcForm');
-});
-
-router.get('/acordaos/registo/jtre', verificaAcesso, function(req, res, next) {
-    res.render('jtreForm');
-});
-
-router.get('/acordaos/registo/jtrg', verificaAcesso, function(req, res, next) {
-    res.render('jtrgForm');
-});
-
-router.get('/acordaos/registo/jtrl', verificaAcesso, function(req, res, next) {
-    res.render('jtrlForm');
-});
-
-router.get('/acordaos/registo/jtrp', verificaAcesso, function(req, res, next) {
-    res.render('jtrpForm');
-});
-
-
-router.post('/acordaos/registo/atco1', verificaAcesso, function(req, res, next) {
-    Atco.inserir(req.body)
+router.post('/acordaos/registo/:tribunal', verificaAdmin, function(req, res, next) {
+    var tribunal = req.params.tribunal
+    var controller = getTribunal(tribunal)
+    controller.inserir(req.body)
     .then(dados1 => {
         // Inserir na "gerals"
         Geral.inserirEntrada(req.body, dados1._id)
@@ -282,213 +254,7 @@ router.post('/acordaos/registo/atco1', verificaAcesso, function(req, res, next) 
     .catch(e => res.render('error', {error: e}))
 });
 
-router.post('/acordaos/registo/jcons', verificaAcesso, function(req, res, next) {
-    Jcons.inserir(req.body)
-    .then(dados1 => {
-
-        // Inserir na "gerals"
-        Geral.inserirEntrada(req.body, dados1._id)
-        .then(dados2 => {
-            console.log(dados2)
-            res.redirect('/acordaos/' + dados2.Id)
-        })
-        .catch(e => res.render('error', {error: e}))
-    
-    })
-    .catch(e => res.render('error', {error: e}))
-});
-
-router.post('/acordaos/registo/jdgpj', verificaAcesso, function(req, res, next) {
-    Jdgpj.inserir(req.body)
-    .then(dados1 => {
-
-        // Inserir na "gerals"
-        Geral.inserirEntrada(req.body, dados1._id)
-        .then(dados2 => {
-            console.log(dados2)
-            res.redirect('/acordaos/' + dados2.Id)
-        })
-        .catch(e => res.render('error', {error: e}))
-    
-    })
-    .catch(e => res.render('error', {error: e}))
-});
-
-router.post('/acordaos/registo/jsta', verificaAcesso, function(req, res, next) {
-    Jsta.inserir(req.body)
-    .then(dados1 => {
-
-        // Inserir na "gerals"
-        Geral.inserirEntrada(req.body, dados1._id)
-        .then(dados2 => {
-            console.log(dados2)
-            res.redirect('/acordaos/' + dados2.Id)
-        })
-        .catch(e => res.render('error', {error: e}))
-    
-    })
-    .catch(e => res.render('error', {error: e}))
-});
-
-router.post('/acordaos/registo/jstj', verificaAcesso, function(req, res, next) {
-    Jstj.inserir(req.body)
-    .then(dados1 => {
-
-        // Inserir na "gerals"
-        Geral.inserirEntrada(req.body, dados1._id)
-        .then(dados2 => {
-            console.log(dados2)
-            res.redirect('/acordaos/' + dados2.Id)
-        })
-        .catch(e => res.render('error', {error: e}))
-    
-    })
-    .catch(e => res.render('error', {error: e}))
-});
-
-router.post('/acordaos/registo/jtca', verificaAcesso, function(req, res, next) {
-    Jtca.inserir(req.body)
-    .then(dados1 => {
-
-        // Inserir na "gerals"
-        Geral.inserirEntrada(req.body, dados1._id)
-        .then(dados2 => {
-            console.log(dados2)
-            res.redirect('/acordaos/' + dados2.Id)
-        })
-        .catch(e => res.render('error', {error: e}))
-    
-    })
-    .catch(e => res.render('error', {error: e}))
-});
-
-router.post('/acordaos/registo/jtcampca', verificaAcesso, function(req, res, next) {
-    Jtcampca.inserir(req.body)
-    .then(dados1 => {
-
-        // Inserir na "gerals"
-        Geral.inserirEntrada(req.body, dados1._id)
-        .then(dados2 => {
-            console.log(dados2)
-            res.redirect('/acordaos/' + dados2.Id)
-        })
-        .catch(e => res.render('error', {error: e}))
-    
-    })
-    .catch(e => res.render('error', {error: e}))
-});
-
-router.post('/acordaos/registo/jtcampct', verificaAcesso, function(req, res, next) {
-    Jtcampct.inserir(req.body)
-    .then(dados1 => {
-
-        // Inserir na "gerals"
-        Geral.inserirEntrada(req.body, dados1._id)
-        .then(dados2 => {
-            console.log(dados2)
-            res.redirect('/acordaos/' + dados2.Id)
-        })
-        .catch(e => res.render('error', {error: e}))
-    
-    })
-    .catch(e => res.render('error', {error: e}))
-});
-router.post('/acordaos/registo/jtcn', verificaAcesso, function(req, res, next) {
-    Jtcn.inserir(req.body)
-    .then(dados1 => {
-
-        // Inserir na "gerals"
-        Geral.inserirEntrada(req.body, dados1._id)
-        .then(dados2 => {
-            console.log(dados2)
-            res.redirect('/acordaos/' + dados2.Id)
-        })
-        .catch(e => res.render('error', {error: e}))
-    
-    })
-    .catch(e => res.render('error', {error: e}))
-});
-
-router.post('/acordaos/registo/jtrc', verificaAcesso, function(req, res, next) {
-    Jtrc.inserir(req.body)
-    .then(dados1 => {
-
-        // Inserir na "gerals"
-        Geral.inserirEntrada(req.body, dados1._id)
-        .then(dados2 => {
-            console.log(dados2)
-            res.redirect('/acordaos/' + dados2.Id)
-        })
-        .catch(e => res.render('error', {error: e}))
-    
-    })
-    .catch(e => res.render('error', {error: e}))
-});
-
-router.post('/acordaos/registo/jtre', verificaAcesso, function(req, res, next) {
-    Jtre.inserir(req.body)
-    .then(dados1 => {
-
-        // Inserir na "gerals"
-        Geral.inserirEntrada(req.body, dados1._id)
-        .then(dados2 => {
-            console.log(dados2)
-            res.redirect('/acordaos/' + dados2.Id)
-        })
-        .catch(e => res.render('error', {error: e}))
-    
-    })
-    .catch(e => res.render('error', {error: e}))
-});
-
-router.post('/acordaos/registo/jtrg', verificaAcesso, function(req, res, next) {
-    Jtrg.inserir(req.body)
-    .then(dados1 => {
-
-        // Inserir na "gerals"
-        Geral.inserirEntrada(req.body, dados1._id)
-        .then(dados2 => {
-            console.log(dados2)
-            res.redirect('/acordaos/' + dados2.Id)
-        })
-        .catch(e => res.render('error', {error: e}))
-    
-    })
-    .catch(e => res.render('error', {error: e}))
-});
-router.post('/acordaos/registo/jtrl', verificaAcesso, function(req, res, next) {
-    Jtrl.inserir(req.body)
-    .then(dados1 => {
-
-        // Inserir na "gerals"
-        Geral.inserirEntrada(req.body, dados1._id)
-        .then(dados2 => {
-            console.log(dados2)
-            res.redirect('/acordaos/' + dados2.Id)
-        })
-        .catch(e => res.render('error', {error: e}))
-    
-    })
-    .catch(e => res.render('error', {error: e}))
-});
-
-router.post('/acordaos/registo/jtrp', verificaAcesso, function(req, res, next) {
-    Jtrp.inserir(req.body)
-    .then(dados1 => {
-
-        // Inserir na "gerals"
-        Geral.inserirEntrada(req.body, dados1._id)
-        .then(dados2 => {
-            console.log(dados2)
-            res.redirect('/acordaos/' + dados2.Id)
-        })
-        .catch(e => res.render('error', {error: e}))
-    
-    })
-    .catch(e => res.render('error', {error: e}))
-});
-
-router.get('/acordaos/editar/:IdAcordao', verificaAcesso, function(req, res) {
+router.get('/acordaos/editar/:IdAcordao', verificaAdmin, function(req, res) {
     const acordaoId = new mongoose.Types.ObjectId(req.params.IdAcordao)
     Geral.consultarId(acordaoId)
     .then(acordao => {
@@ -503,7 +269,7 @@ router.get('/acordaos/editar/:IdAcordao', verificaAcesso, function(req, res) {
     .catch(e => res.render('error', {error: e}))
 });
 
-router.post('/acordaos/editar/:IdAcordao', verificaAcesso, function(req, res) {
+router.post('/acordaos/editar/:IdAcordao', verificaAdmin, function(req, res) {
     const acordaoId = new mongoose.Types.ObjectId(req.params.IdAcordao)
     Geral.consultarId(acordaoId)
     .then(acordao => {

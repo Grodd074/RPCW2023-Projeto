@@ -168,3 +168,40 @@
   align-items: center;
   flex-direction: column;
 }
+
+.modal-texto {
+  padding: 1%;
+}
+
+.barra {
+  display: flex;
+  margin-bottom: 1%;
+  justify-content: center;
+  margin-top: 1%;
+}
+
+.barra-pesquisa {
+  display: flex; /* Use flexbox for the barra-pesquisa container */
+  align-items: center; /* Vertically center the items */
+  width: 50%;
+  border-style: solid;
+  border-width: medium;
+  border-color: #47281b;
+  border-radius: 5px;
+  margin-right: 1%;
+}
+
+
+.help-button {
+  border: none; /* Remove the border */
+  background-color: grey;
+  height: 100%;
+}
+
+.botao-pesquisa {
+  border-style: solid;
+  border-width: medium;
+  border-color: #47281b;
+  border-radius: 5px;
+  height: 100%;
+}

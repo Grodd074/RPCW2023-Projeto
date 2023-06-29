@@ -84,3 +84,19 @@ module.exports.getFavoritos = username => {
                 return erro
             })
 }
+
+module.exports.changePassword = (username, password, newPassword) => {
+    return User.findOne({username:username})
+            .then(user => {
+                user.changePassword(password, newPassword)
+                .then(resposta => {
+                    return resposta
+                })
+                .catch(erro => {
+                    return erro
+                })
+            })
+            .catch(erro => {
+                return erro
+            })
+}

@@ -77,7 +77,7 @@ router.post('/login', passport.authenticate('local'), function(req, res){
 })
 
 router.put('/password', verificaAcesso, function(req, res){
-  User.updateUser(req.body.user, {password: req.body.password})
+  User.changePassword(req.body.user, req.body.password, req.body.password2)
   .then(u => {
     res.jsonp(u)
   })
