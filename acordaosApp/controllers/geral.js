@@ -161,13 +161,15 @@ module.exports.eliminar = proc => {
 module.exports.editarEntrada = (acordao, idAcordao) => {
     
     // Dados para a "gerals"
+    var descritores = acordao.Descritores.toString()
+    var descritoresArray = descritores.split(',')
+    
     var subsetAcordao = {Id : idAcordao, 
         Processo : acordao.Processo, 
         Data : acordao["Data do Acordão"], 
         Tribunal : acordao.tribunal,
-        Descritores : acordao.Descritores.split(', ')
+        Descritores : descritoresArray
     }
-
 
     return Acordaos.updateOne({Id:idAcordao}, subsetAcordao)
     .then(dados => {

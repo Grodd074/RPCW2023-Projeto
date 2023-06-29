@@ -14,7 +14,9 @@ block content
           else if key == "Descritores"
             label #{key}
             each d in value
-              input.w3-input(type="text" name=key value=d)
+              div.inputContainer
+                input.w3-input(type="text" name=key value=d)
+                button.removeButton -
             div(id="dataContainer")
               button(type="button" id="addButton") +
           else if key == "tribunal"
@@ -24,6 +26,7 @@ block content
           else
             label #{key}
             input.w3-input(type="text" name=key value=value)
+        #desc
                 
 
       button.w3-btn.w3-purple.w3-mb-2(type="submit") Register
@@ -40,6 +43,7 @@ block content
           var input = $('<input>').attr('type', 'text').attr('name', `Descritores-${index}`);
           var removeButton = $('<button>').attr('type', 'button').addClass('removeButton').text('-');
 
+          $('#rem').append(removeButton);
           inputContainer.append(input, removeButton);
           $('#dataContainer').append(inputContainer);
           index++;
@@ -48,5 +52,31 @@ block content
         $(document).on('click', '.removeButton', function() {
           $(this).closest('.inputContainer').remove();
           index--;
+        });
+
+        $('form').submit(function() {
+          
+          var descritoresValues = [];
+          for (var i = 0; i < index; i++) {
+            var descritorInput = $(`input[name="Descritores-${i}"]`);
+            var descritorValue = descritorInput.val();
+            if (descritorValue != "")
+              descritoresValues.push(descritorValue);
+          }
+
+          var descritoresInput = $('<input>').attr('type', 'hidden').attr('name', 'Descritores');
+          descritoresInput.val(descritoresValues.join(','));
+
+          /*remove blank descritores*/
+          
+          var descritores = $('input[name="Descritores"]');
+          for (var i = 0; i < descritores.length; i++) {
+            var descritor = $(descritores[i]);
+            if (descritor.val() == "")
+              descritor.remove();
+          }
+          
+
+          $('#desc').append(descritoresInput);
         });
       });

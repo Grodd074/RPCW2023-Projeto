@@ -478,7 +478,6 @@ router.post('/acordaos/editar/:IdAcordao', function(req, res) {
         controller = getTribunal(acordao.Tribunal)
         controller.editar(acordaoId, req.body)
         .then(dados => {
-
             // Inserir na "gerals"
             Geral.editarEntrada(req.body, acordaoId)
             .then(dados2 => {
