@@ -38,7 +38,7 @@ router.post('/register', function(req, res) {
   userModel.register(
     new userModel({ 
       username: req.body.username,
-      nome: req.body.name,
+      nome: req.body.nome,
       email: req.body.email,
       filiacao: req.body.filiacao,
       nivel: req.body.nivel,
@@ -77,7 +77,7 @@ router.post('/login', passport.authenticate('local'), function(req, res){
 })
 
 router.put('/password', verificaAcesso, function(req, res){
-  User.updateUser(req.user.username, {password: req.body.password})
+  User.updateUser(req.body.user, {password: req.body.password})
   .then(u => {
     res.jsonp(u)
   })
@@ -86,28 +86,8 @@ router.put('/password', verificaAcesso, function(req, res){
   })
 })
 
-router.put('/:user', verificaAcesso, function(req, res){
-  User.updateUser(req.params.user, req.body)
-  .then(u => {
-    res.jsonp(u)
-  })
-  .catch(erro => {
-    res.jsonp({error: erro, message: "Erro na alteração do utilizador " + req.params.user})
-  })
-})
-
-router.delete('/:user', verificaAcesso, function(req, res){
-  User.deleteUser(req.params.user)
-  .then(u => {
-    res.jsonp(u)
-  })
-  .catch(erro => {
-    res.jsonp({error: erro, message: "Erro na remoção do utilizador " + req.params.user})
-  })
-})
 
 router.get('/:user/favoritos', verificaAcesso, function(req, res){
-  console.log(req.params.user)
   User.getFavoritos(req.params.user)
   .then(u => {
     res.jsonp(u.favoritos)
@@ -118,7 +98,6 @@ router.get('/:user/favoritos', verificaAcesso, function(req, res){
 })
 
 router.post('/:user/favoritos', verificaAcesso, function(req, res){
-  console.log(req.body)
   User.addFavorito(req.params.user, {idRegisto: req.body.id, processo: req.body.processo,descricao: req.body.descricao})
   .then(u => {
     res.jsonp(u)
@@ -129,7 +108,6 @@ router.post('/:user/favoritos', verificaAcesso, function(req, res){
 })
 
 router.delete('/:user/favoritos/:id', verificaAcesso, function(req, res){
-  console.log(req.body)
   User.removeFavorito(req.params.user, req.params.id)
   .then(u => {
     res.jsonp(u)
@@ -149,5 +127,26 @@ router.get('/:user', verificaAcesso, function(req, res) {
       res.jsonp({error: erro, message: "Erro na obtenção do utilizador " + req.params.user})
     })
 });
+
+router.put('/:user', verificaAcesso, function(req, res){
+  console.log(req.body)
+  User.updateUser(req.params.user, req.body)
+  .then(u => {
+    res.jsonp(u)
+  })
+  .catch(erro => {
+    res.jsonp({error: erro, message: "Erro na alteração do utilizador " + req.params.user})
+  })
+})
+
+router.delete('/:user', verificaAcesso, function(req, res){
+  User.deleteUser(req.params.user)
+  .then(u => {
+    res.jsonp(u)
+  })
+  .catch(erro => {
+    res.jsonp({error: erro, message: "Erro na remoção do utilizador " + req.params.user})
+  })
+})
 
 module.exports = router;

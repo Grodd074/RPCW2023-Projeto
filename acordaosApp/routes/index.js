@@ -101,10 +101,10 @@ router.get('/', verificaLoggedIn, function(req, res, next) {
                         .then(favoritos => {
                             var mapping={}
                             for (i=0; i<favoritos.data.length; i++){
-                                mapping[favoritos.data[i].idRegisto] = favoritos.data[i].descricao
+                                mapping[favoritos.data[i].idRegisto] = {}
+                                mapping[favoritos.data[i].idRegisto].processo = favoritos.data[i].processo
+                                mapping[favoritos.data[i].idRegisto].descricao = favoritos.data[i].descricao
                             }
-                            console.log(favoritos.data)
-                            console.log(mapping)
                             res.render('index', { alista: dados, page: page, maxPage:maxPage, descritores: descritores, taxonomia: taxonomia, tribunais: tribunais, tribunaisList: tribunaisList, user: req.user, nivel: req.nivel, favoritos:mapping});
                         })
                         .catch(e => res.render('error', {error: e}))
@@ -166,7 +166,7 @@ router.post('/acordaos/favorito', verificaAcesso, function(req, res, next) {
 });
 
 router.delete('/acordaos/favorito', verificaAcesso, function(req, res, next) {
-    axios.delete('http://localhost:7013/users/'+req.user+'/favoritos/'+req.body.id, req.body, {params: {token: req.token}})
+    axios.delete('http://localhost:7013/users/'+req.user+'/favoritos/'+req.body.id, {data: req.body, params: {token: req.token}})
     .then(dados => {
         res.status(200).jsonp(dados.data)
     })
@@ -176,23 +176,32 @@ router.delete('/acordaos/favorito', verificaAcesso, function(req, res, next) {
 router.get('/perfil', verificaAcesso, function(req, res, next) {
     axios.get('http://localhost:7013/users/'+req.user, {params: {token: req.token}})
     .then(dados => {
+        console.log(dados.data)
         res.render('perfil', {user: dados.data})
     })
     .catch(e => res.render('error', {error: e}))
 });
 
 router.put('/perfil', verificaAcesso, function(req, res, next) {
+    var favStr = req.body.favoritos
+    if (favStr != '[]'){
+        req.body.favoritos = favStr.substring(1, favStr.length-1).split(",").map(s=>decodeURI(s).trim())
+    }
+    else{
+        req.body.favoritos = []
+    }
     axios.put('http://localhost:7013/users/'+req.user, req.body, {params: {token: req.token}})
     .then(dados => {
-        res.redirect('/perfil')
+        res.status(200).jsonp(dados.data)   
     })
     .catch(e => res.render('error', {error: e}))
 });
 
 router.put("/password", verificaAcesso, function(req, res, next) {
-    axios.put('http://localhost:7013/users/'+req.user+'/password', req.body, {params: {token: req.token}})
+    req.body.user=req.user
+    axios.put('http://localhost:7013/users/password', req.body, {params: {token: req.token}})
     .then(dados => {
-        res.redirect('/perfil')
+        res.status(200).jsonp(dados.data)   
     })
     .catch(e => res.render('error', {error: e}))
 });
@@ -259,7 +268,6 @@ router.get('/acordaos/registo/jtrp', verificaAcesso, function(req, res, next) {
 
 
 router.post('/acordaos/registo/atco1', verificaAcesso, function(req, res, next) {
-    console.log(req.body)
     Atco.inserir(req.body)
     .then(dados1 => {
         // Inserir na "gerals"
