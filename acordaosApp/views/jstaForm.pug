@@ -17,7 +17,8 @@ block content
             label Relator
             input.w3-input.w3-round(type="text" name="Relator")
             label Descritores
-            input.w3-input.w3-round(type="text" name="Descritores")
+            div(id="dataContainer")
+              button(type="button" id="addButton") +
             label Nº Convencional
             input.w3-input.w3-round(type="text" name="Nº Convencional")
             label Nº do Documento
@@ -41,3 +42,23 @@ block content
 
     footer.w3-container.w3-brown
         p #[a(href="/") Voltar]
+
+    script(type="text/javascript").
+      $(document).ready(function() {
+        var index = 0;
+
+        $('#addButton').click(function() {
+          var inputContainer = $('<div>').addClass('inputContainer');
+          var input = $('<input>').attr('type', 'text').attr('name', `Descritores-${index}`);
+          var removeButton = $('<button>').attr('type', 'button').addClass('removeButton').text('-');
+
+          inputContainer.append(input, removeButton);
+          $('#dataContainer').append(inputContainer);
+          index++;
+        });
+
+        $(document).on('click', '.removeButton', function() {
+          $(this).closest('.inputContainer').remove();
+          index--;
+        });
+      });

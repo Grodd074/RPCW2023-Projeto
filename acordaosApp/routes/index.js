@@ -235,10 +235,9 @@ router.get('/acordaos/registo/jtrp', verificaAcesso, function(req, res, next) {
 
 
 router.post('/acordaos/registo/atco1', verificaAcesso, function(req, res, next) {
-    
+    console.log(req.body)
     Atco.inserir(req.body)
     .then(dados1 => {
-
         // Inserir na "gerals"
         Geral.inserirEntrada(req.body, dados1._id)
         .then(dados2 => {

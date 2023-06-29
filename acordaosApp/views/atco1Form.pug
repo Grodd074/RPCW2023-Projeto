@@ -17,9 +17,7 @@ block content
             label Relator
             input.w3-input.w3-round(type="text" name="Relator")
             label Descritores
-              - let index = 1
-              #dataContainer
-                input.w3-input.w3-round(type="text" name=`Descritores-${index}` placeholder=`Item ${index}`)
+            div(id="dataContainer")
               button(type="button" id="addButton") +
             label Nº do Documento
             input.w3-input.w3-round(type="text" name="Nº do Documento")
@@ -53,6 +51,7 @@ block content
             input.w3-input.w3-round(type="text" name="url")
             label Tribunal
             input.w3-input.w3-round(type="text" name="tribunal" value="atco1" readonly)
+            #desc
             
         button.w3-btn.w3-green.w3-mb-2(type="submit") Register
 
@@ -63,11 +62,35 @@ block content
 
     script(type="text/javascript").
       $(document).ready(function() {
-        var index = 1;
+        var index = 0;
 
         $('#addButton').click(function() {
-          var input = $('<input>').attr('type', 'text').attr('name', `Descritores-${index}`).attr('placeholder', `Item ${index}`);
-          $('#dataContainer').append(input);
+          var inputContainer = $('<div>').addClass('inputContainer');
+          var input = $('<input>').attr('type', 'text').attr('name', `Descritores-${index}`);
+          var removeButton = $('<button>').attr('type', 'button').addClass('removeButton').text('-');
+
+          inputContainer.append(input, removeButton);
+          $('#dataContainer').append(inputContainer);
           index++;
+        });
+
+        $(document).on('click', '.removeButton', function() {
+          $(this).closest('.inputContainer').remove();
+          index--;
+        });
+
+        $('form').submit(function() {
+          
+          var descritoresValues = [];
+          for (var i = 0; i < index; i++) {
+            var descritorInput = $(`input[name="Descritores-${i}"]`);
+            var descritorValue = descritorInput.val();
+            descritoresValues.push(descritorValue);
+          }
+
+          var descritoresInput = $('<input>').attr('type', 'hidden').attr('name', 'Descritores');
+          descritoresInput.val(descritoresValues.join(','));
+
+          $('#desc').append(descritoresInput);
         });
       });
