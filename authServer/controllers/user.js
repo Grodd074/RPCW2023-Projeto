@@ -34,16 +34,6 @@ module.exports.updateUser = (username, info) => {
             })
 }
 
-module.exports.updateUserStatus = (username, status) => {
-    return User.updateOne({username:username}, {active: status})
-            .then(resposta => {
-                return resposta
-            })
-            .catch(erro => {
-                return erro
-            })
-}
-
 module.exports.deleteUser = username => {
     return User.deleteOne({username:username})
             .then(resposta => {

@@ -173,6 +173,30 @@ router.delete('/acordaos/favorito', verificaAcesso, function(req, res, next) {
     .catch(e => res.render('error', {error: e}))
 });
 
+router.get('/perfil', verificaAcesso, function(req, res, next) {
+    axios.get('http://localhost:7013/users/'+req.user, {params: {token: req.token}})
+    .then(dados => {
+        res.render('perfil', {user: dados.data})
+    })
+    .catch(e => res.render('error', {error: e}))
+});
+
+router.put('/perfil', verificaAcesso, function(req, res, next) {
+    axios.put('http://localhost:7013/users/'+req.user, req.body, {params: {token: req.token}})
+    .then(dados => {
+        res.redirect('/perfil')
+    })
+    .catch(e => res.render('error', {error: e}))
+});
+
+router.put("/password", verificaAcesso, function(req, res, next) {
+    axios.put('http://localhost:7013/users/'+req.user+'/password', req.body, {params: {token: req.token}})
+    .then(dados => {
+        res.redirect('/perfil')
+    })
+    .catch(e => res.render('error', {error: e}))
+});
+
 router.get('/acordaos/registo', verificaAcesso, function(req, res, next) {
     res.render('geralForm');
 });

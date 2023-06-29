@@ -76,6 +76,16 @@ router.post('/login', passport.authenticate('local'), function(req, res){
     });
 })
 
+router.put('/password', verificaAcesso, function(req, res){
+  User.updateUser(req.user.username, {password: req.body.password})
+  .then(u => {
+    res.jsonp(u)
+  })
+  .catch(erro => {
+    res.jsonp({error: erro, message: "Erro na alteração da password do utilizador " + req.user.username})
+  })
+})
+
 router.put('/:user', verificaAcesso, function(req, res){
   User.updateUser(req.params.user, req.body)
   .then(u => {
@@ -109,7 +119,7 @@ router.get('/:user/favoritos', verificaAcesso, function(req, res){
 
 router.post('/:user/favoritos', verificaAcesso, function(req, res){
   console.log(req.body)
-  User.addFavorito(req.params.user, {idRegisto: req.body.id, descricao: req.body.descricao})
+  User.addFavorito(req.params.user, {idRegisto: req.body.id, processo: req.body.processo,descricao: req.body.descricao})
   .then(u => {
     res.jsonp(u)
   })
