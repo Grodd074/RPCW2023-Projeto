@@ -80,6 +80,7 @@ block content
                                     form
                                         input(type="textarea" name="descricao" value=favoritos[a.Id].descricao)
                                         input(type="hidden" name="id" value=a.Id)
+                                        input(type="hidden" name="processo" value=a.Processo)
                                     .w3-container.botoes
                                         button.w3-button.w3-green.botao-modal(name="edit") Edit
                                         button.w3-button.w3-red.botao-modal(name="remove") Del
@@ -88,6 +89,7 @@ block content
                                     form
                                         input(type="textarea" name="descricao" placeholder="Insira uma descrição(opcional)")
                                         input(type="hidden" name="id" value=a.Id)
+                                        input(type="hidden" name="processo" value=a.Processo)
                                     .w3-container.botoes
                                         button.w3-button.w3-green.botao-modal(name="add") Add
                                         button.w3-button.w3-grey.botao-modal(name="hide") Back
@@ -156,12 +158,11 @@ block content
                 $("button[name='add']").click(function(){
                     var id = $(this).parent().parent().find("input[name='id']").val();
                     var descricao = $(this).parent().parent().find("input[name='descricao']").val();
-                    console.log(id);
-                    console.log(descricao);
+                    var processo = $(this).parent().parent().find("input[name='processo']").val();
                     $.ajax({
                         url: "/acordaos/favorito",
                         type: "POST",
-                        data: {id: id, descricao: descricao},
+                        data: {id: id, descricao: descricao, processo: processo},
                         success: function(result){
                             //Reload page
                             location.reload();
@@ -170,7 +171,6 @@ block content
                 });
                 $("button[name='remove']").click(function(){
                     var id = $(this).parent().parent().find("input[name='id']").val();
-                    console.log(id);
                     $.ajax({
                         url: "/acordaos/favorito",
                         type: "DELETE",
@@ -181,6 +181,20 @@ block content
                         }
                     });
                 });
+                $("button[name='edit]").click(function(){
+                    var id = $(this).parent().parent().find("input[name='id']").val();
+                    var descricao = $(this).parent().parent().find("input[name='descricao']").val();
+                    var processo = $(this).parent().parent().find("input[name='processo']").val();
+                    $.ajax({
+                        url: "/acordaos/favorito",
+                        type: "PUT",
+                        data: {id: id},
+                        success: function(result){
+                            //Reload page
+                            location.reload();
+                        }
+                    });
+                })
                 $("#prevpage").click(function(){
                     var page = $(this).attr("data");
                     var url = window.location.href;

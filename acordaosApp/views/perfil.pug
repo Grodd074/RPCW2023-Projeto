@@ -11,6 +11,8 @@ block content
                 legend Dados Pessoais
                 label Usuário
                 input.w3-input.w3-border.w3-sand(type="text", value=user.username, name="username" readonly)
+                label Nome
+                input.w3-input.w3-border.w3-sand(type="text", value=user.nome, name="nome" readonly)
                 label Email
                 input.w3-input.w3-border.w3-sand(type="text", value=user.email, name="email" readonly)
                 label Filiação
@@ -18,17 +20,17 @@ block content
                 label Nivel 
                 input.w3-input.w3-border.w3-sand(type="text", value=user.nivel, name="nivel" readonly)
                 label Data de Registo
-                input.w3-input.w3-border.w3-sand(type="text", value=user.dataRegisto, name="dataRegisto" readonly)
+                input.w3-input.w3-border.w3-sand(type="text", value=user.dataRegistro, name="dataRegisto" readonly)
                 label Data de Último Acesso
                 input.w3-input.w3-border.w3-sand(type="text", value=user.dataUltimoAcesso, name="dataUltimoAcesso" readonly)
                 label Favoritos
                 .input-group
                     each value, key in user.favoritos
                         p #{value.processo}
-                        input(type="text" value=value.descricao name="fav"+key)
+                        input(type="text" value=value.descricao id=value.idRegisto name="fav-"+key)
                         button.removeButton -
 
-            button.w3-btn.w3-green(type="submit" name="submit") Atualizar
+            button.w3-btn.w3-green(type="submit") Atualizar
 
         form.w3-container(method="PUT" action="/password" id="passwordForm")
             fieldset
@@ -40,7 +42,7 @@ block content
                 label Confirmar Nova Senha
                 input.w3-input.w3-border.w3-sand(type="password", placeholder="Confirme sua nova senha", name="password3")
 
-            button.w3-btn.w3-green(type="submit" name="submit") Atualizar
+            button.w3-btn.w3-green(type="submit") Atualizar
 
         footer.w3-container.w3-brown
             p Voltar para a #[a(href="/") Página inicial]
@@ -50,22 +52,34 @@ block content
         $(document).ready(function() {
             $(".removeButton").click(function() {
                 $(this).prev().remove();
+                $(this).prev().remove();
                 $(this).remove();
             });
             $("#formPerfil").submit(function(event) {
+                console.log("submit")
+                event.preventDefault();
                 var form = $(this);
                 var url = form.attr('action');
-                var favoritos = {};
-                form.find("input").each(function() {
-                    if ($(this).attr("name").includes("fav")) {
-                        var key = $(this).attr("name").replace("fav", "");
-                        favoritos[key] = {
-                            processo: $(this).val(),
-                            descricao: $(this).next().val()
-                        };
-                    }
+                var favoritos = [];
+                form.find("input[name^='fav-']").each(function() {
+                    var id = $(this).attr('id');
+                    var processo = $(this).prev().text();
+                    var descricao = $(this).val();
+                    favoritos.push({
+                        idRegisto: id,
+                        processo: processo,
+                        descricao: descricao
+                    });
                 });
                 form.append("<input type='hidden' name='favoritos' value='" + JSON.stringify(favoritos) + "' />");
+                $.ajax({
+                    type: "PUT",
+                    url: url,
+                    data: form.serialize(),
+                    success: function(data) {
+                        location.reload();
+                    }
+                });
             });
             $("#passwordForm").submit(function(event) {
                 var form = $(this);
@@ -78,14 +92,14 @@ block content
                     event.preventDefault();
                 } else {
                     $.ajax({
-                        type: "POST",
+                        type: "PUT",
                         url: url,
                         data: {
                             password: password,
                             password2: password2
                         },
                         success: function(data) {
-                            alert("Senha alterada com sucesso!");
+                            location.reload();
                         }
                     });
                     event.preventDefault();
