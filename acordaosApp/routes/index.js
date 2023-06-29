@@ -503,7 +503,7 @@ router.get('/acordaos/editar/:IdAcordao', verificaAcesso, function(req, res) {
     .catch(e => res.render('error', {error: e}))
 });
 
-router.post('/acordaos/editar/:IdAcordao', function(req, res) {
+router.post('/acordaos/editar/:IdAcordao', verificaAcesso, function(req, res) {
     const acordaoId = new mongoose.Types.ObjectId(req.params.IdAcordao)
     Geral.consultarId(acordaoId)
     .then(acordao => {
