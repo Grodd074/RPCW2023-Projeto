@@ -1,4 +1,4 @@
-var Acordaos = require("../models/jcons")
+var Acordaos = require("../models/jcon")
 var mongoose = require('mongoose')
 
 // get todos os contratos

@@ -7,20 +7,16 @@ block content
         
     .w3-container
         ul.w3-ul.w3-card-4
-            li #[b Processo:] #{a.Processo}
-            li #[b Tribunal 1ª instância:] #{a['Tribunal 1ª instância']}
-            li #[b Juízo ou Secção:] #{a['Juízo ou Secção']}
-            li #[b Tipo de Ação:] #{a['Tipo de Ação']}
-            li #[b Tipo de Contrato:] #{a['Tipo de Contrato']}
-            li #[b Autor:] #{a.Autor}
-            li #[b Réu:] #{a.Réu}
-            li #[b Data da Decisão:] #{a['Data da Decisão']}
-            li #[b Descritores:] #{a.Descritores.join(', ')}
-            li #[b Texto das Cláusulas Abusiva:] #{a['Texto das Cláusulas Abusiva']}
-            li #[b Recursos:] #{a.Recursos}
-            li #[b Texto Integral:] #{a['Texto Integral']}
-            li #[b url:] #[a(href="http://www.dgsi.pt/"+a.url) Link]
-            li #[b Tribunal:] #{a.tribunal}
+            for val, key in a
+              if key == "_id"
+                continue 
+              else if key == "Descritores"
+                li #[b #{key}]
+                ul.w3-ul.w3-card-4
+                    each d in val
+                        li #{d}
+              else
+                li #[b #{key}] #{val}
     
     footer.w3-container.w3-yellow
         p #[a(href="/") Voltar]
