@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var Geral = require('../controllers/geral');
 var Atco = require('../controllers/atco1');
-var Jcons = require('../controllers/jcons');
+var Jcon = require('../controllers/jcon');
 var Jdgpj = require('../controllers/jdgpj');
 var Jsta = require('../controllers/jsta');
 var Jstj = require('../controllers/jstj');
@@ -295,9 +295,18 @@ router.get('/acordaos/:IdAcordao', function(req, res, next) {
     .then(acordao => {
         tribunal = acordao.Tribunal
         controller = getTribunal(tribunal)
+        console.log(controller)
         controller.findById(acordaoId)
         .then(acordao => {
-          res.render(tribunal, { a: acordao});
+            console.log(acordao._doc)
+            delete acordao._doc['Normas Julgadas Inconst']
+            delete acordao._doc['Normas Declaradas Inconst']
+            delete acordao._doc['Nº do Boletim do M']
+            delete acordao._doc['Página do Boletim do M']
+            delete acordao._doc['Volume dos Acordãos do T']
+            delete acordao._doc['1ª Pág']
+            delete acordao._doc['Data Dec']
+            res.render(tribunal, {a: acordao._doc});
         })
         .catch(erro => {
           res.render('error', {error: erro, message: "Erro 1"})
@@ -313,8 +322,8 @@ function getTribunal(tribunal) {
     if (tribunal == "atco1") {
         return Atco
     }
-    else if (tribunal == "jcons") {
-        return Jcons
+    else if (tribunal == "jcon") {
+        return Jcon
     }
     else if (tribunal == "jdgpj") {
         return Jdgpj

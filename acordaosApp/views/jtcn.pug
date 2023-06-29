@@ -7,21 +7,16 @@ block content
         
     .w3-container
         ul.w3-ul.w3-card-4
-            li #[b Processo:] #{a.Processo}
-            li #[b Secção:] #{a.Secção}
-            li #[b Data do Acordão:] #{a['Data do Acordão']}
-            li #[b Tribunal:] #{a.Tribunal}
-            li #[b Relator:] #{a.Relator}
-            li #[b Descritores:] #{a.Descritores.join(', ')}
-            li #[b Sumário:] #{a.Sumário}
-            li #[b Recorrente:] #{a.Recorrente}
-            li #[b Recorrido 1:] #{a['Recorrido 1']}
-            li #[b Votação:] #{a.Votação}
-            li #[b Meio Processual:] #{a['Meio Processual']}
-            li #[b Parecer Ministério Publico:] #{a['Parecer Ministério Publico']}
-            li #[b Decisão Texto Integral:] #{a['Decisão Texto Integral']}
-            li #[b url:] #[a(href="http://www.dgsi.pt/"+a.url) Link]
-            li #[b Tribunal:] #{a.tribunal}
+            for val, key in a
+              if key == "_id"
+                continue 
+              else if key == "Descritores"
+                li #[b #{key}]
+                ul.w3-ul.w3-card-4
+                    each d in val
+                        li #{d}
+              else
+                li #[b #{key}] #{val}
     
     footer 
         p #[a(href="/") Voltar]
