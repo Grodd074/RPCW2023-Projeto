@@ -5,7 +5,8 @@ var mongoose = require('mongoose'),
 var Favorito = new Schema({
     idRegisto: mongoose.Types.ObjectId,
     tribunal: String,
-    descricao: String
+    descricao: String,
+    processo: String
 }, {_id: false, versionKey: false})
 
 var User = new Schema({

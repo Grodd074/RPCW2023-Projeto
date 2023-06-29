@@ -1,0 +1,94 @@
+extends layout
+
+block content
+    .w3-card-4
+        header.w3-container.w3-brown
+            .header-container
+                h1.header-left Lista de Acordãos - Perfil
+        
+        form.w3-container(method="PUT" action="/perfil" id="formPerfil")
+            fieldset
+                legend Dados Pessoais
+                label Usuário
+                input.w3-input.w3-border.w3-sand(type="text", value=user.username, name="username" readonly)
+                label Email
+                input.w3-input.w3-border.w3-sand(type="text", value=user.email, name="email" readonly)
+                label Filiação
+                input.w3-input.w3-border.w3-sand(type="text", value=user.filiacao, name="filiacao")
+                label Nivel 
+                input.w3-input.w3-border.w3-sand(type="text", value=user.nivel, name="nivel" readonly)
+                label Data de Registo
+                input.w3-input.w3-border.w3-sand(type="text", value=user.dataRegisto, name="dataRegisto" readonly)
+                label Data de Último Acesso
+                input.w3-input.w3-border.w3-sand(type="text", value=user.dataUltimoAcesso, name="dataUltimoAcesso" readonly)
+                label Favoritos
+                .input-group
+                    each value, key in user.favoritos
+                        p #{value.processo}
+                        input(type="text" value=value.descricao name="fav"+key)
+                        button.removeButton -
+
+            button.w3-btn.w3-green(type="submit" name="submit") Atualizar
+
+        form.w3-container(method="PUT" action="/password" id="passwordForm")
+            fieldset
+                legend Alterar Senha
+                label Senha Atual
+                input.w3-input.w3-border.w3-sand(type="password", placeholder="Digite sua senha atual", name="password")
+                label Nova Senha
+                input.w3-input.w3-border.w3-sand(type="password", placeholder="Digite sua nova senha", name="password2")
+                label Confirmar Nova Senha
+                input.w3-input.w3-border.w3-sand(type="password", placeholder="Confirme sua nova senha", name="password3")
+
+            button.w3-btn.w3-green(type="submit" name="submit") Atualizar
+
+        footer.w3-container.w3-brown
+            p Voltar para a #[a(href="/") Página inicial]
+
+
+    script(type="text/javascript").
+        $(document).ready(function() {
+            $(".removeButton").click(function() {
+                $(this).prev().remove();
+                $(this).remove();
+            });
+            $("#formPerfil").submit(function(event) {
+                var form = $(this);
+                var url = form.attr('action');
+                var favoritos = {};
+                form.find("input").each(function() {
+                    if ($(this).attr("name").includes("fav")) {
+                        var key = $(this).attr("name").replace("fav", "");
+                        favoritos[key] = {
+                            processo: $(this).val(),
+                            descricao: $(this).next().val()
+                        };
+                    }
+                });
+                form.append("<input type='hidden' name='favoritos' value='" + JSON.stringify(favoritos) + "' />");
+            });
+            $("#passwordForm").submit(function(event) {
+                var form = $(this);
+                var url = form.attr('action');
+                var password = form.find("input[name='password']").val();
+                var password2 = form.find("input[name='password2']").val();
+                var password3 = form.find("input[name='password3']").val();
+                if (password2 != password3) {
+                    alert("As senhas não coincidem!");
+                    event.preventDefault();
+                } else {
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: {
+                            password: password,
+                            password2: password2
+                        },
+                        success: function(data) {
+                            alert("Senha alterada com sucesso!");
+                        }
+                    });
+                    event.preventDefault();
+                }
+            })
+        })
