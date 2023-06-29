@@ -1,20 +1,38 @@
 var mongoose = require('mongoose')
 
 var acordaosSchema = new mongoose.Schema({
-    Processo: String,
+    "Ano da Publicação": String,
+    "Apêndice": String,
+    "Data": String,
+    "Data de Entrada": String,
     "Data do Acordão": String,
-    Tribunal: String,
-    Relator: String,
-    Descritores: [String],
+    "Data do Apêndice": String,
+    "Decisão": String,
+    "Descritores": [String],
+    "Indicações Eventuais": String,
+    "Legislação Nacional": String,
+    "Meio Processual": String,
     "Nº Convencional": String,
     "Nº do Documento": String,
-    "Data de Entrada": String,
-    Recorrente: String,
+    "Nº do Volume": String,
+    "Objecto": String,
+    "Privacidade": String,
+    "Processo": String,
+    "Página": String,
+    "Recorrente": String,
     "Recorrido 1": String,
-    Votação: String,
+    "Recorrido 2": String,
+    "Recusa Aplicação": String,
+    "Relator": String,
+    "Secção": String,
+    "Sumário": String,
     "Texto Integral": String,
-    url: String,
-    tribunal: String
+    "Tribunal": String,
+    "Votação": String,
+    "_id": String,
+    "url": String,
+    "Área Temática 1": String,
+    "Área Temática 2": String
 }, { versionKey: false })
 
 module.exports = mongoose.model('jsta', acordaosSchema)
