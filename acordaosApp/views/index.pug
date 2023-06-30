@@ -4,10 +4,11 @@ block content
     .w3-card-4
         header.w3-container.w3-brown
             .header-container
-                if nivel == "admin"
-                    h1.header-left Lista de Acordãos #[a.w3-button.w3-round-large(href="/acordaos/registo") + ]
-                else
-                    h1.header-left Lista de Acordãos
+                h1.header-left 
+                    p Lista de Acordãos #[a.w3-button.w3-round-large(href="/acordaos/registo") + ]
+                    if nivel == "admin"
+                        a(href="/acordaos/sugestoes") Sugestões
+
                 h1.header-right 
                     if user
                         a.w3-button.w3-round-large(href="/logout") Logout
@@ -91,24 +92,26 @@ block content
                     .w3-modal(id='fav-'+a.Id)
                         .w3-modal-content.w3-animate-top
                             .modal
-                                h2 Adicionar aos favoritos?
-                                if a.Id in favoritos
-                                    form
-                                        input(type="textarea" name="descricao" value=favoritos[a.Id].descricao)
-                                        input(type="hidden" name="id" value=a.Id)
-                                        input(type="hidden" name="processo" value=a.Processo)
-                                    .w3-container.botoes
-                                        button.w3-button.w3-green.botao-modal(name="edit") Edit
-                                        button.w3-button.w3-red.botao-modal(name="remove") Del
-                                        button.w3-button.w3-grey.botao-modal(name="hide") Back
-                                else
-                                    form
-                                        input(type="textarea" name="descricao" placeholder="Insira uma descrição(opcional)")
-                                        input(type="hidden" name="id" value=a.Id)
-                                        input(type="hidden" name="processo" value=a.Processo)
-                                    .w3-container.botoes
-                                        button.w3-button.w3-green.botao-modal(name="add") Add
-                                        button.w3-button.w3-grey.botao-modal(name="hide") Back
+                                .modal-header
+                                    h2 Adicionar aos favoritos?
+                                .modal-body
+                                    if a.Id in favoritos
+                                        form
+                                            input.texto(type="textarea" name="descricao" value=favoritos[a.Id].descricao)
+                                            input(type="hidden" name="id" value=a.Id)
+                                            input(type="hidden" name="processo" value=a.Processo)
+                                        .w3-container.botoes
+                                            button.w3-button.w3-green.botao-modal(name="edit") Edit
+                                            button.w3-button.w3-red.botao-modal(name="remove") Del
+                                            button.w3-button.w3-grey.botao-modal(name="hide") Back
+                                    else
+                                        form
+                                            input.texto(type="textarea" name="descricao" placeholder="Insira uma descrição(opcional)")
+                                            input(type="hidden" name="id" value=a.Id)
+                                            input(type="hidden" name="processo" value=a.Processo)
+                                        .w3-container.botoes
+                                            button.w3-button.w3-green.botao-modal(name="add") Add
+                                            button.w3-button.w3-grey.botao-modal(name="hide") Back
 
         // Paginação
         .w3-container.paginacao.w3-brown
@@ -120,20 +123,19 @@ block content
         .w3-modal(id="helpModal")
             .w3-modal-content.w3-animate-zoom
                 .modal
-                    h2 Ajuda sobre a pesquisa
-                    .modal-texto
-                        p A pesquisa pode ser feita por Processo, Tribunal, Descritores ou Data.
-                        h3 Exemplos:
-                            h4 Processo
-                            p p=00025/04
-                            h4 Tribunal
-                            p t=jcon
-                            h4 Descritores
-                            p d=acidente
-                            h4 Data
-                            p d=2004/01/01
-                    .w3-container.botoes
-                        button.w3-button.w3-grey.botao-modal(name="hide") Back
+                    .modal-header
+                        h2 Ajuda sobre a pesquisa
+                    .modal-body
+                        .modal-texto
+                            p A pesquisa pode ser feita por Processo, Tribunal, Descritores ou Data.
+                            h3 Exemplos:
+                            p #[b Processo:] p=00025/04
+                            p #[b Tribunal:] t=jcon
+                            p #[b Descritores:] d=acidente
+                            p #[b Data:] d=2004/01/01
+                            p A pesquisa também pode ser feita por full text search, quando não é especificado nenhum operador.
+                        .w3-container.botoes
+                            button.w3-button.w3-grey.botao-modal(name="hide") Back
 
         //Script para reter os descritores selecionados e passar para a query string
         script.
@@ -170,13 +172,13 @@ block content
                     });
                 });
                 $("button[name='hide']").click(function(){
-                    $(this).parent().parent().parent().parent().css("display", "none");
+                    $(this).parent().parent().parent().parent().parent().css("display", "none");
 
                 });
                 $("button[name='add']").click(function(){
-                    var id = $(this).parent().parent().find("input[name='id']").val();
-                    var descricao = $(this).parent().parent().find("input[name='descricao']").val();
-                    var processo = $(this).parent().parent().find("input[name='processo']").val();
+                    var id = $(this).parent().parent().parent().find("input[name='id']").val();
+                    var descricao = $(this).parent().parent().parent().find("input[name='descricao']").val();
+                    var processo = $(this).parent().parent().parent().find("input[name='processo']").val();
                     $.ajax({
                         url: "/acordaos/favorito",
                         type: "POST",
@@ -188,7 +190,7 @@ block content
                     });
                 });
                 $("button[name='remove']").click(function(){
-                    var id = $(this).parent().parent().find("input[name='id']").val();
+                    var id = $(this).parent().parent().parent().find("input[name='id']").val();
                     $.ajax({
                         url: "/acordaos/favorito",
                         type: "DELETE",
@@ -200,9 +202,9 @@ block content
                     });
                 });
                 $("button[name='edit]").click(function(){
-                    var id = $(this).parent().parent().find("input[name='id']").val();
-                    var descricao = $(this).parent().parent().find("input[name='descricao']").val();
-                    var processo = $(this).parent().parent().find("input[name='processo']").val();
+                    var id = $(this).parent().parent().parent().find("input[name='id']").val();
+                    var descricao = $(this).parent().parent().parent().find("input[name='descricao']").val();
+                    var processo = $(this).parent().parent().parent().find("input[name='processo']").val();
                     $.ajax({
                         url: "/acordaos/favorito",
                         type: "PUT",
