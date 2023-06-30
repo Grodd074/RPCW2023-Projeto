@@ -4,7 +4,10 @@ block content
     .w3-card-4
         header.w3-container.w3-brown
             .header-container
-                h1.header-left Lista de Acordãos #[a.w3-button.w3-round-large(href="/acordaos/registo") + ]
+                if nivel == "admin"
+                    h1.header-left Lista de Acordãos #[a.w3-button.w3-round-large(href="/acordaos/registo") + ]
+                else
+                    h1.header-left Lista de Acordãos
                 h1.header-right 
                     if user
                         a.w3-button.w3-round-large(href="/logout") Logout
@@ -12,7 +15,15 @@ block content
                     else
                         a.w3-button.w3-round-large(href="/login") Login
                         a.w3-button.w3-round-large(href="/register") Registo
-        //Descritores para selecionar
+        
+        //Barra de pesquisa
+        .barra 
+            .barra-pesquisa
+                input.w3-input.w3-border.barra-input(type="text" placeholder="Pesquisa" name="search" id="searchInput")
+                button.w3-button.help-button(type="button" id="helpButton") ?
+
+            button.w3-button.botao-pesquisa(type="button" id="searchButton") Pesquisar
+
         .corpo
             .filtros
                 .w3-container.filtros-header
@@ -53,8 +64,11 @@ block content
                         .w3-card-4.processo
                             .header-container.w3-brown
                                 h2.header-left #[a(href="/acordaos/" + a.Id)= "Processo Nº" + a.Processo]
-                                h2.header-mid #{a.Data}
-                                h2.header-right #[a.w3-button(href="/acordaos/editar/" + a.Id) Editar ]
+                                if nivel == "admin"
+                                    h2.header-mid #{a.Data}
+                                    h2.header-right #[a.w3-button(href="/acordaos/editar/" + a.Id) Editar ]
+                                else
+                                    h2.header-right #{a.Data}
                             .conteudo-processo
                                 p Tribunal: #{a.Tribunal}
                                 if a.Descritores
@@ -71,9 +85,11 @@ block content
                                             button(type="button" data=a.Id id="btn-"+a.Id).star.star-checked &#9733;
                                         else
                                             button(type="button" data=a.Id id="btn-"+a.Id).star &#9734;
+                                    if nivel == "admin"
+                                        button(type="button" data=a.Id id="del-"+a.Id).garbage &#128465;
                     
                     .w3-modal(id='fav-'+a.Id)
-                        .w3-modal-content
+                        .w3-modal-content.w3-animate-top
                             .modal
                                 h2 Adicionar aos favoritos?
                                 if a.Id in favoritos
@@ -100,6 +116,24 @@ block content
                 button(id="prevpage" data=page) Anterior
             if page < maxPage
                 button(id="nextpage" data=page) Seguinte
+
+        .w3-modal(id="helpModal")
+            .w3-modal-content.w3-animate-zoom
+                .modal
+                    h2 Ajuda sobre a pesquisa
+                    .modal-texto
+                        p A pesquisa pode ser feita por Processo, Tribunal, Descritores ou Data.
+                        h3 Exemplos:
+                            h4 Processo
+                            p p=00025/04
+                            h4 Tribunal
+                            p t=jcon
+                            h4 Descritores
+                            p d=acidente
+                            h4 Data
+                            p d=2004/01/01
+                    .w3-container.botoes
+                        button.w3-button.w3-grey.botao-modal(name="hide") Back
 
         //Script para reter os descritores selecionados e passar para a query string
         script.
@@ -150,6 +184,17 @@ block content
                 $(".star").click(function(){
                     var id = $(this).attr("data");
                     $("#fav-"+id).css("display", "block");
+                });
+                $(".garbage").click(function(){
+                    var id = $(this).attr("data");
+                    $.ajax({
+                        url: "/acordaos/delete/"+id,
+                        type: "DELETE",
+                        success: function(result){
+                            //Reload page
+                            location.reload();
+                        }
+                    });
                 });
                 $("button[name='hide']").click(function(){
                     $(this).parent().parent().parent().parent().css("display", "none");
@@ -231,5 +276,28 @@ block content
                     
                     window.location.href="/?"+query;
                 });
+                $("#helpButton").click(function(){
+                    $("#helpModal").css("display", "block");
+                });
+                $("#searchButton").click(function(){
+                    var search = $("#searchInput").val();
+                    var url = window.location.href;
+                    var query = url.split("?")[1];
+                    if(query){
+                        if(query.includes("search=")){
+                            query=query.replace("search=" + search, "search=" + search);
+                        }
+                        else{
+                            query+="&search=" + search;
+                        }
+                    }
+                    else{
+                        query="search=" + search;
+                    }
+
+                    window.location.href="/?"+query;
+                });
+
+
 
             });
