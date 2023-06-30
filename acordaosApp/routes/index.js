@@ -126,6 +126,8 @@ router.get('/', verificaLoggedIn, function(req, res, next) {
                     if (req.user){
                         
                         var authServerURL = process.env.AUTHSERVER_URL;
+                        if (authServerURL == undefined)
+                            authServerURL = "http://localhost:7013"
                         axios.get(authServerURL + '/users/'+req.user+'/favoritos', {params: {token: req.token}})
 
                         .then(favoritos => {
@@ -159,6 +161,8 @@ router.get('/login', function(req, res, next) {
 router.post('/login', function(req, res, next) {
 
     var authServerURL = process.env.AUTHSERVER_URL;
+    if (authServerURL == undefined)
+        authServerURL = "http://localhost:7013"
     axios.post(authServerURL+'/users/login', req.body)
     .then(dados => {
         res.cookie('token', dados.data.token, {
@@ -184,6 +188,8 @@ router.post('/register', function(req, res, next) {
     req.body.nivel = "user"
 
     var authServerURL = process.env.AUTHSERVER_URL;
+    if (authServerURL == undefined)
+        authServerURL = "http://localhost:7013"
     axios.post(authServerURL+'/users/register', req.body)
     .then(dados => {
         res.redirect('/')
@@ -194,6 +200,8 @@ router.post('/register', function(req, res, next) {
 router.post('/acordaos/favorito', verificaAcesso, function(req, res, next) {
     
     var authServerURL = process.env.AUTHSERVER_URL;
+    if(authServerURL == undefined)
+        authServerURL = "http://localhost:7013"
     axios.post(authServerURL+'/users/'+req.user+'/favoritos', req.body, {params: {token: req.token}})
     .then(dados => {
         res.status(200).jsonp(dados.data)
@@ -204,6 +212,8 @@ router.post('/acordaos/favorito', verificaAcesso, function(req, res, next) {
 router.delete('/acordaos/favorito', verificaAcesso, function(req, res, next) {
     
     var authServerURL = process.env.AUTHSERVER_URL;
+    if(authServerURL == undefined)
+        authServerURL = "http://localhost:7013"
     axios.delete(authServerURL+'/users/'+req.user+'/favoritos/'+req.body.id, {data: req.body, params: {token: req.token}})
     .then(dados => {
         res.status(200).jsonp(dados.data)
@@ -214,6 +224,8 @@ router.delete('/acordaos/favorito', verificaAcesso, function(req, res, next) {
 router.get('/perfil', verificaAcesso, function(req, res, next) {
 
     var authServerURL = process.env.AUTHSERVER_URL;
+    if (authServerURL == undefined)
+        authServerURL = "http://localhost:7013"
     axios.get(authServerURL+'/users/'+req.user, {params: {token: req.token}})
     .then(dados => {
         console.log(dados.data)
@@ -232,6 +244,8 @@ router.put('/perfil', verificaAcesso, function(req, res, next) {
     }
     
     var authServerURL = process.env.AUTHSERVER_URL;
+    if (authServerURL == undefined)
+        authServerURL = "http://localhost:7013"
     axios.put(authServerURL+'/users/'+req.user, req.body, {params: {token: req.token}})
     .then(dados => {
         res.status(200).jsonp(dados.data)   
@@ -243,6 +257,8 @@ router.put("/password", verificaAcesso, function(req, res, next) {
     req.body.user=req.user
     
     var authServerURL = process.env.AUTHSERVER_URL;
+    if (authServerURL == undefined)
+        authServerURL = "http://localhost:7013"
     axios.put(authServerURL+'/users/password', req.body, {params: {token: req.token}})
     .then(dados => {
         res.status(200).jsonp(dados.data)   
