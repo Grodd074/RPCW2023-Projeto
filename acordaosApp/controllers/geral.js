@@ -154,6 +154,13 @@ module.exports.inserirEntrada = (acordao, idAcordao) => {
  
 module.exports.eliminar = id => {
     return Acordaos.deleteOne({_id:id})
+    .then(dados => {
+        console.log(dados)
+        return dados
+    })
+    .catch(erro => {
+        return erro
+    })
 }
 
 

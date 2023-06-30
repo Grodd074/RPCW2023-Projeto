@@ -169,6 +169,13 @@ module.exports.inserir = acordao => {
 
 module.exports.eliminar = id => {
     return Acordaos.deleteOne({_id:id})
+    .then(dados => {
+        console.log(dados)
+        return dados
+    })
+    .catch(erro => {
+        return erro
+    })
 }
 
 module.exports.editar = (id, acordao) => {
