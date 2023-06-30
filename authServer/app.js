@@ -7,16 +7,19 @@ var session = require('express-session')
 var passport = require('passport')
 var LocalStrategy = require('passport-local').Strategy
 
-var mongoose = require('mongoose')
-var mongoDB = 'mongodb://127.0.0.1/authAcordaos'
-mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true})
-var db = mongoose.connection
-db.on('error', function(){
-  console.log("Erro de conexão ao MongoDB...")
-})
-db.on('open', function(){
-  console.log("Conexão ao MongoDB realizada com sucesso...")
-})
+//Import the mongoose module
+var mongoose = require('mongoose');
+//Set up default mongoose connection
+var mongoDB = process.env.MONGODB_URL;
+mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
+//Get the default connection
+var db = mongoose.connection;
+//Bind connection to error event (to get notification of connection errors)
+db.on('error', console.error.bind(console, 'MongoDB connection error...'));
+db.once('open', function() {
+   console.log("Conexão ao MongoDB realizada com sucesso...")
+});
+
 
 var usersRouter = require('./routes/users');
 

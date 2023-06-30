@@ -124,7 +124,10 @@ router.get('/', verificaLoggedIn, function(req, res, next) {
                 .then(tribunaisList => {
                     tribunaisList = tribunaisList.map(t => t.Tribunal)
                     if (req.user){
-                        axios.get('http://localhost:7013/users/'+req.user+'/favoritos', {params: {token: req.token}})
+                        
+                        var authServerURL = process.env.AUTHSERVER_URL;
+                        axios.get(authServerURL + '/users/'+req.user+'/favoritos', {params: {token: req.token}})
+
                         .then(favoritos => {
                             var mapping={}
                             for (i=0; i<favoritos.data.length; i++){
@@ -154,7 +157,9 @@ router.get('/login', function(req, res, next) {
 });
 
 router.post('/login', function(req, res, next) {
-    axios.post('http://localhost:7013/users/login', req.body)
+
+    var authServerURL = process.env.AUTHSERVER_URL;
+    axios.post(authServerURL+'/users/login', req.body)
     .then(dados => {
         res.cookie('token', dados.data.token, {
             expires: new Date(Date.now() + '1d'),
@@ -177,7 +182,9 @@ router.get('/register', function(req, res, next) {
 
 router.post('/register', function(req, res, next) {
     req.body.nivel = "user"
-    axios.post('http://localhost:7013/users/register', req.body)
+
+    var authServerURL = process.env.AUTHSERVER_URL;
+    axios.post(authServerURL+'/users/register', req.body)
     .then(dados => {
         res.redirect('/')
     })
@@ -185,7 +192,9 @@ router.post('/register', function(req, res, next) {
 });
 
 router.post('/acordaos/favorito', verificaAcesso, function(req, res, next) {
-    axios.post('http://localhost:7013/users/'+req.user+'/favoritos', req.body, {params: {token: req.token}})
+    
+    var authServerURL = process.env.AUTHSERVER_URL;
+    axios.post(authServerURL+'/users/'+req.user+'/favoritos', req.body, {params: {token: req.token}})
     .then(dados => {
         res.status(200).jsonp(dados.data)
     })
@@ -193,7 +202,9 @@ router.post('/acordaos/favorito', verificaAcesso, function(req, res, next) {
 });
 
 router.delete('/acordaos/favorito', verificaAcesso, function(req, res, next) {
-    axios.delete('http://localhost:7013/users/'+req.user+'/favoritos/'+req.body.id, {data: req.body, params: {token: req.token}})
+    
+    var authServerURL = process.env.AUTHSERVER_URL;
+    axios.delete(authServerURL+'/users/'+req.user+'/favoritos/'+req.body.id, {data: req.body, params: {token: req.token}})
     .then(dados => {
         res.status(200).jsonp(dados.data)
     })
@@ -201,7 +212,9 @@ router.delete('/acordaos/favorito', verificaAcesso, function(req, res, next) {
 });
 
 router.get('/perfil', verificaAcesso, function(req, res, next) {
-    axios.get('http://localhost:7013/users/'+req.user, {params: {token: req.token}})
+
+    var authServerURL = process.env.AUTHSERVER_URL;
+    axios.get(authServerURL+'/users/'+req.user, {params: {token: req.token}})
     .then(dados => {
         console.log(dados.data)
         res.render('perfil', {user: dados.data})
@@ -217,7 +230,9 @@ router.put('/perfil', verificaAcesso, function(req, res, next) {
     else{
         req.body.favoritos = []
     }
-    axios.put('http://localhost:7013/users/'+req.user, req.body, {params: {token: req.token}})
+    
+    var authServerURL = process.env.AUTHSERVER_URL;
+    axios.put(authServerURL+'/users/'+req.user, req.body, {params: {token: req.token}})
     .then(dados => {
         res.status(200).jsonp(dados.data)   
     })
@@ -226,7 +241,9 @@ router.put('/perfil', verificaAcesso, function(req, res, next) {
 
 router.put("/password", verificaAcesso, function(req, res, next) {
     req.body.user=req.user
-    axios.put('http://localhost:7013/users/password', req.body, {params: {token: req.token}})
+    
+    var authServerURL = process.env.AUTHSERVER_URL;
+    axios.put(authServerURL+'/users/password', req.body, {params: {token: req.token}})
     .then(dados => {
         res.status(200).jsonp(dados.data)   
     })

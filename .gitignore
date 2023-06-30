@@ -1,2 +1,6 @@
 node_modules/
-Acordaos/
+mongodb/Acordaos/
+dbdata/
+.vscode/
+docker-compose.debug.yml
+nota.txt
