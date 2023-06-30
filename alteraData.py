@@ -11,6 +11,9 @@ documents = collection.find()
 
 for document in documents:
     # Recuperar o valor atual do campo de data (formato: dd/mm/aaaa)
+    if ("Data" not in document.keys()) or (document['Data'] is None):
+        continue
+
     current_date = document['Data']
 
     date_formats = ['%d/%m/%Y', '%m/%d/%Y', '%Y-%m-%d']
