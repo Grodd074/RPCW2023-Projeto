@@ -24,7 +24,7 @@ module.exports.page = (pageNumber) => {
 }
 
 module.exports.aceita = (id) => {
-    return Acordaos.updateOne({_id:id}, { $unset: { Sugestao: "" } })
+    return Acordaos.updateOne({Id:id}, { $unset: { Aceite: "" , User: ""} })
     .then(dados => {
         return dados
     })
@@ -137,6 +137,11 @@ module.exports.inserirEntrada = (acordao, idAcordao) => {
         Data : acordao["Data do Acordão"], 
         Tribunal : acordao.tribunal, 
         Descritores : acordao.Descritores}
+
+    if(acordao.Aceite != undefined){
+        subsetAcordao.Aceite = acordao.Aceite
+        subsetAcordao.User = acordao.User
+    }
 
     return Acordaos.create(subsetAcordao)
     .then(dados => {

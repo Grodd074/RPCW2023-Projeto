@@ -116,6 +116,7 @@ router.get('/', verificaLoggedIn, function(req, res, next) {
         if (search != undefined){
             filtros.$text = {$search: search}
         }
+        filtros.Aceite = {$exists: false}
         Geral.pageFilters(page, filtros)
         .then(dados => {
             Geral.MaxPage(filtros)
@@ -163,7 +164,7 @@ router.get('/acordaos/sugestoes', verificaAdmin, function(req, res, next) {
         page = parseInt(page)
     }
     filtros={}
-    filtros.Sugestao = {$exists: true}
+    filtros.Aceite = {$exists: true}
     Geral.pageFilters(page, filtros)
     .then(dados => {
         Geral.MaxPage(filtros)
@@ -175,9 +176,10 @@ router.get('/acordaos/sugestoes', verificaAdmin, function(req, res, next) {
     .catch(e => res.render('error', {error: e}))
 })
 
-router.put('/acordaos/aceitar/:id', verificaAdmin, function(req, res, next) {
-    Geral.aceitar(req.params.id)
-    .then(dados => res.redirect('/acordaos/sugestoes'))
+router.post('/acordaos/aceitar/:id', verificaAdmin, function(req, res, next) {
+    const acordaoId = new mongoose.Types.ObjectId(req.params.id)
+    Geral.aceita(acordaoId)
+    .then(dados => res.status(200).jsonp(dados))
     .catch(e => res.render('error', {error: e}))
 })
 
@@ -255,7 +257,6 @@ router.get('/perfil', verificaAcesso, function(req, res, next) {
         authServerURL = "http://localhost:7013"
     axios.get(authServerURL+'/users/'+req.user, {params: {token: req.token}})
     .then(dados => {
-        console.log(dados.data)
         res.render('perfil', {user: dados.data})
     })
     .catch(e => res.render('error', {error: e}))
@@ -311,7 +312,6 @@ router.post('/acordaos/registo/:tribunal', verificaAcesso, function(req, res, ne
             // Inserir na "gerals"
             Geral.inserirEntrada(req.body, dados1._id)
             .then(dados2 => {
-                console.log(dados2)
                 res.redirect('/acordaos/' + dados2.Id)
             })
             .catch(e => res.render('error', {error: e}))
@@ -319,16 +319,16 @@ router.post('/acordaos/registo/:tribunal', verificaAcesso, function(req, res, ne
         .catch(e => res.render('error', {error: e}))
     }
     else{
-        var geralBody = req.body
-        geralBody.Sugestao = {User: req.user, Aceite: false}
-        var tribunalBody = req.body
-        tribunalBody.Aceite = false
+        var tribunalBody = JSON.parse(JSON.stringify(req.body));
+        tribunalBody.Aceite = false;
+        var geralBody = JSON.parse(JSON.stringify(req.body));
+        geralBody.Aceite = false;
+        geralBody.User = req.user;
         controller.inserir(tribunalBody)
         .then(dados1 => {
-            // Inserir na "gerals"
+            /*Inserir dicionario sugestao*/
             Geral.inserirEntrada(geralBody, dados1._id)
             .then(dados2 => {
-                console.log(dados2)
                 res.redirect('/acordaos/' + dados2.Id)
             })
             .catch(e => res.render('error', {error: e}))
@@ -344,7 +344,6 @@ router.get('/acordaos/editar/:IdAcordao', verificaAdmin, function(req, res) {
         controller = getTribunal(acordao.Tribunal)
         controller.findById(acordaoId)
         .then(dados => {
-            console.dir(dados._doc)
             res.render('editar', {dados: dados._doc})
         })
         .catch(e => res.render('error', {error: e}))
@@ -378,10 +377,8 @@ router.get('/acordaos/:IdAcordao', function(req, res, next) {
     .then(acordao => {
         tribunal = acordao.Tribunal
         controller = getTribunal(tribunal)
-        console.log(controller)
         controller.findById(acordaoId)
         .then(acordao => {
-            console.log(acordao._doc)
             delete acordao._doc['Normas Julgadas Inconst']
             delete acordao._doc['Normas Declaradas Inconst']
             delete acordao._doc['Nº do Boletim do M']
@@ -404,8 +401,6 @@ router.delete('/acordaos/delete/:IdAcordao', function(req, res, next) {
     const acordaoId = new mongoose.Types.ObjectId(req.params.IdAcordao)
     Geral.consultarId(acordaoId)
     .then(acordao => {
-        console.log(acordao)
-        console.log(acordaoId)
         Geral.eliminar(acordao._id)
         .then(ack => {
             processo = acordao.Processo

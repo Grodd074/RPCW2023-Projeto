@@ -70,7 +70,7 @@ block content
                     var id = $(this).attr("data");
                     $.ajax({
                         url: "/acordaos/aceitar/"+id,
-                        type: "PUT",
+                        type: "POST",
                         success: function(result){
                             //Reload page
                             location.reload();
