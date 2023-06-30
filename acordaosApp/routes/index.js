@@ -327,7 +327,7 @@ router.delete('/acordaos/delete/:IdAcordao', function(req, res, next) {
     .then(acordao => {
         console.log(acordao)
         console.log(acordaoId)
-        Geral.eliminar(acordaoId)
+        Geral.eliminar(acordao._id)
         .then(ack => {
             processo = acordao.Processo
             tribunal = acordao.Tribunal
