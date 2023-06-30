@@ -10,4 +10,8 @@ var acordaosSchema = new mongoose.Schema({
 
 acordaosSchema.index({Processo: 'text', Descritores: 'text', Data: 'text', Tribunal: 'text'})
 
-module.exports = mongoose.model('geral',acordaosSchema)
+const model = mongoose.model('geral',acordaosSchema)
+
+model.createIndexes()
+
+module.exports = model

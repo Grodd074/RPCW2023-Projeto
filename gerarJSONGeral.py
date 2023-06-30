@@ -1,7 +1,4 @@
 #Objetivo: Pegar nos datasets todos e gerar um JSON geral com os dados -> Processo, Data, Tribunal, Descritores(Categorias)
-
-import ijson
-import json
 from pymongo import MongoClient
 
 camposFinais=['Processo','Data','Tribunal','Descritores']

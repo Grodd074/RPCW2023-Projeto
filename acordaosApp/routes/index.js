@@ -82,6 +82,7 @@ function verificaLoggedIn(req, res, next){
     }
 }
 
+
 /* GET home page. */
 router.get('/', verificaLoggedIn, function(req, res, next) {
     //Check if page value was passed

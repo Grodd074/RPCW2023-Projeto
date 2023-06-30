@@ -4,8 +4,7 @@ block content
     .w3-card-4
         header.w3-container.w3-brown
             .header-container
-                h1.header-left 
-                    p Lista de Acordãos #[a.w3-button.w3-round-large(href="/acordaos/registo") + ]
+                h1.header-left Lista de Acordãos #[a.w3-button.w3-round-large(href="/acordaos/registo") + ]
                     if nivel == "admin"
                         a(href="/acordaos/sugestoes") Sugestões
 
@@ -22,6 +21,9 @@ block content
             .barra-pesquisa
                 input.w3-input.w3-border.barra-input(type="text" placeholder="Pesquisa" name="search" id="searchInput")
                 button.w3-button.help-button(type="button" id="helpButton") ?
+                label.switch
+                    input.w3-button.switch(type="checkbox" id="fullSearchButton")
+                    span.slider.round
 
             button.w3-button.botao-pesquisa(type="button" id="searchButton") Pesquisar
 
@@ -86,8 +88,8 @@ block content
                                             button(type="button" data=a.Id id="btn-"+a.Id).star.star-checked &#9733;
                                         else
                                             button(type="button" data=a.Id id="btn-"+a.Id).star &#9734;
-                                    
-                                    button(type="button" data=a.Id id="del-"+a.Id).garbage &#128465;
+                                    if nivel == "admin"
+                                        button(type="button" data=a.Id id="del-"+a.Id).garbage &#128465;
                     
                     .w3-modal(id='fav-'+a.Id)
                         .w3-modal-content.w3-animate-top
@@ -127,13 +129,14 @@ block content
                         h2 Ajuda sobre a pesquisa
                     .modal-body
                         .modal-texto
-                            p A pesquisa pode ser feita por Processo, Tribunal, Descritores ou Data.
-                            h3 Exemplos:
-                            p #[b Processo:] p=00025/04
-                            p #[b Tribunal:] t=jcon
-                            p #[b Descritores:] d=acidente
-                            p #[b Data:] d=2004/01/01
-                            p A pesquisa também pode ser feita por full text search, quando não é especificado nenhum operador.
+                            p Para pesquisar, poderá inserir uma ou mais palavras-chave na barra de pesquisa.
+                            p Estas palavras-chave serão pesquisadas nos seguintes campos:
+                            ul
+                                li Número do processo
+                                li Tribunal
+                                li Data
+                                li Descritores
+                            p Caso queira pesquisar em todos os campos basta selecionar o botão ao lado do botão de ajuda!
                         .w3-container.botoes
                             button.w3-button.w3-grey.botao-modal(name="hide") Back
 
@@ -253,14 +256,14 @@ block content
                 });
                 $("#helpButton").click(function(){
                     $("#helpModal").css("display", "block");
-                });
+                }); 
                 $("#searchButton").click(function(){
                     var search = $("#searchInput").val();
                     var url = window.location.href;
                     var query = url.split("?")[1];
                     if(query){
                         if(query.includes("search=")){
-                            query=query.replace("search=" + search, "search=" + search);
+                            query=query.replace(/search=.*?(&|$)/, "search=" + search);
                         }
                         else{
                             query+="&search=" + search;
@@ -316,6 +319,11 @@ block content
                     if(newQuery=="/?")
                         newQuery="/";
                     window.location.href=newQuery;
+                });
+                $("#searchInput").keyup(function(event){
+                    if(event.keyCode == 13){
+                        $("#searchButton").click();
+                    }
                 });
 
 
