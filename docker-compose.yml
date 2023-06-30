@@ -21,9 +21,10 @@ services:
 
   mongodb:
     container_name: acordaos-mongodb
-    build:
-      context: mongodb
-      dockerfile: ./Dockerfile
+    #build:
+      #context: mongodb
+      #dockerfile: ./Dockerfile
+    image: mongo
     restart: always
     volumes:
       - ./localdata:/data/db

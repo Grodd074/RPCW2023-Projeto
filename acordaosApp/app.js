@@ -10,6 +10,9 @@ var indexRouter = require('./routes/index');
 var mongoose = require('mongoose');
 //Set up default mongoose connection
 var mongoDB = process.env.MONGODB_URL;
+if (mongoDB == undefined) {
+   mongoDB = 'mongodb://127.0.0.1/projetoRPCW';
+}
 mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
 //Get the default connection
 var db = mongoose.connection;

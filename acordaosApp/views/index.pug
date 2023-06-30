@@ -53,7 +53,7 @@ block content
 
                     //Apply button sets query descritores to selected values separated by comma and reloads page
                     .w3-container.botoes
-                        button.w3-button.w3-green(type="button" onclick="applyFilters()") Apply
+                        button.w3-button.w3-green(type="button" id="applyFilters") Apply
                         button.w3-button.w3-grey(type="button" onclick="window.location.href='/'") Clear
 
             //Lista de acordãos
@@ -150,33 +150,6 @@ block content
                     checkList2.classList.remove('visible');
                 else
                     checkList2.classList.add('visible');
-            }
-
-        script.
-            function applyFilters() {
-                var descritores = document.getElementsByName("descritores");
-                var query = "/?";
-                var queryDescritores=""
-                for (var i = 0; i < descritores.length; i++) {
-                    if (descritores[i].checked) {
-                        queryDescritores += descritores[i].value + ",";
-                    }
-                }
-                if(queryDescritores != "")
-                    query += "descritores=" + queryDescritores.slice(0, -1);
-                var queryTribunais=""
-                var tribunais = document.getElementsByName("tribunais");
-                for (var i = 0; i < tribunais.length; i++) {
-                    if (tribunais[i].checked) {
-                        queryTribunais += tribunais[i].value + ",";
-                    }
-                }
-                if(queryTribunais != "")
-                    if(queryDescritores != "")
-                        query += "&tribunais=" + queryTribunais.slice(0, -1);
-                    else
-                        query += "tribunais=" + queryTribunais.slice(0, -1);
-                window.location.href = query;
             }
 
         script.
@@ -297,7 +270,82 @@ block content
 
                     window.location.href="/?"+query;
                 });
+                $("#applyFilters").click(function(){
+                    var descritores = $("input[name='descritores']:checked");
+                    var tribunais = $("input[name='tribunais']:checked");
+                    var url = window.location.href;
+                    var query = url.split("?")[1];
+                    var queryDescritores="";
+                    var queryTribunais="";
+                    for(var i=0; i<descritores.length; i++){
+                        queryDescritores+=descritores[i].value+",";
+                    }
+                    for(var i=0; i<tribunais.length; i++){
+                        queryTribunais+=tribunais[i].value+",";
+                    }
+
+                    //GET SEARCH FROM URL
+                    var search = "";
+                    if(query){
+                        if(query.includes("search=")){
+                            search=query.split("search=")[1].split("&")[0];
+                        }
+                    }
+
+                    var newQuery="/?";
+
+                    if(queryDescritores!=""){
+                        queryDescritores=queryDescritores.substring(0, queryDescritores.length-1);
+                        newQuery+="descritores=" + queryDescritores;
+                    }
+                    if(queryTribunais!=""){
+                        queryTribunais=queryTribunais.substring(0, queryTribunais.length-1);
+                        if(newQuery!="")
+                            newQuery+="&tribunais=" + queryTribunais;
+                        else
+                            newQuery+="tribunais=" + queryTribunais;
+                    }
+                    if(search!=""){
+                        if(newQuery!="")
+                            newQuery+="&search=" + search;
+                        else
+                            newQuery+="search=" + search;
+                    }
+                    if(newQuery=="/?")
+                        newQuery="/";
+                    window.location.href=newQuery;
+                });
 
 
 
             });
+
+            /*
+            function applyFilters() {
+                var descritores = document.getElementsByName("descritores");
+                var query = "/?";
+                var queryDescritores=""
+                for (var i = 0; i < descritores.length; i++) {
+                    if (descritores[i].checked) {
+                        queryDescritores += descritores[i].value + ",";
+                    }
+                }
+                if(queryDescritores != "")
+                    query += "descritores=" + queryDescritores.slice(0, -1);
+                var queryTribunais=""
+                var tribunais = document.getElementsByName("tribunais");
+                for (var i = 0; i < tribunais.length; i++) {
+                    if (tribunais[i].checked) {
+                        queryTribunais += tribunais[i].value + ",";
+                    }
+                }
+                if(queryTribunais != "")
+                    if(queryDescritores != "")
+                        query += "&tribunais=" + queryTribunais.slice(0, -1);
+                    else
+                        query += "tribunais=" + queryTribunais.slice(0, -1);
+
+                
+                window.location.href = query;
+            }
+            */
