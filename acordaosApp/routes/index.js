@@ -91,6 +91,7 @@ router.get('/', verificaLoggedIn, function(req, res, next) {
         page = req.query.page
         descritores = req.query.descritores
         tribunais = req.query.tribunais
+        search = req.query.search
         if (page == undefined) {
             page = 1
         }
@@ -111,6 +112,9 @@ router.get('/', verificaLoggedIn, function(req, res, next) {
         }
         else{
             tribunais = []
+        }
+        if (search != undefined){
+            filtros.$text = {$search: search}
         }
         Geral.pageFilters(page, filtros)
         .then(dados => {

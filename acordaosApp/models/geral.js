@@ -8,4 +8,6 @@ var acordaosSchema = new mongoose.Schema({
     Tribunal: String
 },{versionKey: false})
 
+acordaosSchema.index({Processo: 'text', Descritores: 'text', Data: 'text', Tribunal: 'text'})
+
 module.exports = mongoose.model('geral',acordaosSchema)
