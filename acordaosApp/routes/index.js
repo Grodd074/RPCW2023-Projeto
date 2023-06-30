@@ -154,6 +154,33 @@ router.get('/', verificaLoggedIn, function(req, res, next) {
     .catch(e => res.render('error', {error: e}))
 });
 
+router.get('/acordaos/sugestoes', verificaAdmin, function(req, res, next) {
+    page = req.query.page
+    if (page == undefined) {
+        page = 1
+    }
+    else {
+        page = parseInt(page)
+    }
+    filtros={}
+    filtros.Sugestao = {$exists: true}
+    Geral.pageFilters(page, filtros)
+    .then(dados => {
+        Geral.MaxPage(filtros)
+        .then(maxPage => {
+            res.render('sugestoes', { alista: dados, page: page, maxPage:maxPage, user: req.user, nivel: req.nivel});
+        })
+        .catch(e => res.render('error', {error: e}))
+    })
+    .catch(e => res.render('error', {error: e}))
+})
+
+router.put('/acordaos/aceitar/:id', verificaAdmin, function(req, res, next) {
+    Geral.aceitar(req.params.id)
+    .then(dados => res.redirect('/acordaos/sugestoes'))
+    .catch(e => res.render('error', {error: e}))
+})
+
 router.get('/login', function(req, res, next) {
     res.render('login');
 });
@@ -266,29 +293,48 @@ router.put("/password", verificaAcesso, function(req, res, next) {
     .catch(e => res.render('error', {error: e}))
 });
 
-router.get('/acordaos/registo', verificaAdmin, function(req, res, next) {
+router.get('/acordaos/registo', verificaAcesso, function(req, res, next) {
     res.render('geralForm')
 });
 
-router.get('/acordaos/registo/:tribunal', function(req, res, next) {
-    res.render(tribunal+'Form')
+router.get('/acordaos/registo/:tribunal', verificaAcesso, function(req, res, next) {
+    res.render(req.params.tribunal+'Form')
 });
 
-router.post('/acordaos/registo/:tribunal', verificaAdmin, function(req, res, next) {
+router.post('/acordaos/registo/:tribunal', verificaAcesso, function(req, res, next) {
+    var nivel = req.nivel
     var tribunal = req.params.tribunal
     var controller = getTribunal(tribunal)
-    controller.inserir(req.body)
-    .then(dados1 => {
-        // Inserir na "gerals"
-        Geral.inserirEntrada(req.body, dados1._id)
-        .then(dados2 => {
-            console.log(dados2)
-            res.redirect('/acordaos/' + dados2.Id)
+    if(nivel == "admin"){
+        controller.inserir(req.body)
+        .then(dados1 => {
+            // Inserir na "gerals"
+            Geral.inserirEntrada(req.body, dados1._id)
+            .then(dados2 => {
+                console.log(dados2)
+                res.redirect('/acordaos/' + dados2.Id)
+            })
+            .catch(e => res.render('error', {error: e}))
         })
         .catch(e => res.render('error', {error: e}))
-    
-    })
-    .catch(e => res.render('error', {error: e}))
+    }
+    else{
+        var geralBody = req.body
+        geralBody.Sugestao = {User: req.user, Aceite: false}
+        var tribunalBody = req.body
+        tribunalBody.Aceite = false
+        controller.inserir(tribunalBody)
+        .then(dados1 => {
+            // Inserir na "gerals"
+            Geral.inserirEntrada(geralBody, dados1._id)
+            .then(dados2 => {
+                console.log(dados2)
+                res.redirect('/acordaos/' + dados2.Id)
+            })
+            .catch(e => res.render('error', {error: e}))
+        })
+        .catch(e => res.render('error', {error: e}))
+    }
 });
 
 router.get('/acordaos/editar/:IdAcordao', verificaAdmin, function(req, res) {

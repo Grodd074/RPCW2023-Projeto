@@ -23,6 +23,16 @@ module.exports.page = (pageNumber) => {
     })
 }
 
+module.exports.aceita = (id) => {
+    return Acordaos.updateOne({_id:id}, { $unset: { Sugestao: "" } })
+    .then(dados => {
+        return dados
+    })
+    .catch(erro => {
+        return erro
+    })
+}
+
 module.exports.getTribunais = () => {
     return Acordaos.aggregate([
         {$group: {_id: "$Tribunal", count: {$sum: 1}}},

@@ -46,7 +46,8 @@ var acordaosSchema = new mongoose.Schema({
     Sumário: String,
     "Texto Integral": String,
     url: String,
-    tribunal: String
+    tribunal: String,
+    Aceite: Boolean
 },{versionKey: false})
 
 module.exports = mongoose.model('atco1s',acordaosSchema)

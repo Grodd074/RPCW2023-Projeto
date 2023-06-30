@@ -8,7 +8,7 @@ block content
     .w3-container
         ul.w3-ul.w3-card-4
             for val, key in a
-              if key == "_id"
+              if key == "_id" || key == "Aceite"
                 continue 
               else if key == "Descritores"
                 li #[b #{key}]

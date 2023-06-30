@@ -187,3 +187,13 @@ module.exports.editar = (id, acordao) => {
         return erro
     })
 }
+
+module.exports.aceita = (id) => {
+    return Acordaos.updateOne({_id:id}, { $unset: { Aceite: "" } })
+    .then(dados => {
+        return dados
+    })
+    .catch(erro => {
+        return erro
+    })
+}

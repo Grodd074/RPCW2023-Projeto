@@ -26,7 +26,8 @@ var acordaosSchema = new mongoose.Schema({
     Sumário: String,
     Tribunal: String,
     Votação: String,
-    url: String
+    url: String,
+    Aceite: Boolean
 }, { versionKey: false })
 
 module.exports = mongoose.model('jtcn', acordaosSchema)
