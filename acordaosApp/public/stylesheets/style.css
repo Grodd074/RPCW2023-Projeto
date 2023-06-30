@@ -192,8 +192,25 @@ body {
 }
 
 .modal-texto {
-  padding: 1%;
   width: 80%;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 1%;
+  background-color: #47281b;
+  color: white;
+  margin-bottom: 1%;
+}
+
+.modal-body {
+  width: 100%;
+  margin-top: 1%;
+  margin-bottom: 1%;
+  padding: 1%;
+  align-items: center;
 }
 
 .barra {
@@ -228,4 +245,11 @@ body {
   border-color: #47281b;
   border-radius: 5px;
   height: 100%;
+}
+
+.texto {
+  border:1px solid #999999;
+  width:98%;
+  margin:5px 0;
+  padding:1%;
 }
