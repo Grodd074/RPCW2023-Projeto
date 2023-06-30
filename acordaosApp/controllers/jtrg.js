@@ -77,7 +77,7 @@ module.exports.inserir = acordao => {
 
 /* DELETE /contracts/:id: elimina da BD o contrato com o identificador id.*/
 module.exports.eliminar = id => {
-    return Acordaos.deleteOne({id: id})
+    return Acordaos.deleteOne({_id: id})
 }
 
 module.exports.editar = (id, acordao) => {

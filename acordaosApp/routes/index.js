@@ -551,6 +551,26 @@ router.get('/acordaos/:IdAcordao', function(req, res, next) {
     })
 });
 
+router.get('/acordaos/delete/:IdAcordao', function(req, res, next) {
+    const acordaoId = new mongoose.Types.ObjectId(req.params.IdAcordao)
+    Geral.consultarId(acordaoId)
+    .then(acordao => {
+        processo = acordao.Processo
+        tribunal = acordao.Tribunal
+        controller = getTribunal(tribunal)
+        controller.eliminar(acordaoId)
+        .then(acordao => {
+            res.render(eliminaProcesso, {p: processo});
+        })
+        .catch(erro => {
+          res.render('error', {error: erro, message: "Erro 1"})
+        })
+    })
+    .catch(erro => {
+      res.render('error', {error: erro, message: "Erro 2"})
+    })
+});
+
 /* auxiliar para a tribunal */
 function getTribunal(tribunal) {
     if (tribunal == "atco1") {

@@ -167,8 +167,8 @@ module.exports.inserir = acordao => {
     })
 }
 
-module.exports.eliminar = proc => {
-    return Acordaos.deleteOne({"Processo": proc})
+module.exports.eliminar = id => {
+    return Acordaos.deleteOne({_id:id})
 }
 
 module.exports.editar = (id, acordao) => {
