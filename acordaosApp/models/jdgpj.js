@@ -17,7 +17,8 @@ var acordaosSchema = new mongoose.Schema({
     "Tipo de Contrato": String,
     "Tribunal 1ª instância": String,
     tribunal: String,
-    url: String
+    url: String,
+    Aceite: Boolean
 }, { versionKey: false })
 
 module.exports = mongoose.model('jdgpj', acordaosSchema)

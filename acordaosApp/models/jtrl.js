@@ -28,7 +28,8 @@ var acordaosSchema = new mongoose.Schema({
     "Tribunal Recurso": String,
     Votação: String,
     url: String,
-    "Área Temática": String
+    "Área Temática": String,
+    Aceite: Boolean
 }, { versionKey: false })
 
 module.exports = mongoose.model('jtrl', acordaosSchema)

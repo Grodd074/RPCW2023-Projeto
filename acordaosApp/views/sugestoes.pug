@@ -1,0 +1,116 @@
+extends layout
+
+block content
+    .w3-card-4
+        header.w3-container.w3-brown
+            .header-container
+                h1.header-left Lista de Acordãos-Sugestões
+
+        .corpo
+            //Lista de acordãos
+            .w3-container.processos
+                each a in alista
+                    .w3-container
+                        .w3-card-4.processo
+                            .header-container.w3-brown
+                                h2.header-left #[a(href="/acordaos/" + a.Id)= "Processo Nº" + a.Processo]
+                                h2.header-mid #{a.Data}
+                            .conteudo-processo
+                                p Tribunal: #{a.Tribunal}
+                                if a.Descritores
+                                    .w3-container
+                                        b Descritores:
+                                        br
+                                        each d in a.Descritores
+                                            b &#x2022; 
+                                            span #{d}
+                                            br
+                                .favorito
+                                    button(type="button" data=a.Id id="accept-"+a.Id).check &#10004;
+                                    button(type="button" data=a.Id id="del-"+a.Id).garbage &#128465;
+
+        // Paginação
+        .w3-container.paginacao.w3-brown
+            if page > 1
+                button(id="prevpage" data=page) Anterior
+            if page < maxPage
+                button(id="nextpage" data=page) Seguinte
+
+        //Script para reter os descritores selecionados e passar para a query string
+        script.
+            var checkList = document.getElementById('list1');
+            checkList.getElementsByClassName('anchor')[0].onclick = function(evt) {
+                if (checkList.classList.contains('visible'))
+                    checkList.classList.remove('visible');
+                else
+                    checkList.classList.add('visible');
+            }
+            var checkList2 = document.getElementById('list2');
+            checkList2.getElementsByClassName('anchor')[0].onclick = function(evt) {
+                if (checkList2.classList.contains('visible'))
+                    checkList2.classList.remove('visible');
+                else
+                    checkList2.classList.add('visible');
+            }
+
+        script.
+            $(document).ready(function(){
+                $(".garbage").click(function(){
+                    var id = $(this).attr("data");
+                    $.ajax({
+                        url: "/acordaos/delete/"+id,
+                        type: "DELETE",
+                        success: function(result){
+                            //Reload page
+                            location.reload();
+                        }
+                    });
+                });
+                $(".check").click(function(){
+                    var id = $(this).attr("data");
+                    $.ajax({
+                        url: "/acordaos/aceitar/"+id,
+                        type: "POST",
+                        success: function(result){
+                            //Reload page
+                            location.reload();
+                        }
+                    });
+                });
+                $("#prevpage").click(function(){
+                    var page = $(this).attr("data");
+                    var url = window.location.href;
+                    var query = url.split("?")[1];
+                    if(query){
+                        if(query.includes("page=")){
+                            query=query.replace("page=" + page, "page=" + (parseInt(page) - 1));
+                        }
+                        else{
+                            query+="&page=" + (parseInt(page) - 1);
+                        }
+                    }
+                    else{
+                        query="page=" + (parseInt(page) - 1);
+                    }
+                    window.location.href="/?"+query;
+                    
+                });
+                $("#nextpage").click(function(){
+                    var page = $(this).attr("data");
+                    var url = window.location.href;
+                    var query = url.split("?")[1];
+                    if(query){
+                        if(query.includes("page=")){
+                            query=query.replace("page=" + page, "page=" + (parseInt(page) + 1));
+                        }
+                        else{
+                            query+="&page=" + (parseInt(page) + 1);
+                        }
+                    }
+                    else{
+                        query="page=" + (parseInt(page) + 1);
+                    }
+                    
+                    window.location.href="/?"+query;
+                });
+            });

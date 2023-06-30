@@ -23,6 +23,16 @@ module.exports.page = (pageNumber) => {
     })
 }
 
+module.exports.aceita = (id) => {
+    return Acordaos.updateOne({Id:id}, { $unset: { Aceite: "" , User: ""} })
+    .then(dados => {
+        return dados
+    })
+    .catch(erro => {
+        return erro
+    })
+}
+
 module.exports.getTribunais = () => {
     return Acordaos.aggregate([
         {$group: {_id: "$Tribunal", count: {$sum: 1}}},
@@ -127,6 +137,11 @@ module.exports.inserirEntrada = (acordao, idAcordao) => {
         Data : acordao["Data do Acordão"], 
         Tribunal : acordao.tribunal, 
         Descritores : acordao.Descritores}
+
+    if(acordao.Aceite != undefined){
+        subsetAcordao.Aceite = acordao.Aceite
+        subsetAcordao.User = acordao.User
+    }
 
     return Acordaos.create(subsetAcordao)
     .then(dados => {

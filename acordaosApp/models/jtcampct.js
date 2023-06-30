@@ -14,7 +14,8 @@ var acordaosSchema = new mongoose.Schema({
     "Sub-Secção": String,
     Tema: String,
     tribunal: String,
-    url: String
+    url: String,
+    Aceite: Boolean
 }, { versionKey: false })
 
 module.exports = mongoose.model('jtcampct', acordaosSchema)

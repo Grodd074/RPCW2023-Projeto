@@ -36,7 +36,8 @@ var acordaosSchema = new mongoose.Schema({
     tribunal: String,
     url: String,
     "Área Temática 1": String,
-    "Área Temática 2": String
+    "Área Temática 2": String,
+    Aceite: Boolean
 },{ versionKey: false })
 
 module.exports = mongoose.model('jcon', acordaosSchema)

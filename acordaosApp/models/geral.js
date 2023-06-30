@@ -5,7 +5,9 @@ var acordaosSchema = new mongoose.Schema({
     Processo: String,
     Descritores: [String],
     Data: String,
-    Tribunal: String
+    Tribunal: String,
+    User: String,
+    Aceite: Boolean
 },{versionKey: false})
 
 acordaosSchema.index({Processo: 'text', Descritores: 'text', Data: 'text', Tribunal: 'text'})
