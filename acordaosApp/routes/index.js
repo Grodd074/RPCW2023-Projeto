@@ -93,6 +93,7 @@ router.get('/', verificaLoggedIn, function(req, res, next) {
         descritores = req.query.descritores
         tribunais = req.query.tribunais
         search = req.query.search
+        fullsearch = req.query.fullsearch
         if (page == undefined) {
             page = 1
         }

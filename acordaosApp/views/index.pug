@@ -21,9 +21,6 @@ block content
             .barra-pesquisa
                 input.w3-input.w3-border.barra-input(type="text" placeholder="Pesquisa" name="search" id="searchInput")
                 button.w3-button.help-button(type="button" id="helpButton") ?
-                label.switch
-                    input.w3-button.switch(type="checkbox" id="fullSearchButton")
-                    span.slider.round
 
             button.w3-button.botao-pesquisa(type="button" id="searchButton") Pesquisar
 
@@ -136,7 +133,6 @@ block content
                                 li Tribunal
                                 li Data
                                 li Descritores
-                            p Caso queira pesquisar em todos os campos basta selecionar o botão ao lado do botão de ajuda!
                         .w3-container.botoes
                             button.w3-button.w3-grey.botao-modal(name="hide") Back
 
@@ -325,9 +321,6 @@ block content
                         $("#searchButton").click();
                     }
                 });
-
-
-
             });
 
             /*
