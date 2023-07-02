@@ -8,7 +8,7 @@ original_stdout = sys.stdout
 
 def pretty_print(nome, counter_atributos):
 
-    with open(f"{nome}/{nome}.txt", "w") as f:
+    with open(f"Analises/{nome}.txt", "w") as f:
         sys.stdout = f
 
         print(f"------------------- {nome} -------------------")
@@ -24,20 +24,20 @@ def pretty_print(nome, counter_atributos):
             print("\t" + key + " : " + str(value))
 
 
-tribunalPaths = [#"ATCO1/atco1_acordaos.json",
-                 #"JCON/jcon_acordaos.json", 
-                 #"JDGPJ/jdgpj_acordaos.json"],
-                 #"JSTA/jsta_acordaos.json"],
-                 "JSTJ/jstj_acordaos.json"]#,
-                 #"JTCA/jtca_acordaos.json"],
-                 #"JTCAMPCA/jtcampca_acordaos.json"], 
-                 #"JTCAMPCT/jtcampct_acordaos.json"],
-                 #"JTCN/jtcn_acordaos.json"], 
-                 #"JTRC/jtrc_acordaos.json"],
-                 #"JTRE/jtre_acordaos.json"], 
-                 #"JTRG/jtrg_acordaos.json"],
-                 #"JTRL/jtrl_acordaos.json"], 
-                 #"JTRP/jtrp_acordaos.json"]
+tribunalPaths = [#"../Acordaos/atco1s.json",
+                 #"../Acordaos/jcons.json", 
+                 #"../Acordaos/jdgpjs.json",
+                 #"../Acordaos/jstas.json",
+                 "../Acordaos/jstjs.json"]#,
+                 #"../Acordaos/jtcas.json",
+                 #"../Acordaos/jtcampcas.json", 
+                 #"../Acordaos/jtcampcts.json",
+                 #"../Acordaos/jtcns.json", 
+                 #"../Acordaos/jtrcs.json",
+                 #"../Acordaos/jtres.json", 
+                 #"../Acordaos/jtrgs.json",
+                 #"../Acordaos/jtrls.json", 
+                 #"../Acordaos/jtrps.json"]
 
 
 
@@ -47,7 +47,7 @@ total = Counter()
 # Para cada tribunal
 for tribunal in tribunalPaths:
 
-    sigla = tribunal.split("/")[0]
+    sigla = tribunal.split("/")[-1].split(".")[0]
     
     with open(tribunal, "r") as f:
         
