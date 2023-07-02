@@ -14,14 +14,22 @@ O objetivo deste projeto é a criação de um serviço web, capaz de armazenar e
 
 ## Interpretação e preparação dos dados 
 
-Primeiramente, de modo a perceber elos de ligação e keys iguais entre os 14 datasets, realizamos um estudo pormenorizado a cada um deles. Ao que identificamos as 4 principais keys que eram encontradas em todos os datasets e que de facto eram referentes a informação relevante e que deveria estar na página principal do nosso Website, sendo elas o "Processo", a "Data", "Tribunal" e "Descritores". Com estes 4 campos, de modo a tornar o nosso programa mais eficiente, criamos um ficheiro geral, que possui estas informações de todos os acordãos de todos os tribunais. Este ficheiro foi gerado através do nosso script "gerarCollectionGeral.py" que vai obter todas informações desejadas de todos os acordãos e também o Id de todos, que depois é utilizado na identificação dos acordãos. Para além da criação deste ficheiro também criamos um script que altera o formato de todas as datas do dataset geral para o formato aaaa/mm/dd, para facilitar a ordenação dos acordãos por data. Por fim, para analisar o formato dos modelos de cada tribunal para o mongodb, utilizamos o script "contador.pyh".
+Primeiramente, de modo a perceber elos de ligação e keys iguais entre os 14 datasets, realizamos um estudo pormenorizado a cada um deles. Ao que identificamos as 4 principais keys que eram encontradas em todos os datasets e que de facto eram referentes a informação relevante e que deveria estar na página principal do nosso Website, sendo elas o "Processo", a "Data", "Tribunal" e "Descritores". Com estes 4 campos, de modo a tornar o nosso programa mais eficiente, criamos um ficheiro geral, que possui estas informações de todos os acordãos de todos os tribunais. Este ficheiro foi gerado através do nosso script "gerarCollectionGeral.py" que vai obter todas informações desejadas de todos os acordãos e também o Id de todos, que depois é utilizado na identificação dos acordãos. Para além da criação deste ficheiro também criamos um script que altera o formato de todas as datas do dataset geral para o formato aaaa/mm/dd, para facilitar a ordenação dos acordãos por data. Por fim, para analisar o formato dos modelos de cada tribunal para o mongodb, utilizamos o script "contador.py".
 
 ## Utilização do programa
 
-Após os dados estarem tratados e importados para a base de dados, os serviços poderão ser inicializados(acordaosApp e authServer), utilizanod o comando npm start em cada uma das pastas respetivas(sendo necessária a instalação das dependências usando npm install). Com os serviços a correr, o utilizador poderá aceder ao website estando este a correr na porta 7777, onde poderá consultar os acordãos, filtrando por tribunal ou por descritores ou fazendo uma pesquisa usando a nossa barra de pesquisa. Para além disso, o utilizador poderá também fazer login, caso já tenha conta, ou criar uma nova conta, caso ainda não tenha. Estando autenticado o utilizador terá acesso a mais funcionalidades, como a possibilidade de adicionar um acordão aos favoritos(podendo adicionar uma descrição a esse favorito), sugerir um novo acordão, consultar o seu perfil e os seus favoritos, podendo editar alguns dos campos, e por fim, fazer logout. Quando o utilizador tem o nível de administrador, para além de ter acesso a todas as funcionalidades de um utilizador normal, tem também a possibilidade de eliminar, editar e adicionar acordãos e aceitar sugestões de acordãos realizadas por utilizadores normais.
+Após os dados estarem tratados e importados para a base de dados, é necessário instalar as dependencias usando o comando:
+
+    npm install
+
+Sendo que os serviços poderão ser inicializados(acordaosApp e authServer), utilizando, nas respetivas pastas, o comando:
+    
+    npm start
+
+ Com os serviços a correr, o utilizador poderá aceder ao website estando este a correr na porta 7777, onde poderá consultar os acordãos, filtrando por tribunal ou por descritores ou fazendo uma pesquisa usando a nossa barra de pesquisa. Para além disso, o utilizador poderá também fazer login, caso já tenha conta, ou criar uma nova conta, caso ainda não tenha. Estando autenticado o utilizador terá acesso a mais funcionalidades, como a possibilidade de adicionar um acordão aos favoritos(podendo adicionar uma descrição a esse favorito), sugerir um novo acordão, consultar o seu perfil e os seus favoritos, podendo editar alguns dos campos, e por fim, fazer logout. Quando o utilizador tem o nível de administrador, para além de ter acesso a todas as funcionalidades de um utilizador normal, tem também a possibilidade de eliminar, editar e adicionar acordãos e aceitar sugestões de acordãos realizadas por utilizadores normais.
 
 ## Página Inicial
-utilizando o nosso dataset geral, apresentamos na página inicial do nosso site todos os acordãos ordenados por data e com informação acerca do processo, descritores e tribunal. Do lado esquerdo estão presentes os filtros disponíveis que serão explicados mais à frente neste relatório. Possui também um botão para adicionar ou sugerir novos acordãos, dependendo do nível do utilizador, assim como botões de login, logout e informações do perfil do utilizador. Para além disto temos um barra de pesquisa e também um botão de ajuda com as informações da utilização do site. Devido ao grande número de acordão implementamos um sistema de páginas em que podemos trocar de página no footer.
+Utilizando o nosso dataset geral, apresentamos na página inicial do nosso site todos os acordãos ordenados por data e com informação acerca do processo, descritores e tribunal. Do lado esquerdo estão presentes os filtros disponíveis que serão explicados mais à frente neste relatório. Possui também um botão para adicionar ou sugerir novos acordãos, dependendo do nível do utilizador, assim como botões de login, logout e informações do perfil do utilizador. Para além disto temos um barra de pesquisa e também um botão de ajuda com as informações da utilização do site. Devido ao grande número de acordão implementamos um sistema de páginas em que podemos trocar de página no footer.
 
 ## Filtragem de acordãos
 
@@ -51,11 +59,11 @@ Se o cliente pretender pesquisar por uma frase, pode fazê-lo colocando a frase 
 
 ## Utilizadores
 
-### Utilizadores não autenticados
+### Utilizadores não autenticados:
 
 Os utilizadores não autenticados apenas podem consultar os acordãos, filtrando por tribunal ou por descritores ou fazer uma pesquisa usando a barra de pesquisa.
 
-### Utilizadores normais(nivel=user)
+### Utilizadores normais(nivel=user):
 
 Estes utilizadores são capazes de fazer tudo o que um utilizador não autenticado pode fazer, mas também podem adicionar acordãos aos favoritos, sugerir novos acordãos, consultar o seu perfil e os seus favoritos, podendo editar alguns dos campos, e por fim, fazer logout.
 
@@ -71,14 +79,10 @@ Para sugerir um novo acordão, o utilizador deve clicar no botão de sugerir aco
 
 Na página de perfil um utilizador o mesmo poderá alterar o seu nome, email, filiação e password. Para além disso, poderá também consultar os seus favoritos, podendo editar a descrição de cada favorito ou remover o favorito.
 
-### Administradores(nivel=admin)
+### Administradores(nivel=admin):
 
 Estes utilizadores são capazes de fazer tudo o que um utilizador normal pode fazer, mas também podem eliminar, editar e adicionar acordãos e aceitar sugestões de acordãos realizadas por utilizadores normais.
 
 Para adicionar um novo acordão à base de dados, o administrador deve clicar no botão de adicionar acordão presente na página inicial. Ao clicar nesse botão, o administrador é redirecionado para uma página onde pode adicionar um novo acordão, selecionando a que tribunal pertence. Após esta seleção irá aparecer um formulário onde o administrador pode adicionar os dados do acordão. Após adicionar os dados, o administrador pode submeter o acordão, sendo este enviado para a base de dados.
 
 Para aceitar ou recusar uma sugestão de acordão, o administrador deve clicar no botão de sugestões presente na página inicial. Ao clicar nesse botão, o administrador é redirecionado para uma página onde pode consultar todas as sugestões de acordão. Para aceitar uma sugestão, o administrador deve clicar no botão de aceitar presente na sugestão. Para recusar uma sugestão o administrador deve clicar no botão de recusar presente na sugestão. Ao aceitar uma sugestão, o acordão sugerido é adicionado à base de dados. Ao recusar uma sugestão, a sugestão é removida da base de dados.
-
-## Acordão
-
-Depois de clicar num acordão na página inicial, são redirecionados para a página desse a
