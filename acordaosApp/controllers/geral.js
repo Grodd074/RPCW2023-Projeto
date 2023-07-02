@@ -14,7 +14,7 @@ module.exports.list = () => {
 }
 
 module.exports.page = (pageNumber) => {
-    return Acordaos.find().sort({Processo:1}).skip((pageNumber-1)*30).limit(30)
+    return Acordaos.find().sort({Data:-1}).skip((pageNumber-1)*30).limit(30)
     .then(dados => {
         return dados
     })
@@ -57,7 +57,7 @@ module.exports.MaxPage = (filters) => {
 }
 
 module.exports.pageFilters = (page, filters) => {
-    return Acordaos.find(filters).sort({Processo:1}).skip((page-1)*30).limit(30)
+    return Acordaos.find(filters).sort({Data:-1}).skip((page-1)*30).limit(30)
     .then(dados => {
         return dados
     })
@@ -77,7 +77,7 @@ module.exports.consultarId = id => {
 }
 
 module.exports.consultarDescritores = (listDescritores, page) => {
-    return Acordaos.find({Descritores: {$in: listDescritores}}).sort({Processo:1}).skip((page-1)*30).limit(30)
+    return Acordaos.find({Descritores: {$in: listDescritores}}).sort({Data:-1}).skip((page-1)*30).limit(30)
     .then(dados => {
         return dados
     })
@@ -105,7 +105,7 @@ module.exports.taxonomiaDescritores = () => {
 /* get by tribunal */
 
 module.exports.consultarTribunal = trib => {
-    return Acordaos.find({Tribunal: trib}).sort({Processo:1})
+    return Acordaos.find({Tribunal: trib}).sort({Data:-1})
     .then(dados => {
         return dados
     })
@@ -117,7 +117,7 @@ module.exports.consultarTribunal = trib => {
 /* Get by date*/
 
 module.exports.listDate = date => {
-    return Acordaos.find({"Data do Acordão":date}).sort({Processo:1})
+    return Acordaos.find({"Data do Acordão":date}).sort({Data:-1})
     .then(dados => {
         return dados
     })
@@ -125,7 +125,6 @@ module.exports.listDate = date => {
         return erro
     })
 }
-
 
 module.exports.inserirEntrada = (acordao, idAcordao) => {
     
@@ -152,20 +151,6 @@ module.exports.inserirEntrada = (acordao, idAcordao) => {
     })
 
 }
-
-/*module.exports.inserir = acordao => {
-    
-    return Acordaos.create(acordao)
-    .then(dados => {
-        return dados
-    })
-    .catch(erro => {
-        return erro
-    })
-
-}*/
-
-
  
 module.exports.eliminar = id => {
     return Acordaos.deleteOne({_id:id})
@@ -177,8 +162,6 @@ module.exports.eliminar = id => {
         return erro
     })
 }
-
-
 
 module.exports.editarEntrada = (acordao, idAcordao) => {
     
