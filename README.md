@@ -105,3 +105,9 @@ Para adicionar um novo acórdão à base de dados, o administrador deve clicar n
 
 #### Sugestão de acórdãos
 Para aceitar ou recusar uma sugestão de acórdão, o administrador deve clicar no botão de sugestões presente na página inicial. Ao clicar nesse botão, o administrador é redirecionado para uma página onde pode consultar todas as sugestões de acórdão. Para aceitar uma sugestão, o administrador deve clicar no botão de aceitar presente na sugestão. Para recusar uma sugestão o administrador deve clicar no botão de recusar presente na sugestão. Ao aceitar uma sugestão, o acórdão sugerido é adicionado à base de dados. Ao recusar uma sugestão, a sugestão é removida da base de dados.
+
+## Anexos
+
+ZIP com os acordãos utilizados:
+
+https://drive.google.com/file/d/11ngGOnIS4W7OKterDy3X2GFChLC2K5C7/view?usp=sharing
